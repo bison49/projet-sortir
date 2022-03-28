@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-7" align="center">
+        <H1>Mon profil</H1>
+         </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
+        </div>
+        <div class="col-5 ">
+            <br>
+            <form>
+
+                <div class="form-group">
+                    <label for="pseudo">Pseudo : </label>
+                    <input type="text" class="form-control" id="pseudo" value="{{ app.user.pseudo }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom">Prénom : </label>
+                    <input type="text" class="form-control" id="prenom" value="{{ app.user.prenom }}" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="nom">Nom : </label>
+                    <input type="text" class="form-control" id="nom" value="{{ app.user.nom }}" disabled>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="telephone">Télèphone : </label>
+                    <input type="text" class="form-control" id="telephone" value="{{ app.user.telephone }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email : </label>
+                    <input type="email" class="form-control" id="email" value="{{ app.user.mail }}">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="password">Mot de Passe : </label>
+                    <input type="password" class="form-control" id="password" value="motdepasse">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="passwordconfirm">Confirmation : </label>
+                    <input type="password" class="form-control" id="passwordconfirm" value="ninjaninja">
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="ville">Ville de Ratachement</label>
+                    <select id="ville" class="form-control" disabled>
+                        <option selected>Nantes</option>
+                        <option>Niort</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="custom-file-label" for="photo">Changer de photo</label>
+                    <br>
+                    <input type="file" class="custom-file-input" id="photo">
+
+                </div>
+                <br>
+                <div class="form-group">
+
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="submit" class="btn btn-primary">Annuler</button>
+
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}
