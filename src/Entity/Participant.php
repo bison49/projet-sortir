@@ -62,6 +62,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $actif;
 
+    public function __construct(){
+
+        $this->setActif(true);
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;
