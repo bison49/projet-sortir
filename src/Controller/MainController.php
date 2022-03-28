@@ -17,4 +17,7 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+    public function main(){
+
+    }
 }
