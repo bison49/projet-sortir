@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
@@ -22,6 +23,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez choisir un pseudo")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $pseudo;
@@ -38,22 +40,26 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir votre nom")
      * @ORM\Column(type="string", length=30)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir votre prenom")
      * @ORM\Column(type="string", length=30)
      */
     private $prenom;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir votre numéro de téléphone")
      * @ORM\Column(type="string", length=15)
      */
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Vous devez saisir votre email")
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $mail;
 
