@@ -3,6 +3,7 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
@@ -18,7 +19,7 @@
      <div class="row">
         <div class="col" align="right">
             <h4>Date du jour : {{ "now"|date("d/m/Y") }}  </h4>
-            <h4>Participant: participant.pseudo</h4>
+            <h4>Participant: "sorties.participant.pseudo"</h4>
 
             <br>
         </div>
@@ -47,10 +48,10 @@
             </form>
 
             <form class="d-flex">
-                <label for="site">Entre: </label>
-                 <input id="date" class="form-control me-2 " type="datetime" placeholder="Date" aria-label="Date">
-                <label for="site">Et:</label>
-                 <input id="date" class="form-control me-2 " type="datetime" placeholder="Date" aria-label="Date">
+                <strong>Entre:</strong>
+                 <input id="date" class="form-control me-2 " type="date" placeholder="Date" >
+                <strong>Et:</strong>
+                 <input id="date" class="form-control me-2 " type="date" placeholder="Date" >
             
             </form>
         </div>
