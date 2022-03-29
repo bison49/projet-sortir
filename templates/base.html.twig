@@ -18,7 +18,7 @@
     </head>
     <body>
     {% if is_granted('ROLE_ADMIN') %}
-    {% set menu = {"Accueil":"app_main","Participants":"app_participant","Villes":"app_villes","Sites":"app_sites","Mon profil":"app_profil","Se déconnecter":"app_logout"} %}
+    {% set menu = {"Accueil":"app_main","S'enregistrer":"app_register","Villes":"app_villes","Sites":"app_sites","Mon profil":"app_profil","Se déconnecter":"app_logout"} %}
     {% else %}
     {% set menu = {"Accueil":"app_main","Mon profil":"app_profil","Se déconnecter":"app_logout"} %}
     {% endif %}
