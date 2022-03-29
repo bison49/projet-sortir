@@ -35,7 +35,7 @@
                 <ul class="navbar-nav">
                     {% for key,value in menu %}
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">{{ key }}
+                        <a class="nav-link active" href="{{ path(value) }}">{{ key }}
                         </a>
                     </li>
                     {% endfor %}
