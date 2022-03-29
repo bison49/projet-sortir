@@ -23,7 +23,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @Assert\NotBlank(message="Vous devez choisir un pseudo")
+     * @Assert\NotBlank
+     * @Assert\Unique(message="Ce pseudo n'est pas disponible")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $pseudo;
@@ -53,12 +54,19 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @Assert\NotBlank(message="Vous devez saisir votre numéro de téléphone")
+     * @Assert\Regex(pattern="/^[0-9]+$/",message="Votre numéro de téléphone doit comporter des chiffres uniquement")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 10,
+     *     exactMessage="Votre numéro de téléphone doit comporter {{ limit }} chiffres"
+     * )
      * @ORM\Column(type="string", length=15)
      */
     private $telephone;
 
     /**
      * @Assert\NotBlank(message="Vous devez saisir votre email")
+     * @Assert\Unique(message="Cet email n'est pas disponible" )
      * @ORM\Column(type="string", length=50, unique=true)
      */
     private $mail;
