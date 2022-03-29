@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SiteController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col" align="center">
+            <h2>Gérer les sites</h2>
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Filtrer les sites</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <form class="d-flex">
+                <label for="rechercher">Le nom contient: </label>
+                <input id="rechercher" class="form-control me-2 rechercher" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="col-6"></div>
+    </div>
+
+
+</div>
+{% endblock %}
