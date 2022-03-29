@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use PhpParser\Node\Expr\Array_;
 
 /**
  * @method Ville|null find($id, $lockMode = null, $lockVersion = null)
@@ -63,13 +64,13 @@ class VilleRepository extends ServiceEntityRepository
     */
 
 
-    public function findOneBySomeField($value): ?Ville
+    public function findOneByKeyword($value): ?Array
     {
         return $this->createQueryBuilder('v')
             ->where('v.nom LIKE :val')
-            ->setParameter('val', $value)
+            ->setParameter('val', '%'.$value.'%')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getArrayResult()
         ;
     }
 

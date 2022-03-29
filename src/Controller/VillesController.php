@@ -29,10 +29,9 @@ class VillesController extends AbstractController
         $villeForm = $this->createForm(VillesType::class, $ville);
         $villeForm->handleRequest($request);
 
-        if($request->request->get('villeRech') != null){
+        if(!empty($request->request->get('villeRech')) ){
             $mot = $request->request->get('villeRech');
-            $villes = array($this->villeRepo->findOneBySomeField($mot));
-            dd($villes);
+            $villes = $this->villeRepo->findOneByKeyword($mot);
         }else{
             $villes = $this->villeRepo->findAll();
         }
