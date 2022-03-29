@@ -26,7 +26,7 @@ class RegistrationFormType extends AbstractType
             ->add('Telephone')
             ->add('mail', EmailType::class)
             ->add('pseudo')
-            ->add('noSite',EntityType::class,[
+            ->add('noSite',EntityType::class,["label"=>'Site',
                 'class'=>Site::class,
                 'choice_label'=>'nom'
             ])
