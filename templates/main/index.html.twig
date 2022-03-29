@@ -17,8 +17,8 @@
     </div>
      <div class="row">
         <div class="col" align="right">
-            <h4>Date du jour : {{ "now"|date("m/d/Y") }}  </h4>
-            <h4>Participant:</h4>
+            <h4>Date du jour : {{ "now"|date("d/m/Y") }}  </h4>
+            <h4>Participant: participant.pseudo</h4>
 
             <br>
         </div>
@@ -39,10 +39,19 @@
                     <option value="3">Niort</option>
                 </select>               
             </form>
+
              <form class="d-flex">
                 <label for="rechercher">Le nom de la sortie contient: </label>
                 <input id="rechercher" class="form-control me-2 rechercher" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            <form class="d-flex">
+                <label for="site">Entre: </label>
+                 <input id="date" class="form-control me-2 " type="datetime" placeholder="Date" aria-label="Date">
+                <label for="site">Et:</label>
+                 <input id="date" class="form-control me-2 " type="datetime" placeholder="Date" aria-label="Date">
+            
             </form>
         </div>
         <div class="col-4">
@@ -87,19 +96,33 @@
 </div>
 <table class="table table-striped">
     <thead>
-    <tr>
-      <th scope="col">Nom de la sortie</th>
-      <th scope="col">Date de la sortie</th>
-      <th scope="col">Clôture</th>
-      <th scope="col">inscrits/places </th>
-      <th scope="col">Etats </th>
-      <th scope="col">Inscrit </th>
-      <th scope="col">Organisateur </th>
-       <th scope="col">Actions </th>
-    </tr>
+        <tr>
+            <th scope="col">Nom de la sortie</th>
+            <th scope="col">Date de la sortie</th>
+            <th scope="col">Clôture</th>
+            <th scope="col">inscrits/places </th>
+            <th scope="col">Etats </th>
+            <th scope="col">Inscrit </th>
+            <th scope="col">Organisateur </th>
+            <th scope="col">Actions </th>
+        </tr>
     </thead>
     <tbody>
-    
+            {% for sortie in sorties %}
+                <tr>
+                    <td><a href="{{ path('app_main',{id:sortie.id}) }}">{{sortie.nom}}</a></td>
+                    <td>{{sortie.dateHeureDebut|date(" d-m-Y H:i ")}}</td>
+                    <td>{{sortie.dateFinInscription|date(" d-m-Y H:i ")}} </td>
+                    <td>Nombre d'inscrits </td>
+                    <td>{{sortie.etat}} </td>
+                    <td>{{sortie.nbInscriptionMax}} </td>
+                    <td>Orga </td>
+                    <td> <button class="btn btn-primary" type="submit" name="id" value="{{sortie.id}}" >Supprimer</button> </td>
+                </tr>
+            {% endfor %}
+
+
+        
     </tbody>
 </table>
 {% endblock %}
