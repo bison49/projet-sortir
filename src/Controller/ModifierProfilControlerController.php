@@ -29,7 +29,7 @@ class ModifierProfilControlerController extends AbstractController
         $formModif = $this->createForm(ModifParticipantType::class, $user);
         $formModif->handleRequest($request);
 
-        if($formModif->isSubmitted()) {
+        if($formModif->isSubmitted() && $formModif->isValid()) {
             $this->partiRepo->add($user);
 
             return $this->redirectToRoute("app_modifier");

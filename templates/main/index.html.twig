@@ -112,9 +112,9 @@
                     <td><a href="{{ path('app_main',{id:sortie.id}) }}">{{sortie.nom}}</a></td>
                     <td>{{sortie.dateHeureDebut|date(" d-m-Y H:i ")}}</td>
                     <td>{{sortie.dateFinInscription|date(" d-m-Y H:i ")}} </td>
-                    <td>Nombre d'inscrits </td>
+                    <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
                     <td>{{sortie.etat.libelle}} </td>
-                    <td>{{sortie.nbInscriptionMax}} </td>    
+                    <td>x </td>
 
                     <td><a href="{{ path('app_profilParticipant',{id:sortie.organisateur.id}) }}">{{sortie.organisateur.pseudo}}</a> </td>
                     

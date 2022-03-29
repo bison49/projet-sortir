@@ -27,7 +27,9 @@ class MainController extends AbstractController
     public function index(): Response
     {
         $sorties= $this->sortieRepo->findAll();
-        
+        $sortie = $this->sortieRepo->find(1);
+       $etat = $sortie->getNoLieu()->getNom();
+
 
         return $this->render('main/index.html.twig',compact("sorties"));
     }
