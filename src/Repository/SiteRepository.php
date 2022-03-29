@@ -73,4 +73,14 @@ class SiteRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findOneBySomeField($value): ?Array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.nom LIKE :val')
+            ->setParameter('val', '%'.$value.'%')
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
 }

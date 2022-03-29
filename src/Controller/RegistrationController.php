@@ -19,7 +19,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        if($this->isGranted('ROLE_ADMIN')){
+       if($this->isGranted('ROLE_ADMIN')){
 
             $user = new Participant();
             $form = $this->createForm(RegistrationFormType::class, $user);
@@ -44,7 +44,7 @@ class RegistrationController extends AbstractController
             return $this->render('registration/register.html.twig', [
                 'registrationForm' => $form->createView(),
             ]);
-        }else{
+       }else{
             return $this->redirectToRoute('app_logout');
         }
 
