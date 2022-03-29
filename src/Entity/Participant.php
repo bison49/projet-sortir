@@ -26,7 +26,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @Assert\NotBlank
-     * @Assert\Unique(message="Ce pseudo n'est pas disponible")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $pseudo;
@@ -68,7 +67,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @Assert\NotBlank(message="Vous devez saisir votre email")
-     * @Assert\Unique(message="Cet email n'est pas disponible" )
      * @ORM\Column(type="string", length=50, unique=true)
      */
     private $mail;

@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Participant;
+
+use App\Entity\Site;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -23,6 +26,10 @@ class RegistrationFormType extends AbstractType
             ->add('Telephone')
             ->add('mail', EmailType::class)
             ->add('pseudo')
+            ->add('noSite',EntityType::class,[
+                'class'=>Site::class,
+                'choice_label'=>'nom'
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

@@ -51,4 +51,12 @@ class VillesController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/supprimerVille{id}", name="app_supprimer_villes")
+     */
+    public function supprimerVille($id,Request $request): Response
+    {
+
+    }
+
 }
