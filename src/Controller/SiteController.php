@@ -6,6 +6,8 @@ use App\Entity\Site;
 use App\Form\AddSiteType;
 use App\Repository\SiteRepository;
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +35,12 @@ class SiteController extends AbstractController
         $formAdd ->handleRequest($request);
 
         if($formAdd->isSubmitted() && $formAdd->isValid()) {
-            $this->siteRepo->add($site);
-            $this->addFlash('succes', 'La ville('.$site->getNom().') a été ajoutée');
+            try {
+                $this->siteRepo->add($site);
+            } catch (OptimisticLockException $e) {
+            } catch (ORMException $e) {
+            }
+            $this->addFlash('succes', 'Le site('.$site->getNom().') a été ajoutée');
 
             return $this->redirectToRoute("app_sites");
         }
@@ -49,6 +55,21 @@ class SiteController extends AbstractController
 
         return $this->render("site/index.html.twig",
             ['nom'=>$nom, "formAdd" => $formAdd->createView()]);
+    }
+    /**
+     * @Route("/supprimerSite/{id}", name="app_supprimer_site")
+     */
+    public function supprimerSite($id,Request $request): Response
+    {
+
+        $site = $this->siteRepo->find($id);
+        try {
+            $this->siteRepo->remove($site);
+        } catch (OptimisticLockException $e) {
+        } catch (ORMException $e) {
+        }
+
+        return $this->redirectToRoute('app_sites');
     }
 
 

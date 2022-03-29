@@ -25,6 +25,11 @@
         </div>
         <div class="col-6"></div>
     </div>
+    {% for message in app.flashes('succes') %}
+        <div class="alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="row">
         <div class="col-6">
             <table class="table table-striped">
@@ -39,7 +44,8 @@
                 <tr>
 
                     <th scope="row">{{ site.nom}}</th>
-                    <td><a href="#">Modifier</a> - <a href="#">Supprimer</a></td>
+                    <td><button data-site="{{ site.id }}" class="btn btn-outline-danger">Supprimer</button>
+                    </td>
 
                 </tr>
                     <tr>
@@ -58,4 +64,17 @@
 
 
 </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('.btn-outline-danger').click(function () {
+                let site_id = $(this).attr("data-site");
+
+                if (confirm("Voulez-vous vraiment supprimer ce voeu ?")) {
+                    window.location.href = '/supprimerSite/' + site_id;
+                }
+            })
+        });
+    </script>
 {% endblock %}

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Ville;
 use App\Form\VillesType;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +40,11 @@ class VillesController extends AbstractController
 
         if ($villeForm->isSubmitted() && $villeForm->isValid()) {
 
-            $this->villeRepo->add($ville);
+            try {
+                $this->villeRepo->add($ville);
+            } catch (OptimisticLockException $e) {
+            } catch (ORMException $e) {
+            }
             $this->addFlash('succes', 'La ville('.$ville->getNom().') a été ajoutée');
 
             return $this->redirectToRoute('app_villes');
@@ -58,7 +64,11 @@ class VillesController extends AbstractController
     {
 
         $ville = $this->villeRepo->find($id);
-        $this->villeRepo->remove($ville);
+        try {
+            $this->villeRepo->remove($ville);
+        } catch (OptimisticLockException $e) {
+        } catch (ORMException $e) {
+        }
 
         return $this->redirectToRoute('app_villes');
     }
