@@ -11,7 +11,8 @@
             </div>
             <div class=" col-5">
                 <form class="d-flex" method="post" action="/villes">
-                    <input class="form-control me-2 rechercher" name="villeRech" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2 rechercher" name="villeRech" type="search" placeholder="Search"
+                           aria-label="Search">
                     <button class="btn btn-outline-success " type="submit">Rechercher</button>
                 </form>
             </div>
@@ -34,7 +35,8 @@
             <tr>
                 <td>{{ ville.nom }}</td>
                 <td>{{ ville.codePostal }}</td>
-                <td><a href="supprimerVille">Supprimer</a></td>
+                <td><button data-ville="{{ ville.id }}" class="btn btn-outline-danger">Supprimer</button>
+                    </td>
             </tr>
             <tr>
                 {% endfor %}
@@ -53,4 +55,18 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('.btn-outline-danger').click(function () {
+                let ville_id = $(this).attr("data-ville");
+
+                console.log(ville_id);
+                if (confirm("Voulez-vous vraiment supprimer ce voeu ?")) {
+                    window.location.href = '/supprimerVille/' + ville_id;
+                }
+            })
+        });
+    </script>
 {% endblock %}

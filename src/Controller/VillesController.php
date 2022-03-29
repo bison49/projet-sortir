@@ -39,7 +39,7 @@ class VillesController extends AbstractController
         if ($villeForm->isSubmitted() && $villeForm->isValid()) {
 
             $this->villeRepo->add($ville);
-            $this->addFlash('succes', 'La ville a été ajoutée');
+            $this->addFlash('succes', 'La ville('.$ville->getNom().') a été ajoutée');
 
             return $this->redirectToRoute('app_villes');
         }
@@ -52,11 +52,15 @@ class VillesController extends AbstractController
     }
 
     /**
-     * @Route("/supprimerVille{id}", name="app_supprimer_villes")
+     * @Route("/supprimerVille/{id}", name="app_supprimer_villes")
      */
     public function supprimerVille($id,Request $request): Response
     {
 
+        $ville = $this->villeRepo->find($id);
+        $this->villeRepo->remove($ville);
+
+        return $this->redirectToRoute('app_villes');
     }
 
 }

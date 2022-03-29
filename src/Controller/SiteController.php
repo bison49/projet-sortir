@@ -32,13 +32,14 @@ class SiteController extends AbstractController
         $formAdd = $this->createForm(AddSiteType::class, $site);
         $formAdd ->handleRequest($request);
 
-        if($formAdd->isSubmitted()) {
+        if($formAdd->isSubmitted() && $formAdd->isValid()) {
             $this->siteRepo->add($site);
+            $this->addFlash('succes', 'La ville('.$site->getNom().') a été ajoutée');
 
             return $this->redirectToRoute("app_sites");
         }
 
-        if($request->request->get('siteRech') != null){
+        if(!empty($request->request->get('siteRech'))){
             $mot = $request->request->get('siteRech');
             $nom = $this->siteRepo->findOneBySomeField($mot);
 
