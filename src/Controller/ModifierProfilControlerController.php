@@ -29,9 +29,9 @@ class ModifierProfilControlerController extends AbstractController
     /**
      * @Route("/profil", name="app_profil")
      */
-    public function index(ParticipantRepository $participantRepository, Request $request, $id): Response
+    public function index(ParticipantRepository $participantRepository, Request $request): Response
     {
-       // $user = new Participant();
+        $user = new Participant();
        // $user->setNom($user);
         $user = $this->getUser();
         $formModif = $this->createForm(ModifParticipantType::class, $user);
@@ -45,6 +45,6 @@ class ModifierProfilControlerController extends AbstractController
 
 
         return $this->render("mon_profil/index.html.twig",
-            ['formModif' => $formModif->createView(), 'site' => $this->getDoctrine()->getRepository(Site::class)->find($id),]);
+            ['formModif' => $formModif->createView()]);
     }
 }

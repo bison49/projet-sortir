@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,7 +21,7 @@ class ModifParticipantType extends AbstractType
     {
         $builder
             ->add('pseudo',TextType::class)
-            ->add('telephone', IntegerType::class)
+            ->add('telephone', NumberType::class)
             ->add('mail', EmailType::class)
             ->add('password', PasswordType::class)
             ->add('Submit', SubmitType::class)

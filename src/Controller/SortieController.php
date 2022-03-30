@@ -28,7 +28,7 @@ class SortieController extends AbstractController
     private $etatRepo;
     private $participantRepo;
 
-    function __construct(SortieRepository $sortieRepo,VilleRepository $villeRepo,EtatRepository $etatRepo,ParticipantRepository $participantRepo)
+    function __construct(SortieRepository $sortieRepo, VilleRepository $villeRepo, EtatRepository $etatRepo, ParticipantRepository $participantRepo)
     {
         $this->sortieRepo = $sortieRepo;
         $this->villeRepo = $villeRepo;
@@ -48,7 +48,7 @@ class SortieController extends AbstractController
 
         $villes = $this->villeRepo->findAll();
 
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $etat = new Etat();
             $id = 1;
             $etat = $this->etatRepo->find($id);
@@ -68,27 +68,30 @@ class SortieController extends AbstractController
         }
         return $this->render('sortie/index.html.twig', [
             'sortieForm' => $sortieForm->createView(),
-            'villes'=>$villes,
+            'villes' => $villes,
         ]);
     }
+
     /**
      * @Route("/afficher/{id}", name="afficher")
      */
-    public function afficherSortie($id,Request $request): Response
+    public function afficherSortie($id, Request $request): Response
     {
-       $sortie =  $this->sortieRepo->find($id);
+        $sortie = $this->sortieRepo->find($id);
 
-       $participants =  $sortie->getParticipants();
+        $participants = $sortie->getParticipants();
 
         return $this->render('sortie/afficher.html.twig', [
-            'sortie'=>$sortie,
-            'participants' => $participants
+            'sortie' => $sortie,
+            'participants' => $participants,
+
         ]);
     }
+
     /**
      * @Route("/inscription/{id}", name="inscription")
      */
-    public function inscriptionSortie($id,Request $request,EntityManagerInterface $em): Response
+    public function inscriptionSortie($id, Request $request, EntityManagerInterface $em): Response
     {
         $participant = new Participant();
         $idP = $this->getUser();

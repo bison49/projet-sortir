@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +25,7 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('Nom',TextType::class)
             ->add('Prenom',TextType::class)
-            ->add('Telephone')
+            ->add('Telephone',NumberType::class)
             ->add('mail', EmailType::class)
             ->add('pseudo',TextType::class)
             ->add('noSite',EntityType::class,["label"=>'Site',
