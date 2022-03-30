@@ -39,14 +39,10 @@
         </div>
         <div class="row">
             <div class="col-4">
-                <form class="d-flex">
-                    <label for="site">Site: </label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Villes</option>
-                        <option value="1">Angers</option>
-                        <option value="2">Nantes</option>
-                        <option value="3">Niort</option>
-                    </select>
+                <form class="col-auto">
+                    {{ form_start(form) }}
+                     {{ form_widget(form) }}
+                    {{ form_end(form) }}
                 </form>
 
                 <form class="d-flex">
