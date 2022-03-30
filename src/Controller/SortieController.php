@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/sortie", name="app_sortie_")
+ */
 class SortieController extends AbstractController
 {
     private $sortieRepo;
@@ -34,7 +37,7 @@ class SortieController extends AbstractController
 
 
     /**
-     * @Route("/sortie", name="app_sortie")
+     * @Route("/ajout", name="ajout")
      */
     public function index(Request $request): Response
     {
@@ -65,6 +68,17 @@ class SortieController extends AbstractController
         return $this->render('sortie/index.html.twig', [
             'sortieForm' => $sortieForm->createView(),
             'villes'=>$villes,
+        ]);
+    }
+    /**
+     * @Route("/afficher/{id}", name="afficher")
+     */
+    public function afficherSortie($id,Request $request): Response
+    {
+       $sortie =  $this->sortieRepo->find($id);
+       
+        return $this->render('sortie/afficher.html.twig', [
+            'sortie'=>$sortie
         ]);
     }
 }

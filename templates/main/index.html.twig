@@ -109,7 +109,7 @@
     <tbody>
             {% for sortie in sorties %}
                 <tr>
-                    <td><a href="{{ path('app_main',{id:sortie.id}) }}">{{sortie.nom}}</a></td>
+                    <td>{{sortie.nom}}</td>
                     <td>{{sortie.dateHeureDebut|date(" d-m-Y H:i ")}}</td>
                     <td>{{sortie.dateFinInscription|date(" d-m-Y H:i ")}} </td>
                     <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
@@ -118,7 +118,9 @@
 
                     <td><a href="{{ path('app_profilParticipant',{id:sortie.organisateur.id}) }}">{{sortie.organisateur.pseudo}}</a> </td>
                     
-                    <td> <button class="btn btn-primary" type="submit" name="id" value="{{sortie.id}}" >Supprimer</button> </td>
+                    <td> <a href="{{ path('app_sortie_afficher',{id:sortie.id}) }}"><button class="btn btn-primary" type="button" name="id"  >Afficher</button></a>
+                        <button class="btn btn-primary" type="submit" name="id" value="{{sortie.id}}" >Supprimer</button>
+                         </td>
                 </tr>
             {% endfor %}
 
@@ -129,7 +131,7 @@
 
  <div class="row">
         <div class="col" align="center">
-            <a href="{{ path('app_sortie') }}"><button class="btn btn-primary">Créer une sortie</button></a>
+            <a href="{{ path('app_sortie_ajout') }}"><button class="btn btn-primary">Créer une sortie</button></a>
         </div>
     </div>
 {% endblock %}
