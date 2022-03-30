@@ -76,9 +76,12 @@ class SortieController extends AbstractController
     public function afficherSortie($id,Request $request): Response
     {
        $sortie =  $this->sortieRepo->find($id);
-       
+
+       $participants =  $sortie->getParticipants();
+
         return $this->render('sortie/afficher.html.twig', [
-            'sortie'=>$sortie
+            'sortie'=>$sortie,
+            'participants' => $participants
         ]);
     }
 }
