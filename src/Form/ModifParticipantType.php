@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,11 +20,12 @@ class ModifParticipantType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
-            ->add('password')
+            ->add('password', PasswordType::class)
             ->add('noSite',EntityType::class,["label"=>'Site',
                 'class'=>Site::class,
                 'choice_label'=>'nom'
             ])
+
 
         ;
     }

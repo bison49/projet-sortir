@@ -16,14 +16,12 @@
             <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
         </div>
         <div class="col-5 ">
+            nom : {{ app.user.nom }}
             {{ form_start(formModif) }}
 
             {{ form_row(formModif.nom, { 'attr':{'disabled':'disabled'} }) }}
             {{ form_row(formModif.prenom, { 'attr':{'disabled':'disabled'} }) }}
             {{ form_row(formModif.noSite, { 'attr':{'disabled':'disabled'} }) }}
-
-
-
 
             {{ form_end(formModif) }}
         </div>

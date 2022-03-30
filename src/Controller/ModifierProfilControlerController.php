@@ -25,7 +25,9 @@ class ModifierProfilControlerController extends AbstractController
      */
     public function index(ParticipantRepository $participantRepository, Request $request): Response
     {
-        $user = new Participant();
+       // $user = new Participant();
+       // $user->setNom($user);
+        $user = $this->getUser();
         $formModif = $this->createForm(ModifParticipantType::class, $user);
         $formModif->handleRequest($request);
 
