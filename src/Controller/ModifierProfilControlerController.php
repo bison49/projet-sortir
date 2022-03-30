@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Entity\Site;
 use App\Form\ModifParticipantType;
 use App\Repository\ParticipantRepository;
 
+use App\Repository\SiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,15 +17,19 @@ class ModifierProfilControlerController extends AbstractController
 {
 
     private $partiRepo;
+    private $siteRepo;
 
-    function __construct(ParticipantRepository $partiRepo)
+    function __construct(ParticipantRepository $partiRepo, SiteRepository $siteRepo)
     {
         $this->partiRepo = $partiRepo;
+        $this->siteRepo = $siteRepo;
+
     }
+
     /**
      * @Route("/profil", name="app_profil")
      */
-    public function index(ParticipantRepository $participantRepository, Request $request): Response
+    public function index(ParticipantRepository $participantRepository, Request $request, $id): Response
     {
        // $user = new Participant();
        // $user->setNom($user);
@@ -32,14 +38,13 @@ class ModifierProfilControlerController extends AbstractController
         $formModif->handleRequest($request);
 
         if($formModif->isSubmitted() && $formModif->isValid()) {
-            $this->partiRepo->add($user);
+            $this->partiRepo->update($user);
 
             return $this->redirectToRoute("app_modifier");
         }
 
 
-
         return $this->render("mon_profil/index.html.twig",
-            ['formModif' => $formModif->createView()]);
+            ['formModif' => $formModif->createView(), 'site' => $this->getDoctrine()->getRepository(Site::class)->find($id),]);
     }
 }
