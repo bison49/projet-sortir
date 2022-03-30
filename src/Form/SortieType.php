@@ -41,7 +41,6 @@ class SortieType extends AbstractType
                 'class'=>Lieu::class,
                 'choice_label'=>'nom'])
 
-            ->add('Enregistrer',SubmitType::class)
         ;
     }
 

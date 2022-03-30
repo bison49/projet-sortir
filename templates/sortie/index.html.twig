@@ -21,6 +21,17 @@
             {% endfor %}
         </select>
         {{ form_row(sortieForm.noLieu) }}
+        <label for="rue">rue :</label>
+        <input class="form-control" type="text" name="rue">
+
+        <label for="codePostal">Code Postal :</label>
+        <input class="form-control" type="text" name="codePostal">
+
+        <div class="text-center ">
+            <a href="/sortie"><button class="btn btn-success">Enrgistrer</button></a>
+            <a><button class="btn btn-dark">Publier</button></a>
+            <a href="/main"><button class="btn btn-primary">Annuler</button></a>
+        </div>
         {{ form_end(sortieForm) }}
 
     </div>

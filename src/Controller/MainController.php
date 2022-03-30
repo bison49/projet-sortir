@@ -19,7 +19,6 @@ class MainController extends AbstractController
     }
 
 
-
     
     /**
      * @Route("/main", name="app_main")
