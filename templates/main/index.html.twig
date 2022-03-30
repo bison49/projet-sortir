@@ -120,6 +120,7 @@
                     
                     <td> <a href="{{ path('app_sortie_afficher',{id:sortie.id}) }}"><button class="btn btn-primary" type="button" name="id"  >Afficher</button></a>
                         <button class="btn btn-primary" type="submit" name="id" value="{{sortie.id}}" >Supprimer</button>
+                        <a href="{{ path('app_sortie_inscription',{id:sortie.id}) }}"><button class="btn btn-primary" type="button" name="id"  >Inscription</button></a>
                          </td>
                 </tr>
             {% endfor %}

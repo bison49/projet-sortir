@@ -10,6 +10,7 @@ use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -84,4 +85,19 @@ class SortieController extends AbstractController
             'participants' => $participants
         ]);
     }
+    /**
+     * @Route("/inscription/{id}", name="inscription")
+     */
+    public function inscriptionSortie($id,Request $request,EntityManagerInterface $em): Response
+    {
+        $participant = new Participant();
+        $idP = $this->getUser();
+        $participant = $this->participantRepo->find($idP);
+        $sortie = $this->sortieRepo->find($id);
+        $participant->addInscription($sortie);
+
+        $em->flush();
+        return $this->redirectToRoute('app_main');
+    }
+
 }
