@@ -24,8 +24,12 @@ class ProfilParticipantController extends AbstractController
      */
     public function index($id): Response
     {
-        $organisateur= $this->participantRepo->find($id);
-        
-        return $this->render('profil_participant/index.html.twig',compact("organisateur"));
+        if($this->getUser()){
+
+            $organisateur= $this->participantRepo->find($id);
+
+            return $this->render('profil_participant/index.html.twig',compact("organisateur"));
+        }
+        return $this->redirectToRoute('app_logout');
     }
 }
