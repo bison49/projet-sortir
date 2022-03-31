@@ -39,15 +39,19 @@ class ModifierProfilControlerController extends AbstractController
         $formModif->handleRequest($request);
         $hash = $user->getPassword();
 
+
         if($formModif->isSubmitted() && $formModif->isValid()) {
 
-            if (password_verify($request->request->get('password'), $hash)) {
-                //$em->flush();
-                return $this->redirectToRoute("app_main");
+            if (password_verify($formModif->get('Password')->getData(), $hash)) {
+
+                $user->setPassword($hash);
+                $em->flush();
+
+            }else{
+                $this->addFlash('erreur','Votre mot de passe est incorrect');
             }
 
-            dd($this->$formModif('password')->getData());
-
+            return $this->redirectToRoute("app_profil");
         }
 
 

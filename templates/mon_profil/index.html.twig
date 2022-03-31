@@ -11,10 +11,16 @@
          </div>
         <div class="col-3"></div>
     </div>
+    {% for message in app.flashes('erreur') %}
+        <div class="alert alert-danger text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="row">
         <div class="col-5">
             <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
         </div>
+
         <div class="col-5 ">
            <p>Bonjour <b> {{ app.user.nom }} {{ app.user.prenom }}</b> vous êtes sur le site de {{app.user.noSite.nom }} </p>
 
