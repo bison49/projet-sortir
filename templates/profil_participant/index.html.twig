@@ -13,7 +13,11 @@
     </div>
     <div class="row">
         <div class="col-5">
-            <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
+            {% if app.user.photo %}
+                <img src="uploads/{{ asset(app.user.photo) }}" alt="Avatar" width="50%" class="antoine">
+            {% else %}
+                <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
+            {% endif %}
         </div>
         <div class="col-5 ">
             <br>

@@ -22,6 +22,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use function PHPUnit\Framework\equalTo;
 
 class ModifierProfilControlerController extends AbstractController
@@ -76,7 +77,7 @@ class ModifierProfilControlerController extends AbstractController
      * @Route("/mdp", name="app_mdp")
      */
 
-    public function change_user_password(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher) {
+    public function change_user_password(Request $request,SluggerInterface $slugger,EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher) {
 
         $user = new ChangePassword();
 
@@ -99,6 +100,22 @@ class ModifierProfilControlerController extends AbstractController
 
                     )
                 );
+                $photo = $formMdp->get('photo')->getData();
+
+                if ($photo) {
+                    $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+
+                    // this is needed to safely include the file name as part of the URL$safeFilename = $slugger->slug($originalFilename);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+
+                    // Move the file to the directory where brochures are storedtry {
+                    $photo->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                    $user->setPhoto($newFilename);
+                }
 
                 $entityManager->flush();
 
@@ -110,44 +127,7 @@ class ModifierProfilControlerController extends AbstractController
             ['formMdp' => $formMdp->createView()]);
     }
 
-    /**
-     * @Route("/photo", name="app_photo")
-     */
 
-    public function photoUpdate( Request $request, EntityManagerInterface $entityManager)
-    {
-       // $user = $this->getUser();
-
-        $participant = new Participant();
-        $formPhoto = $this->createForm(FormImageType::class, $participant);
-        $formPhoto->handleRequest($request);
-
-        if ($formPhoto->isSubmitted() ) {
-            $file = $participant->getPhoto();
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
-
-            // moves the file to the directory where brochures are stored
-            $file->move(
-                $this->getParameter('images_directory'),
-                $fileName
-            );
-
-            $id = $this ->getUser();
-            $participant = $this ->partiRepo->find($id);
-            $participant->setPhoto($fileName);
-            $entityManager->flush();
-
-
-
-            return $this->redirectToRoute('app_photo');
-        }
-
-
-        return $this->render('mon_profil/photo.html.twig', [
-            'participant' => $participant,
-            'formPhoto' => $formPhoto->createView(),
-        ]);
-}
 
     /**
      * @return string
