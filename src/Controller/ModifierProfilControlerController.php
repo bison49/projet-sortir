@@ -8,6 +8,7 @@ use App\Form\ModifParticipantType;
 use App\Repository\ParticipantRepository;
 
 use App\Repository\SiteRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +30,7 @@ class ModifierProfilControlerController extends AbstractController
     /**
      * @Route("/profil", name="app_profil")
      */
-    public function index(ParticipantRepository $participantRepository, Request $request): Response
+    public function index(ParticipantRepository $participantRepository,EntityManagerInterface $em,Request $request): Response
     {
         $user = new Participant();
        // $user->setNom($user);
@@ -38,9 +39,9 @@ class ModifierProfilControlerController extends AbstractController
         $formModif->handleRequest($request);
 
         if($formModif->isSubmitted() && $formModif->isValid()) {
-            $this->partiRepo->update($user);
+            $em->flush();
 
-            return $this->redirectToRoute("app_modifier");
+            return $this->redirectToRoute("app_profil");
         }
 
 
