@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-7" align="center">
+        <H1>Modifier son mot de passe</H1>
+         </div>
+        <div class="col-3"></div>
+    </div>
+       <div class="row">
+        <div class="col-5">
+            <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
+        </div>
+
+        <div class="col-5 ">
+            {{ form_start(formMdp) }}
+
+            {{ form(formMdp) }}
+
+            {{ form_end(formMdp) }}
+
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}

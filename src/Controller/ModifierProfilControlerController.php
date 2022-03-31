@@ -2,17 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\ChangePassword;
 use App\Entity\Participant;
 use App\Entity\Site;
+use App\Form\ChangerMdpType;
 use App\Form\ModifParticipantType;
 use App\Repository\ParticipantRepository;
 
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use function PHPUnit\Framework\equalTo;
 
 class ModifierProfilControlerController extends AbstractController
 {
@@ -46,6 +52,8 @@ class ModifierProfilControlerController extends AbstractController
 
                 $user->setPassword($hash);
                 $em->flush();
+                $this->addFlash('success','Votre profil a bien été modifié');
+
 
             }else{
                 $this->addFlash('erreur','Votre mot de passe est incorrect');
@@ -58,4 +66,45 @@ class ModifierProfilControlerController extends AbstractController
         return $this->render("mon_profil/index.html.twig",
             ['formModif' => $formModif->createView()]);
     }
+
+    /**
+     * @Route("/mdp", name="app_mdp")
+     */
+
+    public function change_user_password(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher) {
+
+        $user = new ChangePassword();
+
+        $formMdp = $this->createForm(ChangerMdpType::class, $user);
+        $formMdp->handleRequest($request);
+
+        if($formMdp->isSubmitted() && $formMdp->isValid()) {
+
+            if ($formMdp->get('newPassword')->getData()==($formMdp->get('newConfirm')->getData())) {
+               $participant = new Participant();
+               $id = $this ->getUser();
+               $participant = $this ->partiRepo->find($id);
+
+               $participant ->setPassword(
+
+
+                $userPasswordHasher->hashPassword(
+                        $participant,
+                        $formMdp->get('newPassword')->getData()
+
+                    )
+                );
+
+                $entityManager->flush();
+
+            }
+
+        }
+
+        return $this->render("mon_profil/mdp.html.twig",
+            ['formMdp' => $formMdp->createView()]);
+    }
+
+
+
 }

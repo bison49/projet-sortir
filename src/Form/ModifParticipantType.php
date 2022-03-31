@@ -42,7 +42,7 @@ class ModifParticipantType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('Submit', SubmitType::class)
+            ->add('Valider', SubmitType::class)
 
         ;
     }
