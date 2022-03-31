@@ -41,8 +41,6 @@ class SortieType extends AbstractType
             ->add('noLieu',EntityType::class,["label"=>'lieu :',
                 'class'=>Lieu::class,
                 'choice_label'=>'nom'])
-            ->add('enregistrer',SubmitType::class)
-            ->add('publier',SubmitType::class)
         ;
 
     }

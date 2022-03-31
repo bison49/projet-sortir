@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-7" align="center">
-                <H1>Mon profil</H1>
+                <H1 class="my-5">Mon profil</H1>
             </div>
             <div class="col-3"></div>
         </div>
@@ -21,12 +21,18 @@
                 {{ message }}
             </div>
         {% endfor %}
+        {% for message in app.flashes('reussie') %}
+            <div class="alert alert-success text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="row">
             <div class="col-5">
                 {% if app.user.photo %}
                     <img src="uploads/{{ asset(app.user.photo) }}" alt="Avatar" width="50%" class="antoine">
                 {% else %}
-                    <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
+                    <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar"
+                         width="50%" class="antoine">
                 {% endif %}
                 <br><br>
 
@@ -39,11 +45,17 @@
                 {{ form_start(formModif) }}
 
                 {{ form(formModif) }}
+                <div class="row my-5">
+                    <div>
+                        <a href="{{ path('app_mdp') }}"><button type="button" class="btn btn-primary" >Modifier mot
+                            de
+                            passe
+                        </button></a>
+                    </div>
+                </div>
 
                 {{ form_end(formModif) }}
-                <button type="button" class="btn btn-primary" onclick="window.location.href = '/mdp';">Modifier mot de
-                    passe
-                </button>
+
 
             </div>
 

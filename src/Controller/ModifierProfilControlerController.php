@@ -123,7 +123,9 @@ class ModifierProfilControlerController extends AbstractController
                     );
 
                     $entityManager->flush();
+                    $this->addFlash('reussie','Votre mot de passe a bien été modifié');
 
+                    return $this->redirectToRoute('app_profil');
                 }
 
             }

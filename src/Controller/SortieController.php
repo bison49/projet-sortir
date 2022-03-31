@@ -50,7 +50,12 @@ class SortieController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $etat = new Etat();
-            $id = 1;
+
+            if ($request->request->get('enr')) {
+                $id = 1;
+            } else {
+                $id = 2;
+            }
             $etat = $this->etatRepo->find($id);
             $sortie->setEtat($etat);
 
@@ -100,9 +105,10 @@ class SortieController extends AbstractController
         $participant->addInscription($sortie);
 
         $em->flush();
-        $this->addFlash('success','Vous avez été inscrit à la sortie '.$sortie->getNom());
+        $this->addFlash('success', 'Vous avez été inscrit à la sortie ' . $sortie->getNom());
         return $this->redirectToRoute('app_main');
     }
+
     /**
      * @Route("/desistement/{id}", name="desistement")
      */
@@ -115,7 +121,7 @@ class SortieController extends AbstractController
         $participant->removeInscription($sortie);
 
         $em->flush();
-        $this->addFlash('success',"Vous n'êtes plus inscrit à la sortie ".$sortie->getNom());
+        $this->addFlash('success', "Vous n'êtes plus inscrit à la sortie " . $sortie->getNom());
         return $this->redirectToRoute('app_main');
     }
 }

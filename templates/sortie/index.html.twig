@@ -28,12 +28,20 @@
             <label for="codePostal">Code Postal :</label>
             <input class="form-control" type="text" name="codePostal">
 
-            <div class=" row text-center ">
-                {{ form_row(sortieForm.enregistrer) }}
-                {{ form_row(sortieForm.publier) }}
-                <a href="{{ path('app_main') }}">
-                    <button class="btn btn-primary">Annuler</button>
-                </a>
+            <div class=" row text-center my-5">
+                <div class="text-center">
+                    {# {{ form_row(sortieForm.enregistrer) }}
+                {{ form_row(sortieForm.publier) }} #}
+                    <a href="{{ path('app_sortie_ajout') }}">
+                        <button name="enr" value="{{ 1 }}" class="btn btn-primary me-4">Enregistrer</button>
+                    </a>
+                    <a href="{{ path('app_sortie_ajout') }}">
+                        <button name="pub" value="{{ 2 }}" class="btn btn-primary me-4">Publier</button>
+                    </a>
+                    <a href="{{ path('app_main') }}">
+                        <button class="btn btn-primary">Annuler</button>
+                    </a>
+                </div>
             </div>
             {{ form_end(sortieForm) }}
 
