@@ -43,88 +43,95 @@ class ModifierProfilControlerController extends AbstractController
      */
     public function index(ParticipantRepository $participantRepository,SluggerInterface $slugger,EntityManagerInterface $em,Request $request): Response
     {
-        $user = new Participant();
-       // $user->setNom($user);
-        $user = $this->getUser();
-        $formModif = $this->createForm(ModifParticipantType::class, $user);
-        $formModif->handleRequest($request);
-        $hash = $user->getPassword();
+        if($this->getUser()){
+
+            $user = new Participant();
+            // $user->setNom($user);
+            $user = $this->getUser();
+            $formModif = $this->createForm(ModifParticipantType::class, $user);
+            $formModif->handleRequest($request);
+            $hash = $user->getPassword();
 
 
-        if($formModif->isSubmitted() && $formModif->isValid()) {
+            if($formModif->isSubmitted() && $formModif->isValid()) {
 
-            if (password_verify($formModif->get('Password')->getData(), $hash)) {
+                if (password_verify($formModif->get('Password')->getData(), $hash)) {
 
-                $user->setPassword($hash);
+                    $user->setPassword($hash);
 
-                 $photo = $formModif->get('photo')->getData();
+                    $photo = $formModif->get('photo')->getData();
 
-              if ($photo) {
-                  $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                    if ($photo) {
+                        $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
 
-                  // this is needed to safely include the file name as part of the URL$safeFilename = $slugger->slug($originalFilename);
-                  $safeFilename = $slugger->slug($originalFilename);
-                  $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+                        // this is needed to safely include the file name as part of the URL$safeFilename = $slugger->slug($originalFilename);
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
 
-                  // Move the file to the directory where brochures are storedtry {
-                  $photo->move(
-                      $this->getParameter('images_directory'),
-                      $newFilename
-                  );
-                  $user->setPhoto($newFilename);
-              }
-                $em->flush();
-                $this->addFlash('success','Votre profil a bien été modifié');
+                        // Move the file to the directory where brochures are storedtry {
+                        $photo->move(
+                            $this->getParameter('images_directory'),
+                            $newFilename
+                        );
+                        $user->setPhoto($newFilename);
+                    }
+                    $em->flush();
+                    $this->addFlash('success','Votre profil a bien été modifié');
 
 
-            }else{
-                $this->addFlash('erreur','Votre mot de passe est incorrect');
+                }else{
+                    $this->addFlash('erreur','Votre mot de passe est incorrect');
+                }
+
+                return $this->redirectToRoute("app_profil");
             }
 
-            return $this->redirectToRoute("app_profil");
+
+            return $this->render("mon_profil/index.html.twig",
+                ['formModif' => $formModif->createView()]);
         }
-
-
-        return $this->render("mon_profil/index.html.twig",
-            ['formModif' => $formModif->createView()]);
+        return $this->redirectToRoute('app_logout');
     }
 
     /**
      * @Route("/mdp", name="app_mdp")
      */
-
     public function change_user_password(Request $request,EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher) {
 
-        $user = new ChangePassword();
+        if($this->getUser()){
 
-        $formMdp = $this->createForm(ChangerMdpType::class, $user);
-        $formMdp->handleRequest($request);
+            $user = new ChangePassword();
 
-        if($formMdp->isSubmitted() && $formMdp->isValid()) {
+            $formMdp = $this->createForm(ChangerMdpType::class, $user);
+            $formMdp->handleRequest($request);
 
-            if ($formMdp->get('newPassword')->getData()==($formMdp->get('newConfirm')->getData())) {
-               $participant = new Participant();
-               $id = $this ->getUser();
-               $participant = $this ->partiRepo->find($id);
+            if($formMdp->isSubmitted() && $formMdp->isValid()) {
 
-               $participant ->setPassword(
+                if ($formMdp->get('newPassword')->getData()==($formMdp->get('newConfirm')->getData())) {
+                    $participant = new Participant();
+                    $id = $this ->getUser();
+                    $participant = $this ->partiRepo->find($id);
+
+                    $participant ->setPassword(
 
 
-                $userPasswordHasher->hashPassword(
-                        $participant,
-                        $formMdp->get('newPassword')->getData()
+                        $userPasswordHasher->hashPassword(
+                            $participant,
+                            $formMdp->get('newPassword')->getData()
 
-                    )
-                );
+                        )
+                    );
 
-                $entityManager->flush();
+                    $entityManager->flush();
+
+                }
 
             }
 
+            return $this->render("mon_profil/mdp.html.twig",
+                ['formMdp' => $formMdp->createView()]);
         }
-
-        return $this->render("mon_profil/mdp.html.twig",
-            ['formMdp' => $formMdp->createView()]);
+        return $this->redirectToRoute('app_logout');
     }
 
 

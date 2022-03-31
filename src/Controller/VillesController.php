@@ -31,34 +31,38 @@ class VillesController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $ville = new Ville();
-        $villeForm = $this->createForm(VillesType::class, $ville);
-        $villeForm->handleRequest($request);
+        if($this->isGranted('ROLE_ADMIN')){
 
-        if(!empty($request->request->get('villeRech')) ){
-            $mot = $request->request->get('villeRech');
-            $villes = $this->villeRepo->findOneByKeyword($mot);
-        }else{
-            $villes = $this->villeRepo->findAll();
-        }
+            $ville = new Ville();
+            $villeForm = $this->createForm(VillesType::class, $ville);
+            $villeForm->handleRequest($request);
 
-        if ($villeForm->isSubmitted() && $villeForm->isValid()) {
-
-            try {
-                $this->villeRepo->add($ville);
-            } catch (OptimisticLockException $e) {
-            } catch (ORMException $e) {
+            if(!empty($request->request->get('villeRech')) ){
+                $mot = $request->request->get('villeRech');
+                $villes = $this->villeRepo->findOneByKeyword($mot);
+            }else{
+                $villes = $this->villeRepo->findAll();
             }
-            $this->addFlash('succes', 'La ville('.$ville->getNom().') a été ajoutée');
 
-            return $this->redirectToRoute('app_villes_ajout');
+            if ($villeForm->isSubmitted() && $villeForm->isValid()) {
+
+                try {
+                    $this->villeRepo->add($ville);
+                } catch (OptimisticLockException $e) {
+                } catch (ORMException $e) {
+                }
+                $this->addFlash('succes', 'La ville('.$ville->getNom().') a été ajoutée');
+
+                return $this->redirectToRoute('app_villes_ajout');
+            }
+
+
+            return $this->render('villes/index.html.twig', [
+                'villes' => $villes,
+                'villeForm' => $villeForm->createView(),
+            ]);
         }
-
-
-        return $this->render('villes/index.html.twig', [
-            'villes' => $villes,
-            'villeForm' => $villeForm->createView(),
-        ]);
+        return $this->redirectToRoute('app_logout');
     }
 
     /**
@@ -66,7 +70,7 @@ class VillesController extends AbstractController
      */
     public function supprimerVille($id,Request $request): Response
     {
-
+        if($this->isGranted('ROLE_ADMIN')){
         $ville = $this->villeRepo->find($id);
         try {
             $this->villeRepo->remove($ville);
@@ -75,6 +79,8 @@ class VillesController extends AbstractController
         }
 
         return $this->redirectToRoute('app_villes_ajout');
+        }
+        return $this->redirectToRoute('app_logout');
     }
 
 }

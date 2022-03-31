@@ -30,48 +30,54 @@ class SiteController extends AbstractController
     public function isPublished(Request $request, SiteRepository $siteRepository):Response {
 
 
+        if($this->isGranted('ROLE_ADMIN')){
 
+            $site = new Site();
+            $formAdd = $this->createForm(AddSiteType::class, $site);
+            $formAdd ->handleRequest($request);
 
-        $site = new Site();
-        $formAdd = $this->createForm(AddSiteType::class, $site);
-        $formAdd ->handleRequest($request);
+            if($formAdd->isSubmitted() && $formAdd->isValid()) {
+                try {
+                    $this->siteRepo->add($site);
+                } catch (OptimisticLockException $e) {
+                } catch (ORMException $e) {
+                }
+                $this->addFlash('succes', 'Le site('.$site->getNom().') a été ajoutée');
 
-        if($formAdd->isSubmitted() && $formAdd->isValid()) {
-            try {
-                $this->siteRepo->add($site);
-            } catch (OptimisticLockException $e) {
-            } catch (ORMException $e) {
+                return $this->redirectToRoute("app_sites_ajout");
             }
-            $this->addFlash('succes', 'Le site('.$site->getNom().') a été ajoutée');
 
-            return $this->redirectToRoute("app_sites_ajout");
+
+            if(!empty($request->request->get('siteRech'))){
+                $mot = $request->request->get('siteRech');
+                $nom = $this->siteRepo->findOneBySomeField($mot);
+
+            }else{
+                $nom = $this->siteRepo->findAll();        }
+
+
+            return $this->render("site/index.html.twig",
+                ['nom'=>$nom, "formAdd" => $formAdd->createView()]);
         }
-
-        if(!empty($request->request->get('siteRech'))){
-            $mot = $request->request->get('siteRech');
-            $nom = $this->siteRepo->findOneBySomeField($mot);
-
-        }else{
-            $nom = $this->siteRepo->findAll();        }
-
-
-        return $this->render("site/index.html.twig",
-            ['nom'=>$nom, "formAdd" => $formAdd->createView()]);
+        return $this->redirectToRoute('app_logout');
     }
     /**
      * @Route("/supprimerSite/{id}", name="supprimer_site")
      */
     public function supprimerSite($id,Request $request): Response
     {
+        if($this->isGranted('ROLE_ADMIN')){
 
-        $site = $this->siteRepo->find($id);
-        try {
-            $this->siteRepo->remove($site);
-        } catch (OptimisticLockException $e) {
-        } catch (ORMException $e) {
+            $site = $this->siteRepo->find($id);
+            try {
+                $this->siteRepo->remove($site);
+            } catch (OptimisticLockException $e) {
+            } catch (ORMException $e) {
+            }
+
+            return $this->redirectToRoute('app_sites_ajout');
         }
-
-        return $this->redirectToRoute('app_sites_ajout');
+        return $this->redirectToRoute('app_logout');
     }
 
 

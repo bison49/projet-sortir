@@ -28,27 +28,24 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
+        if($this->getUser()){
+            $form=$this->createFormBuilder()
+                ->add('Site',EntityType::class,[
+                    'class' => Site::class,
+                    'choice_label'=>'nom',
+                    'placeholder'=>'Choissez un Site',
+                    'query_builder'=>function(SiteRepository $siteRepository){
+                        return $siteRepository->createQueryBuilder('site')->orderBy('site.nom','ASC');
+                    }
+                ])->getForm()
+            ;
 
-        $form=$this->createFormBuilder()
-            ->add('Site',EntityType::class,[
-                'class' => Site::class,
-                'choice_label'=>'nom',
-                'placeholder'=>'Choissez un Site',
-                'query_builder'=>function(SiteRepository $siteRepository){
-                    return $siteRepository->createQueryBuilder('site')->orderBy('site.nom','ASC');
-                }
-            ])->getForm()
-        ;
+            $sorties= $this->sortieRepo->findByPublish(1);
 
+            return $this->renderForm('main/index.html.twig',compact("sorties","form"));
+        }
 
-
-        $sorties= $this->sortieRepo->findByPublish(1);
-
-
-
-
-
-        return $this->renderForm('main/index.html.twig',compact("sorties","form"));
+        return $this->redirectToRoute('logout');
     }
 
 }
