@@ -40,7 +40,6 @@ class MainController extends AbstractController
                 ])->getForm()
             ;
 
-
             $sorties= $this->sortieRepo->findByPublish(1);
 
             return $this->renderForm('main/index.html.twig',compact("sorties","form"));
