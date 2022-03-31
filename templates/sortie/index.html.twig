@@ -5,7 +5,11 @@
 {% block body %}
     <div class="container">
         <h3 class="my-5">Ajouter une sortie</h3>
-
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="offset-2 col-8">
             {{ form_start(sortieForm) }}
             {{ form_row(sortieForm.nom) }}

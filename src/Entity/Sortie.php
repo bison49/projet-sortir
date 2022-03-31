@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -20,21 +21,34 @@ class Sortie
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Veuillez donner un nom à votre sortie")
      * @ORM\Column(type="string", length=100)
      */
     private $nom;
 
     /**
+     * @Assert\Expression(
+     *     "this.getDateHeureDebut() > this.getDateFinInscription()",
+     *     message="La date de fin d'inscription ne doit pas être antérieure à la date de début de la sortie")
+     * @Assert\NotBlank(message="Veuillez donner une date et une heure de début à votre sortie")
      * @ORM\Column(type="datetime")
      */
     private $dateHeureDebut;
 
     /**
+     * @Assert\NotBlank(message="Veuillez donner une durée à votre sortie")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $duree;
 
     /**
+     * @Assert\NotBlank(message="Veuillez donner un nombre maximum de participants d'inscription à votre sortie")
+     * @Assert\Regex(pattern="/^[0-9]+$/",message="Votre numéro de téléphone doit comporter des chiffres uniquement")
+     * @Assert\Range(
+     *      min = 5,
+     *      max = 30,
+     *      notInRangeMessage = "Le nombre de participants doit être compris entre {{ min }} et {{ max }}.",
+     * )
      * @ORM\Column(type="integer")
      */
     private $nbInscriptionMax;
@@ -45,6 +59,8 @@ class Sortie
     private $description;
 
     /**
+     * @Assert\GreaterThan("today",message="La date de fin d'inscription doit être supérieur à celle d'aujourd'hui")
+     * @Assert\NotBlank(message="Veuillez donner une date de fin d'inscription à votre sortie")
      * @ORM\Column(type="datetime")
      */
     private $dateFinInscription;
@@ -72,6 +88,7 @@ class Sortie
     private $siteOrganisateur;
 
     /**
+     * @Assert\NotBlank(message="Veuillez choisir un lieu pour votre sortie")
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */

@@ -70,6 +70,13 @@ class SortieController extends AbstractController
             } catch (OptimisticLockException $e) {
             } catch (ORMException $e) {
             }
+            if($id == 1){
+                $this->addFlash('success','Votre sortie a été enregistrée');
+            }else{
+                $this->addFlash('success','Votre sortie a été enregistrée et publiée');
+            }
+
+            return $this->redirectToRoute('app_sortie_ajout');
         }
         return $this->render('sortie/index.html.twig', [
             'sortieForm' => $sortieForm->createView(),
