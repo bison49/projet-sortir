@@ -14,15 +14,15 @@ class MainController extends AbstractController
 {
 
     private $sortieRepo;
-    
-    
+
+
     function __construct(SortieRepository $sortieRepo)  //injection de dépendances
     {
         $this->sortieRepo = $sortieRepo;
     }
 
 
-    
+
     /**
      * @Route("/main", name="app_main")
      */
@@ -39,6 +39,7 @@ class MainController extends AbstractController
                     }
                 ])->getForm()
             ;
+
 
             $sorties= $this->sortieRepo->findByPublish(1);
 
