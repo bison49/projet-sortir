@@ -10,7 +10,7 @@
                 <p>Le nom contient :</p>
             </div>
             <div class=" col-5">
-                <form class="d-flex" method="post" action="/villes">
+                <form class="d-flex" method="post" action="{{ path('app_villes_ajout') }}">
                     <input class="form-control me-2 rechercher" name="villeRech" type="search" placeholder="Search"
                            aria-label="Search">
                     <button class="btn btn-outline-success " type="submit">Rechercher</button>
@@ -64,7 +64,7 @@
 
                 console.log(ville_id);
                 if (confirm("Voulez-vous vraiment supprimer ce voeu ?")) {
-                    window.location.href = '/supprimerVille/' + ville_id;
+                    window.location.href = '/villes/supprimerVille/' + ville_id;
                 }
             })
         });

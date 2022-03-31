@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/villes", name="app_villes_")
+ */
+
 class VillesController extends AbstractController
 {
     private $villeRepo;
@@ -22,7 +26,7 @@ class VillesController extends AbstractController
     }
 
     /**
-     * @Route("/villes", name="app_villes")
+     * @Route("/ajout", name="ajout")
      */
     public function index(Request $request): Response
     {
@@ -47,7 +51,7 @@ class VillesController extends AbstractController
             }
             $this->addFlash('succes', 'La ville('.$ville->getNom().') a été ajoutée');
 
-            return $this->redirectToRoute('app_villes');
+            return $this->redirectToRoute('app_villes_ajout');
         }
 
 
@@ -58,7 +62,7 @@ class VillesController extends AbstractController
     }
 
     /**
-     * @Route("/supprimerVille/{id}", name="app_supprimer_villes")
+     * @Route("/supprimerVille/{id}", name="supprimer_villes")
      */
     public function supprimerVille($id,Request $request): Response
     {
@@ -70,7 +74,7 @@ class VillesController extends AbstractController
         } catch (ORMException $e) {
         }
 
-        return $this->redirectToRoute('app_villes');
+        return $this->redirectToRoute('app_villes_ajout');
     }
 
 }

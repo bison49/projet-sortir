@@ -17,7 +17,7 @@
     </div>
     <div class="row">
         <div class="col-6">
-            <form class="d-flex" method="post" action="/site">
+            <form class="d-flex" method="post" action="{{ path('app_sites_ajout') }}">
                 <label for="rechercher">Le nom contient: </label>
                 <input id="rechercher" name="siteRech" class="form-control me-2 rechercher" type="search" placeholder="Le site contient" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Rechercher</button>
@@ -72,7 +72,7 @@
                 let site_id = $(this).attr("data-site");
 
                 if (confirm("Voulez-vous vraiment supprimer ce voeu ?")) {
-                    window.location.href = '/supprimerSite/' + site_id;
+                    window.location.href = '/site/supprimerSite/' + site_id;
                 }
             })
         });

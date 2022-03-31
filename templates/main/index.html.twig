@@ -135,10 +135,10 @@
                 <td><a href="{{ path('app_sortie_afficher',{id:sortie.id}) }}">
                         <button class="btn btn-primary" type="button" name="id">Afficher</button>
                     </a>
-                    {% if sortie.organisateur.id == app.user.id and sortie.dateHeureDebut|date(" d-m-Y H:i") < 'now'|date(" d-m-Y H:i") %}
+                    {% if 'now'|date(" Y-m-d H:i") < sortie.dateHeureDebut|date(" Y-m-d H:i") and sortie.organisateur.id == app.user.id %}
                     <button class="btn btn-primary" type="submit" name="id" value="{{ sortie.id }}">Supprimer</button>
                     {% endif %}
-                    {% if ins == null and sortie.dateFinInscription|date(" d-m-Y ") < 'now'|date(" d-m-Y ") %}
+                    {% if 'now'|date(" Y-m-d ") < sortie.dateFinInscription|date(" Y-m-d ") and  ins == null  %}
                     <a href="{{ path('app_sortie_inscription',{id:sortie.id}) }}">
                         <button class="btn btn-primary" type="button" name="id">Inscription</button>
                     </a>

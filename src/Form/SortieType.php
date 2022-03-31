@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Date;
+use function Sodium\add;
 
 class SortieType extends AbstractType
 {
@@ -40,8 +41,10 @@ class SortieType extends AbstractType
             ->add('noLieu',EntityType::class,["label"=>'lieu :',
                 'class'=>Lieu::class,
                 'choice_label'=>'nom'])
-
+            ->add('enregistrer',SubmitType::class)
+            ->add('publier',SubmitType::class)
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

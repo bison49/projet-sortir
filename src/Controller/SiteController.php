@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/site", name="app_sites_")
+ */
 class SiteController extends AbstractController
 {
     private $siteRepo;
@@ -22,9 +25,8 @@ class SiteController extends AbstractController
         $this->siteRepo = $siteRepo;
     }
     /**
-     * @Route("/site", name="app_sites")
+     * @Route("/ajout", name="ajout")
      */
-
     public function isPublished(Request $request, SiteRepository $siteRepository):Response {
 
 
@@ -42,7 +44,7 @@ class SiteController extends AbstractController
             }
             $this->addFlash('succes', 'Le site('.$site->getNom().') a été ajoutée');
 
-            return $this->redirectToRoute("app_sites");
+            return $this->redirectToRoute("app_sites_ajout");
         }
 
         if(!empty($request->request->get('siteRech'))){
@@ -57,7 +59,7 @@ class SiteController extends AbstractController
             ['nom'=>$nom, "formAdd" => $formAdd->createView()]);
     }
     /**
-     * @Route("/supprimerSite/{id}", name="app_supprimer_site")
+     * @Route("/supprimerSite/{id}", name="supprimer_site")
      */
     public function supprimerSite($id,Request $request): Response
     {
@@ -69,7 +71,7 @@ class SiteController extends AbstractController
         } catch (ORMException $e) {
         }
 
-        return $this->redirectToRoute('app_sites');
+        return $this->redirectToRoute('app_sites_ajout');
     }
 
 
