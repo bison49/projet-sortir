@@ -37,11 +37,17 @@ class ModifierProfilControlerController extends AbstractController
         $user = $this->getUser();
         $formModif = $this->createForm(ModifParticipantType::class, $user);
         $formModif->handleRequest($request);
+        $hash = $user->getPassword();
 
         if($formModif->isSubmitted() && $formModif->isValid()) {
-            $em->flush();
 
-            return $this->redirectToRoute("app_profil");
+            if (password_verify($request->request->get('password'), $hash)) {
+                //$em->flush();
+                return $this->redirectToRoute("app_main");
+            }
+
+            dd($this->$formModif('password')->getData());
+
         }
 
 

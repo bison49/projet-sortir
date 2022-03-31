@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ModifParticipantType extends AbstractType
 {
@@ -21,9 +23,9 @@ class ModifParticipantType extends AbstractType
     {
         $builder
             ->add('pseudo',TextType::class)
-            ->add('telephone', NumberType::class)
+            ->add('telephone', TextType::class)
             ->add('mail', EmailType::class)
-            ->add('password', PasswordType::class)
+            ->add('Password', PasswordType::class, ['attr'=>['full_name'=>'password']])
             ->add('Submit', SubmitType::class)
 
         ;
