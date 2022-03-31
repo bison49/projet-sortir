@@ -12,30 +12,11 @@
         {% endfor %}
         <div class="offset-2 col-8">
             {{ form_start(sortieForm) }}
-            {{ form_row(sortieForm.nom) }}
-            {{ form_row(sortieForm.dateHeureDebut) }}
-            {{ form_row(sortieForm.dateFinInscription) }}
-            {{ form_row(sortieForm.duree) }}
-            {{ form_row(sortieForm.nbInscriptionMax) }}
-            {{ form_row(sortieForm.description) }}
-            {{ form_row(sortieForm.siteOrganisateur) }}
-            <label>Ville :</label>
-            <select class="form-select">
-                {% for ville in villes %}
-                    <option>{{ ville.nom }}</option>
-                {% endfor %}
-            </select>
-            {{ form_row(sortieForm.noLieu) }}
-            <label for="rue">rue :</label>
-            <input class="form-control" type="text" name="rue">
 
-            <label for="codePostal">Code Postal :</label>
-            <input class="form-control" type="text" name="codePostal">
-
+            {{ form_widget(sortieForm) }}
             <div class=" row text-center my-5">
                 <div class="text-center">
-                    {# {{ form_row(sortieForm.enregistrer) }}
-                {{ form_row(sortieForm.publier) }} #}
+
                     <a href="{{ path('app_sortie_ajout') }}">
                         <button name="enr" value="{{ 1 }}" class="btn btn-primary me-4">Enregistrer</button>
                     </a>
@@ -46,10 +27,14 @@
                         <button class="btn btn-primary">Annuler</button>
                     </a>
                 </div>
+                <div id="path_ajax" data-href="{{ path('lieu_rechercher_ajax_by_ville') }}"></div>
             </div>
             {{ form_end(sortieForm) }}
 
         </div>
 
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('/js/listesLiees.js') }}"></script>
 {% endblock %}

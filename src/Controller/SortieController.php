@@ -49,31 +49,25 @@ class SortieController extends AbstractController
         $villes = $this->villeRepo->findAll();
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $etat = new Etat();
 
             if ($request->request->get('enr')) {
                 $id = 1;
             } else {
                 $id = 2;
             }
-            $etat = $this->etatRepo->find($id);
-            $sortie->setEtat($etat);
+            $sortie->setEtat($this->etatRepo->find($id));
 
-            $organisateur = new Participant();
-            $idP = $this->getUser();
-            $organisateur = $this->participantRepo->find($idP);
-
-            $sortie->setOrganisateur($organisateur);
+            $sortie->setOrganisateur($this->getUser());
 
             try {
                 $this->sortieRepo->add($sortie);
             } catch (OptimisticLockException $e) {
             } catch (ORMException $e) {
             }
-            if($id == 1){
-                $this->addFlash('success','Votre sortie a été enregistrée');
-            }else{
-                $this->addFlash('success','Votre sortie a été enregistrée et publiée');
+            if ($id == 1) {
+                $this->addFlash('success', 'Votre sortie a été enregistrée');
+            } else {
+                $this->addFlash('success', 'Votre sortie a été enregistrée et publiée');
             }
 
             return $this->redirectToRoute('app_sortie_ajout');
@@ -131,4 +125,6 @@ class SortieController extends AbstractController
         $this->addFlash('success', "Vous n'êtes plus inscrit à la sortie " . $sortie->getNom());
         return $this->redirectToRoute('app_main');
     }
+
+
 }
