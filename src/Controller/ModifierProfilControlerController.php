@@ -41,7 +41,7 @@ class ModifierProfilControlerController extends AbstractController
     /**
      * @Route("/profil", name="app_profil")
      */
-    public function index(ParticipantRepository $participantRepository,EntityManagerInterface $em,Request $request): Response
+    public function index(ParticipantRepository $participantRepository,SluggerInterface $slugger,EntityManagerInterface $em,Request $request): Response
     {
         $user = new Participant();
        // $user->setNom($user);
@@ -57,6 +57,22 @@ class ModifierProfilControlerController extends AbstractController
 
                 $user->setPassword($hash);
 
+                 $photo = $formModif->get('photo')->getData();
+
+              if ($photo) {
+                  $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+
+                  // this is needed to safely include the file name as part of the URL$safeFilename = $slugger->slug($originalFilename);
+                  $safeFilename = $slugger->slug($originalFilename);
+                  $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+
+                  // Move the file to the directory where brochures are storedtry {
+                  $photo->move(
+                      $this->getParameter('images_directory'),
+                      $newFilename
+                  );
+                  $user->setPhoto($newFilename);
+              }
                 $em->flush();
                 $this->addFlash('success','Votre profil a bien été modifié');
 
@@ -77,7 +93,7 @@ class ModifierProfilControlerController extends AbstractController
      * @Route("/mdp", name="app_mdp")
      */
 
-    public function change_user_password(Request $request,SluggerInterface $slugger,EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher) {
+    public function change_user_password(Request $request,EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher) {
 
         $user = new ChangePassword();
 
@@ -100,22 +116,6 @@ class ModifierProfilControlerController extends AbstractController
 
                     )
                 );
-                $photo = $formMdp->get('photo')->getData();
-
-                if ($photo) {
-                    $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-
-                    // this is needed to safely include the file name as part of the URL$safeFilename = $slugger->slug($originalFilename);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
-
-                    // Move the file to the directory where brochures are storedtry {
-                    $photo->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                    $user->setPhoto($newFilename);
-                }
 
                 $entityManager->flush();
 
