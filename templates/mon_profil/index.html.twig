@@ -3,45 +3,54 @@
 {% block title %}Mon profil{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-2"></div>
-        <div class="col-7" align="center">
-        <H1>Mon profil</H1>
-         </div>
-        <div class="col-3"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-7" align="center">
+                <H1>Mon profil</H1>
+            </div>
+            <div class="col-3"></div>
+        </div>
+        {% for message in app.flashes('erreur') %}
+            <div class="alert alert-danger text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-5">
+                {% if app.user.photo %}
+                    <img src="uploads/{{ asset(app.user.photo) }}" alt="Avatar" width="50%" class="antoine">
+                {% else %}
+                    <img src="https://www.excel-downloads.com/data/avatars/o/362/362988.jpg?1637756820" alt="Avatar" width="50%" class="antoine">
+                {% endif %}
+                <br><br>
+                <button type="button" class="btn btn-primary" onclick="window.location.href = '/photo';">Modifier ma
+                    photo
+                </button>
+
+            </div>
+
+            <div class="col-5 ">
+                <p>Bonjour <b> {{ app.user.nom }} {{ app.user.prenom }}</b> vous êtes sur le site
+                    de {{ app.user.noSite.nom }} </p>
+
+                {{ form_start(formModif) }}
+
+                {{ form(formModif) }}
+
+                {{ form_end(formModif) }}
+                <button type="button" class="btn btn-primary" onclick="window.location.href = '/mdp';">Modifier mot de
+                    passe
+                </button>
+
+            </div>
+
+
+        </div>
     </div>
-    {% for message in app.flashes('erreur') %}
-        <div class="alert alert-danger text-center">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success text-center">
-            {{ message }}
-        </div>
-    {% endfor %}
-    <div class="row">
-        <div class="col-5">
-            <img src="uploads/{{ asset(app.user.photo) }}" alt="Avatar" width="50%" class="antoine">
-            <br><br>
-            <button type="button" class="btn btn-primary" onclick="window.location.href = '/photo';">Modifier ma photo</button>
-
-        </div>
-
-        <div class="col-5 ">
-           <p>Bonjour <b> {{ app.user.nom }} {{ app.user.prenom }}</b> vous êtes sur le site de {{app.user.noSite.nom }} </p>
-
-            {{ form_start(formModif) }}
-
-            {{ form(formModif) }}
-
-            {{ form_end(formModif) }}
-            <button type="button" class="btn btn-primary" onclick="window.location.href = '/mdp';">Modifier mot de passe</button>
-
-        </div>
-
-
-    </div>
-</div>
 {% endblock %}

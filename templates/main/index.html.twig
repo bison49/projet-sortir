@@ -3,21 +3,6 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
-
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
-
     <div>
         <div class="row">
             <div class="col" align="center">
@@ -95,9 +80,12 @@
                 </form>
             </div>
         </div>
-
-
     </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
     <table id="Table"class="table table-striped">
         <thead>
         <tr>
@@ -143,7 +131,11 @@
                         <button class="btn btn-primary" type="button" name="id">Inscription</button>
                     </a>
                     {% endif %}
-
+                    {% if 'now'|date(" Y-m-d ") < sortie.dateHeureDebut|date(" Y-m-d ") and  ins != null  %}
+                    <a href="{{ path('app_sortie_desistement',{id:sortie.id}) }}">
+                        <button class="btn btn-primary" type="button" name="id">Se désisiter</button>
+                    </a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

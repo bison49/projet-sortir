@@ -100,7 +100,22 @@ class SortieController extends AbstractController
         $participant->addInscription($sortie);
 
         $em->flush();
+        $this->addFlash('success','Vous avez été inscrit à la sortie '.$sortie->getNom());
         return $this->redirectToRoute('app_main');
     }
+    /**
+     * @Route("/desistement/{id}", name="desistement")
+     */
+    public function desisitementSortie($id, Request $request, EntityManagerInterface $em): Response
+    {
+        $participant = new Participant();
+        $idP = $this->getUser();
+        $participant = $this->participantRepo->find($idP);
+        $sortie = $this->sortieRepo->find($id);
+        $participant->removeInscription($sortie);
 
+        $em->flush();
+        $this->addFlash('success',"Vous n'êtes plus inscrit à la sortie ".$sortie->getNom());
+        return $this->redirectToRoute('app_main');
+    }
 }
