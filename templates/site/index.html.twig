@@ -23,38 +23,35 @@
                 </div>
             {% endfor %}
             <div class="row">
-                <div class="row">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col">Villes</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for site in nom %}
-                        <tr>
 
-                            <th scope="row">{{ site.nom }}</th>
-                            <td>
-                                <button data-site="{{ site.id }}" class="btn btn-outline-danger">Supprimer</button>
-                            </td>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Villes</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for site in nom %}
+                    <tr>
 
-                        </tr>
-                        <tr>
-                            {% endfor %}
-                            {{ form_start(formAdd) }}
-                            <th> {{ form_widget(formAdd.nom) }} </th>
-                            <th>
-                                <button type="submit" class="btn btn-outline-success">Ajouter</button>
-                            </th>
-                            {{ form_end(formAdd) }}
-                        </tr>
-                        </tbody>
-                    </table>
+                        <th scope="row">{{ site.nom }}</th>
+                        <td>
+                            <button data-site="{{ site.id }}" class="btn btn-outline-danger">Supprimer</button>
+                        </td>
 
-
-                </div>
+                    </tr>
+                    <tr>
+                        {% endfor %}
+                        {{ form_start(formAdd) }}
+                        <th> {{ form_widget(formAdd.nom) }} </th>
+                        <th>
+                            <button type="submit" class="btn btn-outline-success">Ajouter</button>
+                        </th>
+                        {{ form_end(formAdd) }}
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 
         </div>
