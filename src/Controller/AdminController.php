@@ -25,19 +25,15 @@ class AdminController extends AbstractController
      */
     public function index(): Response
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $nom = $this->partiRepo->findAll();
 
 
-
-        $nom = $this->partiRepo->findAll();
-
-
-
-        return $this->render('admin/index.html.twig', [
-            'nom'=>$nom,
-        ]);
-
-
-
+            return $this->render('admin/index.html.twig', [
+                'nom' => $nom,
+            ]);
+        }
+        return $this->redirectToRoute('app_logout');
 
     }
 
@@ -48,7 +44,7 @@ class AdminController extends AbstractController
     {
         $user = $this->partiRepo->find($id);
         $user->setActif(false);
-        $user->setRoles(["ROLE_NON"]);
+
         $entityManager->flush();
 
         return $this->redirectToRoute('app_admin',

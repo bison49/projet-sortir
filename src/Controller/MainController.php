@@ -32,6 +32,7 @@ class MainController extends AbstractController
     public function index(SortieRepository $repository, Request $request): Response
     {
 
+        if ($this->isGranted('ROLE_USER')) {
 
         $data = new SearchData();
         $data->page = $request->get('page', 1);
@@ -39,7 +40,7 @@ class MainController extends AbstractController
         $form2->handleRequest($request);
         $sorties2 = $repository->findSearch2($data);
 
-        if($this->getUser()){
+
             $form=$this->createFormBuilder()
                 ->add('Site',EntityType::class,[
                     'class' => Site::class,

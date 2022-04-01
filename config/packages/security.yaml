@@ -49,10 +49,11 @@ security:
         #- { path: /villes/*, roles: ROLE_ADMIN }
         #- { path: /site/*, roles: ROLE_ADMIN }
         #- { path: /register, roles: ROLE_ADMIN }
-        - { path: /main, roles: ROLE_USER }
-        - { path: /sortie/*, roles: ROLE_USER }
+        #- { path: ^/main, roles: ROLE_USER }
+        #- { path: ^/sortie/*, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: /*, roles: ROLE_USER }
+        #- { path: ^/*, roles: ROLE_USER }
+
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
 

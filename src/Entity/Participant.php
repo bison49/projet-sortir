@@ -98,7 +98,8 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $photo;
 
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->setActif(true);
         $this->sorties = new ArrayCollection();
@@ -130,7 +131,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->pseudo;
+        return (string)$this->pseudo;
     }
 
     /**
@@ -138,7 +139,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->pseudo;
+        return (string)$this->pseudo;
     }
 
     /**
@@ -146,9 +147,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        if (!$this->getActif()) {
+            $roles = ['ROLE_NON'];
+        }else{
+            $roles = $this->roles;
+            // guarantee every user at least has ROLE_USER
+            $roles[] = 'ROLE_USER';
+        }
+
+
 
         return array_unique($roles);
     }

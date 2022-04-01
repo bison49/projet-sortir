@@ -10,3 +10,9 @@ main{
     margin-left: 3%;
     border-radius: 10%;
 }
+.dropdown-toggle{
+    border:solid;
+}
+.titre-site{
+    font-family: 'Permanent Marker', cursive;
+}
