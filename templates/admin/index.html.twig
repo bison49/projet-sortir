@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col" align="center">
+                <H1 class="my-5">Administration</H1>
+
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Action</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for participant in nom %}
+
+                <tr>
+                    <th scope="row">{{ participant.pseudo}}</th>
+                    <td>{{ participant.mail}}</td>
+                    <td>{{ participant.nom}}</td>
+                    <td>{{ participant.prenom}}</td>
+
+                    <td>{{  participant.actif ?"Actif":"Inactif"  }}</td>
+                    <td>{%  if participant.actif == 0  %}
+                            <a href="{{path('app_admin_activ',{id:participant.id})}}">Activer</a>
+
+                        {%  else %}
+                        <a href="{{path('app_admin_desact',{id:participant.id})}}">Désactiver</a>
+                        {% endif %}
+                        - <a href="#">Bannir</a></td>
+                </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+{% endblock %}
