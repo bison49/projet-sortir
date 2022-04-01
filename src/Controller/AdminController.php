@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,11 +25,16 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="app_admin")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
         if ($this->isGranted('ROLE_ADMIN')) {
-            $nom = $this->partiRepo->findAll();
+            $listeParticipants = $this->partiRepo->findAll();
 
+            $nom = $paginator->paginate(
+                $listeParticipants, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                10 // Nombre de résultats par page
+            );
 
             return $this->render('admin/index.html.twig', [
                 'nom' => $nom,

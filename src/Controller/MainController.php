@@ -6,6 +6,7 @@ use App\Entity\Site;
 use App\Form\SearchForm;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class MainController extends AbstractController
     /**
      * @Route("/main", name="app_main")
      */
-    public function index(SortieRepository $repository, Request $request): Response
+    public function index(SortieRepository $repository, Request $request,PaginatorInterface $paginator): Response
     {
 
         if ($this->isGranted('ROLE_USER')) {
@@ -50,7 +51,13 @@ class MainController extends AbstractController
                     }
                 ])->getForm();
 
-            $sorties = $this->sortieRepo->findByPublish(1);
+            $listeSorties = $this->sortieRepo->findByPublish(1);
+
+            $sorties = $paginator->paginate(
+                $listeSorties, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                8 // Nombre de résultats par page
+            );
 
             return $this->renderForm('main/index.html.twig', compact("sorties", "form2", "sorties2", "form"));
         }
