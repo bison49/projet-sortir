@@ -3,57 +3,61 @@
 {% block title %}Villes à visiter{% endblock %}
 
 {% block body %}
-    <h3>Filtrer les villes</h3>
+    <h3 class="my-5 text-center">Filtrer les villes</h3>
     <div class="container">
-        <div class="row mt-4 ml-3">
-            <div class="col-3">
-                <p>Le nom contient :</p>
-            </div>
-            <div class=" col-5">
-                <form class="d-flex" method="post" action="{{ path('app_villes_ajout') }}">
-                    <input class="form-control me-2 rechercher" name="villeRech" type="search" placeholder="Search"
-                           aria-label="Search">
-                    <button class="btn btn-outline-success " type="submit">Rechercher</button>
-                </form>
-            </div>
-        </div>
-        {% for message in app.flashes('succes') %}
-            <div class="alert alert-success text-center">
-                {{ message }}
-            </div>
-        {% endfor %}
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Ville</th>
-                <th scope="col">Code postal</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for ville in villes %}
-            <tr>
-                <td>{{ ville.nom }}</td>
-                <td>{{ ville.codePostal }}</td>
-                <td><button data-ville="{{ ville.id }}" class="btn btn-outline-danger">Supprimer</button>
-                    </td>
-            </tr>
-            <tr>
-                {% endfor %}
-                {{ form_start(villeForm) }}
-                <td>{{ form_widget( villeForm.nom ) }}
-                    {{ form_errors(villeForm.nom) }}
-                </td>
-                <td>{{ form_widget( villeForm.codePostal ) }}
-                    {{ form_errors(villeForm.codePostal) }}</td>
-                <td>
-                    <button type="submit" class="btn btn-outline-success">Ajouter</button>
-                </td>
-                {{ form_end(villeForm) }}
-            </tr>
+        <div class="offset-3 col-6 ">
 
-            </tbody>
-        </table>
+            <div class="row mb-3">
+
+                <div class="row ">
+                    <form class="d-flex" method="post" action="{{ path('app_villes_ajout') }}">
+                        <label for="rechercher"><strong>Le nom contient :</strong></label>
+                        <input class="form-control me-2 rechercher" name="villeRech" type="search" placeholder="Le site contient"
+                               aria-label="Search">
+                        <button class="btn btn-outline-success " type="submit">Rechercher</button>
+                    </form>
+                </div>
+            </div>
+
+            {% for message in app.flashes('succes') %}
+                <div class="alert alert-success text-center">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Code postal</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ville in villes %}
+                <tr>
+                    <td>{{ ville.nom }}</td>
+                    <td>{{ ville.codePostal }}</td>
+                    <td>
+                        <button data-ville="{{ ville.id }}" class="btn btn-outline-danger">Supprimer</button>
+                    </td>
+                </tr>
+                <tr>
+                    {% endfor %}
+                    {{ form_start(villeForm) }}
+                    <td>{{ form_widget( villeForm.nom ) }}
+                        {{ form_errors(villeForm.nom) }}
+                    </td>
+                    <td>{{ form_widget( villeForm.codePostal ) }}
+                        {{ form_errors(villeForm.codePostal) }}</td>
+                    <td>
+                        <button type="submit" class="btn btn-outline-success">Ajouter</button>
+                    </td>
+                    {{ form_end(villeForm) }}
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
 {% block javascripts %}
