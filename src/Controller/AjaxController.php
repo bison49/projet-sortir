@@ -1,9 +1,8 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Lieu;
+
 use App\Repository\LieuRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

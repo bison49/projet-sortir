@@ -36,6 +36,7 @@ class Sortie
     private $dateHeureDebut;
 
     /**
+     * @Assert\Positive(message="la valeur renseignée doit être supérieure à zéro")
      * @Assert\NotBlank(message="Veuillez donner une durée à votre sortie")
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -44,6 +45,7 @@ class Sortie
     /**
      * @Assert\NotBlank(message="Veuillez donner un nombre maximum de participants d'inscription à votre sortie")
      * @Assert\Regex(pattern="/^[0-9]+$/",message="Votre numéro de téléphone doit comporter des chiffres uniquement")
+     * @Assert\Positive(message="la valeur renseignée doit être supérieure à zéro")
      * @Assert\Range(
      *      min = 5,
      *      max = 30,

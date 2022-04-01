@@ -123,10 +123,12 @@
                             {# {% if 'now'|date(" Y-m-d H:i") < sortie.dateHeureDebut|date(" Y-m-d H:i") and sortie.organisateur.id == app.user.id %}
                     <button class="btn btn-primary" type="submit" name="id" value="{{ sortie.id }}">Supprimer</button>
                     {% endif %} #}
-                            {% if 'now'|date(" Y-m-d ") < sortie.dateFinInscription|date(" Y-m-d ") and  ins == null and app.user.id != sortie.organisateur.id %}
-                                <a href="{{ path('app_sortie_inscription',{id:sortie.id}) }}">
-                                    <button class="btn btn-primary" type="button" name="id">Inscription</button>
-                                </a>
+                            {% if sortie.participants|length < sortie.nbInscriptionMax %}
+                                {% if 'now'|date(" Y-m-d ") < sortie.dateFinInscription|date(" Y-m-d ") and  ins == null and app.user.id != sortie.organisateur.id %}
+                                    <a href="{{ path('app_sortie_inscription',{id:sortie.id}) }}">
+                                        <button class="btn btn-primary" type="button" name="id">Inscription</button>
+                                    </a>
+                                {% endif %}
                             {% endif %}
                             {% if 'now'|date(" Y-m-d ") < sortie.dateHeureDebut|date(" Y-m-d ") and  ins != null and app.user.id != sortie.organisateur.id %}
                                 <a href="{{ path('app_sortie_desistement',{id:sortie.id}) }}">
