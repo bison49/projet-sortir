@@ -43,7 +43,7 @@ class ModifierProfilControlerController extends AbstractController
      */
     public function index(ParticipantRepository $participantRepository,SluggerInterface $slugger,EntityManagerInterface $em,Request $request): Response
     {
-        if($this->getUser()){
+        if ($this->isGranted('ROLE_USER')) {
 
             $user = new Participant();
             // $user->setNom($user);
@@ -98,7 +98,7 @@ class ModifierProfilControlerController extends AbstractController
      */
     public function change_user_password(Request $request,EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher) {
 
-        if($this->getUser()){
+        if ($this->isGranted('ROLE_USER')) {
 
             $user = new ChangePassword();
 

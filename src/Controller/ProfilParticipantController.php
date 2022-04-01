@@ -24,7 +24,7 @@ class ProfilParticipantController extends AbstractController
      */
     public function index($id): Response
     {
-        if($this->getUser()){
+        if ($this->isGranted('ROLE_USER')) {
 
             $organisateur= $this->participantRepo->find($id);
 

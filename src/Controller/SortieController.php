@@ -42,40 +42,44 @@ class SortieController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $sortie = new Sortie();
-        $sortieForm = $this->createForm(SortieType::class, $sortie);
-        $sortieForm->handleRequest($request);
+        if ($this->isGranted('ROLE_ADMIN')) {
 
-        $villes = $this->villeRepo->findAll();
+            $sortie = new Sortie();
+            $sortieForm = $this->createForm(SortieType::class, $sortie);
+            $sortieForm->handleRequest($request);
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $villes = $this->villeRepo->findAll();
 
-            if ($request->request->get('enr')) {
-                $id = 1;
-            } else {
-                $id = 2;
+            if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+                if ($request->request->get('enr')) {
+                    $id = 1;
+                } else {
+                    $id = 2;
+                }
+                $sortie->setEtat($this->etatRepo->find($id));
+                $sortie->setSiteOrganisateur($this->getUser()->getNoSite());
+                $sortie->setOrganisateur($this->getUser());
+
+                try {
+                    $this->sortieRepo->add($sortie);
+                } catch (OptimisticLockException $e) {
+                } catch (ORMException $e) {
+                }
+                if ($id == 1) {
+                    $this->addFlash('success', 'Votre sortie a été enregistrée');
+                } else {
+                    $this->addFlash('success', 'Votre sortie a été enregistrée et publiée');
+                }
+
+                return $this->redirectToRoute('app_sortie_ajout');
             }
-            $sortie->setEtat($this->etatRepo->find($id));
-            $sortie->setSiteOrganisateur($this->getUser()->getNoSite());
-            $sortie->setOrganisateur($this->getUser());
-
-            try {
-                $this->sortieRepo->add($sortie);
-            } catch (OptimisticLockException $e) {
-            } catch (ORMException $e) {
-            }
-            if ($id == 1) {
-                $this->addFlash('success', 'Votre sortie a été enregistrée');
-            } else {
-                $this->addFlash('success', 'Votre sortie a été enregistrée et publiée');
-            }
-
-            return $this->redirectToRoute('app_sortie_ajout');
+            return $this->render('sortie/index.html.twig', [
+                'sortieForm' => $sortieForm->createView(),
+                'villes' => $villes,
+            ]);
         }
-        return $this->render('sortie/index.html.twig', [
-            'sortieForm' => $sortieForm->createView(),
-            'villes' => $villes,
-        ]);
+        return $this->redirectToRoute('app_logout');
     }
 
     /**
@@ -83,15 +87,19 @@ class SortieController extends AbstractController
      */
     public function afficherSortie($id, Request $request): Response
     {
-        $sortie = $this->sortieRepo->find($id);
+        if ($this->isGranted('ROLE_ADMIN')) {
 
-        $participants = $sortie->getParticipants();
+            $sortie = $this->sortieRepo->find($id);
 
-        return $this->render('sortie/afficher.html.twig', [
-            'sortie' => $sortie,
-            'participants' => $participants,
+            $participants = $sortie->getParticipants();
 
-        ]);
+            return $this->render('sortie/afficher.html.twig', [
+                'sortie' => $sortie,
+                'participants' => $participants,
+
+            ]);
+        }
+        return $this->redirectToRoute('app_logout');
     }
 
     /**
@@ -99,15 +107,19 @@ class SortieController extends AbstractController
      */
     public function inscriptionSortie($id, Request $request, EntityManagerInterface $em): Response
     {
-        $participant = new Participant();
-        $idP = $this->getUser();
-        $participant = $this->participantRepo->find($idP);
-        $sortie = $this->sortieRepo->find($id);
-        $participant->addInscription($sortie);
+        if ($this->isGranted('ROLE_ADMIN')) {
 
-        $em->flush();
-        $this->addFlash('success', 'Vous avez été inscrit à la sortie ' . $sortie->getNom());
-        return $this->redirectToRoute('app_main');
+            $participant = new Participant();
+            $idP = $this->getUser();
+            $participant = $this->participantRepo->find($idP);
+            $sortie = $this->sortieRepo->find($id);
+            $participant->addInscription($sortie);
+
+            $em->flush();
+            $this->addFlash('success', 'Vous avez été inscrit à la sortie ' . $sortie->getNom());
+            return $this->redirectToRoute('app_main');
+        }
+        return $this->redirectToRoute('app_logout');
     }
 
     /**
@@ -115,15 +127,19 @@ class SortieController extends AbstractController
      */
     public function desisitementSortie($id, Request $request, EntityManagerInterface $em): Response
     {
-        $participant = new Participant();
-        $idP = $this->getUser();
-        $participant = $this->participantRepo->find($idP);
-        $sortie = $this->sortieRepo->find($id);
-        $participant->removeInscription($sortie);
+        if ($this->isGranted('ROLE_ADMIN')) {
 
-        $em->flush();
-        $this->addFlash('success', "Vous n'êtes plus inscrit à la sortie " . $sortie->getNom());
-        return $this->redirectToRoute('app_main');
+            $participant = new Participant();
+            $idP = $this->getUser();
+            $participant = $this->participantRepo->find($idP);
+            $sortie = $this->sortieRepo->find($id);
+            $participant->removeInscription($sortie);
+
+            $em->flush();
+            $this->addFlash('success', "Vous n'êtes plus inscrit à la sortie " . $sortie->getNom());
+            return $this->redirectToRoute('app_main');
+        }
+        return $this->redirectToRoute('app_logout');
     }
 
 
