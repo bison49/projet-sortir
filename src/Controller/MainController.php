@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Site;
+use App\Form\SearchForm;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Data\SearchData;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
@@ -26,8 +29,16 @@ class MainController extends AbstractController
     /**
      * @Route("/main", name="app_main")
      */
-    public function index(): Response
+    public function index(SortieRepository $repository, Request $request): Response
     {
+
+
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form2 = $this->createForm(SearchForm::class, $data);
+        $form2->handleRequest($request);
+        $sorties2 = $repository->findSearch2($data);
+
         if($this->getUser()){
             $form=$this->createFormBuilder()
                 ->add('Site',EntityType::class,[
@@ -42,10 +53,11 @@ class MainController extends AbstractController
 
             $sorties= $this->sortieRepo->findByPublish(1);
 
-            return $this->renderForm('main/index.html.twig',compact("sorties","form"));
+            return $this->renderForm('main/index.html.twig',compact("sorties","form2","sorties2","form"));
         }
 
         return $this->redirectToRoute('logout');
     }
+
 
 }

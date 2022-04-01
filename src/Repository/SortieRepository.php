@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,6 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
+    private $paginator;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
@@ -45,9 +49,9 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
+     /**
+      * @return Sortie[] Returns an array of Sortie objects
+      */
 
     public function findByPublish($value)
     {
@@ -59,7 +63,72 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * Recupere les sortir en lien avec une recherche
+     * @return Sortie[]
+     */
 
+    public function findSearch(SearchData $search): array{
+
+
+        $query=$this
+        ->$this->createQueryBuilder('p')
+            ->select('c','p')
+            -join('p.sorties','c');
+
+
+        return $this->$query->getQuery()->getResult();
+    }
+
+    /**
+     * Récupère les sorties en lien avec une recherche
+     * @return \Doctrine\ORM\Query
+     */
+
+    public function findSearch2(SearchData $search): \Doctrine\ORM\Query
+    {
+
+
+        return    $query = $this->getSearchQuery($search)->getQuery();
+        ;
+
+
+    }
+
+    private function getSearchQuery(SearchData $search ): QueryBuilder
+    {
+        $query = $this
+        ->createQueryBuilder('p')
+        ->select('c', 'p')
+        ->join('p.categories', 'c');
+
+        if (!empty($search->q)) {
+            $query = $query
+                ->andWhere('p.name LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if (!empty($search->sortie1)) {
+            $query = $query
+                ->andWhere('p.sortie1 = 1');
+        }
+        if (!empty($search->sortie2)) {
+            $query = $query
+                ->andWhere('p.sortie2 = 2');
+        }
+        if (!empty($search->sortie3)) {
+            $query = $query
+                ->andWhere('p.sortie3 = 3');
+        }
+
+        if (!empty($search->sortie4)) {
+            $query = $query
+                ->andWhere('p.sortie4 = 4');
+        }
+        return
+            $query
+            ;
+    }
     /*
     public function findOneBySomeField($value): ?Sortie
     {
