@@ -56,7 +56,7 @@ class SortieController extends AbstractController
                 $id = 2;
             }
             $sortie->setEtat($this->etatRepo->find($id));
-
+            $sortie->setSiteOrganisateur($this->getUser()->getNoSite());
             $sortie->setOrganisateur($this->getUser());
 
             try {

@@ -8,6 +8,7 @@ use App\Entity\Participant;
 use App\Entity\Site;
 use App\Entity\Sortie;
 
+use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -51,7 +52,7 @@ class SortieType extends AbstractType
                 $lieu = $data->getNoLieu();
                 $form = $event->getForm();
                 if ($lieu) {
-                    $ville = $lieu->getVille();
+                    $ville = $lieu->getNoVille();
                     $this->addLieuField($form, $ville);
                     $form->get('ville')->setData($ville);
                 } else {
@@ -65,7 +66,7 @@ class SortieType extends AbstractType
     {
         $builder = $form->add('noLieu', EntityType::class, ['class' => Lieu::class, 'choice_label' => 'nom',
             'placeholder' => $ville ? 'Selectionnez votre lieu' : 'Selectionnez votre ville',
-            'required' => true, 'auto_initialize' => false, 'choices' => $ville ? $ville->getNoLieux() : []]);
+            'required' => true, 'auto_initialize' => false, 'choices' => $ville ? $ville->getLieus() : []]);
     }
     public function configureOptions(OptionsResolver $resolver): void
     {
