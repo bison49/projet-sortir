@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+
         <title>{% block title %}Sortir{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -18,12 +19,17 @@
                 integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
                 crossorigin="anonymous"></script>
     </head>
+
+
     <body>
+
+
     {% if is_granted('ROLE_ADMIN') %}
     {% set menu = {"Accueil":"app_main","S'enregistrer":"app_register","Villes":"app_villes_ajout","Sites":"app_sites_ajout","Mon profil":"app_profil","Se déconnecter":"app_logout"} %}
     {% else %}
     {% set menu = {"Accueil":"app_main","Mon profil":"app_profil","Se déconnecter":"app_logout"} %}
     {% endif %}
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Sortir</a>
@@ -61,6 +67,8 @@
     </footer>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
+
     {% endblock %}
+
     </body>
 </html>
