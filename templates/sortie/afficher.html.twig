@@ -43,13 +43,14 @@
                     <p><label for="nom"><strong>Rue:</strong> {{ sortie.noLieu.rue }}</label></p>
                 </div>
                 <div class="form-group">
-                    <p><label for="nom"><strong>Code postal :</strong> {{ sortie.noLieu.noVille.codePostal }}</label></p>
+                    <p><label for="nom"><strong>Code postal :</strong> {{ sortie.noLieu.noVille.codePostal }}</label>
+                    </p>
                 </div>
             </div>
         </div>
         <div class="row">
-            <h2>Liste des participants à la sortie</h2>
-            <div class="offset-1 col-4">
+            <h3 class="text-center my-4">Liste des participants à la sortie</h3>
+            <div class="offset-3 col-6">
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -59,16 +60,24 @@
                     </thead>
                     <tbody>
                     {% for participant in participants %}
-                        <tr>
-                            <td>{{ participant.pseudo }}</td>
-                            <td>{{ participant.prenom }} {{ participant.nom }}</td>
-                        </tr>
+                        {% if sortie.organisateur.id == app.user.id %}
+                            <tr>
+                                <td>{{ participant.pseudo }}</td>
+                                <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                                <td><a href="{{ path('app_profilParticipant',{id:participant.id}) }}"><button class="btn btn-dark">Afficher le profil</button></a></td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{ participant.pseudo }}</td>
+                                <td>{{ participant.prenom }} {{ participant.nom }}</td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="text-center">
+        <div class="text-center my-3">
             <a href="{{ path('app_main') }}">
                 <button type="button" class="btn btn-outline-primary">Retour</button>
             </a>
