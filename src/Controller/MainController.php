@@ -25,7 +25,6 @@ class MainController extends AbstractController
     }
 
 
-
     /**
      * @Route("/main", name="app_main")
      */
@@ -34,30 +33,30 @@ class MainController extends AbstractController
 
         if ($this->isGranted('ROLE_USER')) {
 
-        $data = new SearchData();
-        $data->page = $request->get('page', 1);
-        $form2 = $this->createForm(SearchForm::class, $data);
-        $form2->handleRequest($request);
-        $sorties2 = $repository->findSearch2($data);
+            $data = new SearchData();
+            $data->page = $request->get('page', 1);
+            $form2 = $this->createForm(SearchForm::class, $data);
+            $form2->handleRequest($request);
+            $sorties2 = $repository->findSearch2($data);
 
 
-            $form=$this->createFormBuilder()
-                ->add('Site',EntityType::class,[
+            $form = $this->createFormBuilder()
+                ->add('Site', EntityType::class, [
                     'class' => Site::class,
-                    'choice_label'=>'nom',
-                    'placeholder'=>'Choissez un Site',
-                    'query_builder'=>function(SiteRepository $siteRepository){
-                        return $siteRepository->createQueryBuilder('site')->orderBy('site.nom','ASC');
+                    'choice_label' => 'nom',
+                    'placeholder' => 'Choissez un Site',
+                    'query_builder' => function (SiteRepository $siteRepository) {
+                        return $siteRepository->createQueryBuilder('site')->orderBy('site.nom', 'ASC');
                     }
-                ])->getForm()
-            ;
+                ])->getForm();
 
-            $sorties= $this->sortieRepo->findByPublish(1);
+            $sorties = $this->sortieRepo->findByPublish(1);
 
-            return $this->renderForm('main/index.html.twig',compact("sorties","form2","sorties2","form"));
+            return $this->renderForm('main/index.html.twig', compact("sorties", "form2", "sorties2", "form"));
         }
 
-        return $this->redirectToRoute('logout');
+        $this->addFlash('inactif',"Votre compte est actuellement bloquée, veuillez contacter l'administrateur.");
+        return $this->redirect('/');
     }
 
 

@@ -42,7 +42,7 @@ class SortieController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_USER')) {
 
             $sortie = new Sortie();
             $sortieForm = $this->createForm(SortieType::class, $sortie);
@@ -87,7 +87,7 @@ class SortieController extends AbstractController
      */
     public function afficherSortie($id, Request $request): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_USER')) {
 
             $sortie = $this->sortieRepo->find($id);
 
@@ -107,7 +107,7 @@ class SortieController extends AbstractController
      */
     public function inscriptionSortie($id, Request $request, EntityManagerInterface $em): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_USER')) {
 
             $participant = new Participant();
             $idP = $this->getUser();
@@ -127,7 +127,7 @@ class SortieController extends AbstractController
      */
     public function desisitementSortie($id, Request $request, EntityManagerInterface $em): Response
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_USER')) {
 
             $participant = new Participant();
             $idP = $this->getUser();
