@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Etat;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -14,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -91,15 +91,37 @@ class SortieController extends AbstractController
 
             $sortie = $this->sortieRepo->find($id);
 
-            $participants = $sortie->getParticipants();
+            /*$participants = $sortie->getParticipants();*/
 
             return $this->render('sortie/afficher.html.twig', [
                 'sortie' => $sortie,
-                'participants' => $participants,
-
+                /*'participants' => $participants,*/
             ]);
         }
         return $this->redirectToRoute('app_logout');
+    }
+
+    /**
+     * @Route("/afficherPart", name="participants")
+     */
+    public function afficherParticipants(Request $request): JsonResponse
+    {
+        if ($this->isGranted('ROLE_USER')) {
+            $sortie = $this->sortieRepo->find($request->request->get('sortie_id'));
+            $participants = $sortie->getParticipants();
+            $i = 0;
+            if (sizeof($participants) > 0) {
+                foreach ($participants as $participant) {
+                    $json_data[$i++] = array('id' => $participant->getId(), 'pseudo' => $participant->getPseudo(),
+                        'nom' => $participant->getNom(),
+                        'prenom' => $participant->getPrenom());
+                }
+            } else {
+                $json_data[$i++] = array('pseudo' => '', 'nom' => 'Pas de participants inscrit à cette sortie.',
+                    'prenom' => '');
+            }
+            return new JsonResponse($json_data);
+        }
     }
 
     /**

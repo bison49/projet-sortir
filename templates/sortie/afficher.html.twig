@@ -49,38 +49,22 @@
             </div>
         </div>
         <div class="row">
-            <h3 class="text-center my-4">Liste des participants à la sortie</h3>
-            <div class="offset-3 col-6">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Pseudo</th>
-                        <th scope="col">Nom</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for participant in participants %}
-                        {% if sortie.organisateur.id == app.user.id %}
-                            <tr>
-                                <td>{{ participant.pseudo }}</td>
-                                <td>{{ participant.prenom }} {{ participant.nom }}</td>
-                                <td><a href="{{ path('app_profilParticipant',{id:participant.id}) }}"><button class="btn btn-dark">Afficher le profil</button></a></td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td>{{ participant.pseudo }}</td>
-                                <td>{{ participant.prenom }} {{ participant.nom }}</td>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
+
+            <div class="offset-3 col-6 listing my-4">
+
             </div>
-        </div>
+
         <div class="text-center my-3">
+            <button type="button" data-sortie="{{ sortie.id }}" data-orga="{{ sortie.organisateur.id }}" data-user="{{ app.user.id }}" class="btn btn-primary liste" onClick="this.disabled = true;">Afficher les participants</button>
+
             <a href="{{ path('app_main') }}">
-                <button type="button" class="btn btn-outline-primary">Retour</button>
+                <button type="button"  class="btn btn-outline-primary">Retour</button>
             </a>
         </div>
+
+
     </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{{ asset('/js/sortie.js') }}"></script>
 {% endblock %}

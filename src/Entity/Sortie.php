@@ -38,13 +38,17 @@ class Sortie
     /**
      * @Assert\Positive(message="la valeur renseignée doit être supérieure à zéro")
      * @Assert\NotBlank(message="Veuillez donner une durée à votre sortie")
+     * @Assert\Range(
+     *      min = 30,
+     *      max = 500,
+     *      notInRangeMessage = "Le sortie doit durée entre {{ min }} et {{ max }} minutes.",
+     * )
      * @ORM\Column(type="integer", nullable=true)
      */
     private $duree;
 
     /**
      * @Assert\NotBlank(message="Veuillez donner un nombre maximum de participants d'inscription à votre sortie")
-     * @Assert\Regex(pattern="/^[0-9]+$/",message="Votre numéro de téléphone doit comporter des chiffres uniquement")
      * @Assert\Positive(message="la valeur renseignée doit être supérieure à zéro")
      * @Assert\Range(
      *      min = 5,
@@ -253,7 +257,8 @@ class Sortie
         return $this;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->nom;
 
     }
