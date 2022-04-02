@@ -106,7 +106,7 @@
                             <td>{{ sortie.dateFinInscription|date(" d-m-Y ") }} </td>
                             <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
                         {% else %}
-                            <td><strong>Motif : </strong>{{ sortie.description|length < 30?sortie.description:"Consulter la description" }} </td>
+                            <td class=""><strong>Motif : </strong>{{ sortie.description|length < 30?sortie.description:"Consulter la description" }} </td>
                             <td></td>
                         {% endif %}
                         <td>{{ sortie.etat.libelle }} </td>

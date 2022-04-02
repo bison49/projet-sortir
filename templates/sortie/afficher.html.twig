@@ -43,7 +43,7 @@
             <div class="offset-1 col-5">
                 <div class="row my-4">
                 <div class="form-group col-6">
-                    <label for="nom"><strong>Description et info :</strong></label>
+                    <label for="nom"><strong>{{ sortie.etat.id != 6?" Description et info":"Motif de l'annulation" }} :</strong></label>
                 </div>
                 <div class="col-6">{{ sortie.description }}</div>
             </div>

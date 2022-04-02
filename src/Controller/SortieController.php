@@ -172,6 +172,10 @@ class SortieController extends AbstractController
             if ($_POST) {
                 $sortie->setEtat($this->etatRepo->find(6));
                 $sortie->setDescription($request->request->get('motif'));
+                $participants = $sortie->getParticipants();
+                foreach ($participants as $participant){
+                    $sortie->removeParticipant($participant);
+                }
                 $em->flush();
                 $this->addFlash('success', 'Votre sortie(' . $sortie->getNom() . ') a bien été annulée');
                 return $this->redirectToRoute('app_main');
