@@ -26,9 +26,12 @@
             <div class="row">
                 <div class="col-6">
                     <form class="col-auto">
-                        {{ form_start(form) }}
+                        {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
+                        {{ form_row(form.Site) }}
+                        {{ form_row(form.rechercher) }}
+                       {# {{ form_start(form) }}
                         {{ form_widget(form) }}
-                        {{ form_end(form) }}
+                        {{ form_end(form) }}#}
                     </form>
 
 
@@ -45,20 +48,20 @@
                 <div class="col-6">
                     <form class="col-auto">
 
-                        {{ form_start(form2, {attr: {class: 'filter js-filter-form'}}) }}
+
 
                         <div class="row">
                             <div class="col-md-6">
-                                {{ form_row(form2.sortie1) }}
+                                {{ form_row(form.sortie1) }}
                             </div>
                             <div class="col-md-6">
-                                {{ form_row(form2.sortie2) }}
+                                {{ form_row(form.sortie2) }}
                             </div>
                             <div class="col-md-6">
-                                {{ form_row(form2.sortie3) }}
+                                {{ form_row(form.sortie3) }}
                             </div>
                             <div class="col-md-6">
-                                {{ form_row(form2.sortie4) }}
+                                {{ form_row(form.sortie4) }}
                             </div>
                         </div>
 
@@ -72,7 +75,7 @@
 
                         <button type="submit"  id="filtrer" onClick="fonctionFiltrer()" class="btn btn-primary mt-3 w-100">Réinitialiser filtre</button>
 
-                        {{ form_end(form2) }}
+                        {{ form_end(form) }}
 
 
                     </form>

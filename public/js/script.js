@@ -1,7 +1,7 @@
 function fonctionRechercheTextFiltre()
 {
             var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("form_rechercher");
+            input = document.getElementById("rechercher_par_saisie_texte_form_rechercher");
             filter = input.value.toUpperCase();
             table = document.getElementById("Table");
             tr = table.getElementsByTagName("tr");
@@ -67,6 +67,7 @@ function fonctionRechercheTextFiltre()
                     input.oninput = onInputEvent;
                     // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
                     if (input.value !== "") input.oninput({ target: input });
+                    $( 'input[type="checkbox"]' ).prop('checked', false);
                 });
 
             }
@@ -124,6 +125,7 @@ function fonctionRechercheTextFiltre()
                     input.oninput = onInputEvent;
                     // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
                     if (input.value !== "") input.oninput({ target: input });
+                    $( 'input[type="checkbox"]' ).prop('checked', false);
                 });
 
             }
@@ -179,6 +181,7 @@ function fonctionRechercheTextFiltre()
                     input.oninput = onInputEvent;
                     // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
                     if (input.value !== "") input.oninput({ target: input });
+                    $( 'input[type="checkbox"]' ).prop('checked', false);
                 });
 
             }
@@ -242,6 +245,7 @@ function fonctionRechercheTextFiltre()
                         input.oninput = onInputEvent;
                         // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
                         if (input.value !== "") input.oninput({target: input});
+                        $( 'input[type="checkbox"]' ).prop('checked', false);
                     });
                 }
             };

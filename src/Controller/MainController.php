@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Site;
+use App\Form\RechercherParSaisieTexteForm;
+use App\Form\RechercherParSaisieTexteType;
 use App\Form\SearchForm;
 use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
@@ -37,40 +39,9 @@ class MainController extends AbstractController
 
         if ($this->isGranted('ROLE_USER')) {
 
-            $data = new SearchData();
-            $data->page = $request->get('page', 1);
-            $form2 = $this->createForm(SearchForm::class, $data);
-            $form2->handleRequest($request);
-            $sorties2 = $repository->findSearch2($data);
 
-
-            $form = $this->createFormBuilder()
-                ->add('Site', EntityType::class, [
-                    'class' => Site::class,
-                    'choice_label' => 'nom',
-                    'placeholder' => 'Choissez un Site',
-                    'query_builder' => function (SiteRepository $siteRepository) {
-                        return $siteRepository->createQueryBuilder('site')->orderBy('site.nom', 'ASC');
-                    }
-                ])
-
-
-                ->add('rechercher',TextType::class,[
-
-                    'required'=>false,
-                    'label'=>'Rechercher une sortie  commençant par:',
-                    'attr' => [
-                        'onkeyup'=>'fonctionRechercheTextFiltre()' ,  "type"=>"search",'placeholder'=>'Rechercher','aria-label'=>'Search'],
-
-
-                ])
-
-
-
-
-
-
-                ->getForm();
+            $form = $this->createForm(RechercherParSaisieTexteForm::class);
+            $form->handleRequest($request);
 
             $listeSorties = $this->sortieRepo->findByPublish(1);
 
@@ -80,7 +51,7 @@ class MainController extends AbstractController
                 8 // Nombre de résultats par page
             );
 
-            return $this->renderForm('main/index.html.twig', compact("sorties", "form2", "sorties2", "form"));
+            return $this->renderForm('main/index.html.twig', compact("sorties", "form"));
         }
 
         $this->addFlash('inactif',"Votre compte est actuellement bloquée, veuillez contacter l'administrateur.");
