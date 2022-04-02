@@ -14,7 +14,7 @@ $(document).ready(
             $('.listing').append($('<table></table>').addClass("table table-dark table-hover table-bordered")
             );
             let thead = $('<thead></thead>');
-            let tr = $('<tr></tr>');
+            let tr = $('<tr></tr>').addClass('text-center');
             tr.append($('<th scope="col">#</th>'))
             tr.append($('<th scope="col">' + "Pseudo" + '</th>'));
             tr.append($('<th scope="col">' + "Nom et prénom" + '</th>'));
@@ -32,7 +32,7 @@ let cpt = 1
 
 function ajouterDom(data, orga_id, user_id) {
     console.log(user_id)
-    let tr = $('<tr></tr>')
+    let tr = $('<tr></tr>').addClass('text-center');
     tr.append($('<td>' + cpt + '</td>'))
     tr.append($('<td>' + data.pseudo + '</td>'))
     tr.append($('<td>' + data.nom + ' ' + data.prenom + '</td>'))
