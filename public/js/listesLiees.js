@@ -5,7 +5,7 @@ $(document).on('change', '#sortie_ville', function () {
 function chargerListeLieux(){
 
         $.ajax({ method: "POST",
-        url: $('#path_ajax').data("href"),
+        url: '/lieu/rechercheAjaxByVille',
         data: {
         'ville_id' : $('#sortie_ville').val(),
     }

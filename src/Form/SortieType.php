@@ -67,7 +67,7 @@ class SortieType extends AbstractType
 
     private function addLieuField(FormInterface $form, ?Ville $ville)
     {
-        $builder = $form->add('noLieu', EntityType::class, ['class' => Lieu::class, 'choice_label' => 'nom',
+        $builder = $form->add('noLieu', EntityType::class, ['class' => Lieu::class,"label"=>"Lieu", 'choice_label' => 'nom',
             'placeholder' => $ville ? 'Selectionnez votre lieu' : 'Selectionnez votre ville',
             'required' => true, 'auto_initialize' => false, 'choices' => $ville ? $ville->getLieus() : []]);
     }

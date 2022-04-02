@@ -15,19 +15,23 @@
 
             {{ form_widget(sortieForm) }}
             <div class=" row text-center my-5">
-                <div class="text-center">
-
-                    <a href="{{ path('app_sortie_ajout') }}">
-                        <button name="enr" value="{{ 1 }}" class="btn btn-primary me-4">Enregistrer</button>
-                    </a>
-                    <a href="{{ path('app_sortie_ajout') }}">
-                        <button name="pub" value="{{ 2 }}" class="btn btn-primary me-4">Publier</button>
-                    </a>
-                    <a href="{{ path('app_main') }}">
-                        <button class="btn btn-primary">Annuler</button>
-                    </a>
+                <div class=" row text-center">
+                    <div class="offset-3 col-2">
+                        <a href="{{ path('app_sortie_ajout') }}">
+                            <button type="submit" name="enr" value="{{ 1 }}" class="btn btn-primary me-4">Enregistrer</button>
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <a href="{{ path('app_sortie_ajout') }}">
+                            <button type="submit" name="pub" value="{{ 2 }}" class="btn btn-primary me-4">Publier</button>
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <a href="{{ path('app_main') }}">
+                            <button type="button" class="btn btn-primary">Annuler</button>
+                        </a>
+                    </div>
                 </div>
-                <div id="path_ajax" data-href="{{ path('lieu_rechercher_ajax_by_ville') }}"></div>
             </div>
             {{ form_end(sortieForm) }}
 
