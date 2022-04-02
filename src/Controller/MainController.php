@@ -9,6 +9,7 @@ use App\Repository\SortieRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,6 +64,9 @@ class MainController extends AbstractController
 
 
                 ])
+
+
+
 
 
 
