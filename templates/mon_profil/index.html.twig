@@ -45,9 +45,16 @@
 
                 {{ form_start(formModif) }}
 
-                {{ form(formModif) }}
+                {{ form_row(formModif.pseudo) }}
+                {{ form_row(formModif.telephone) }}
+                {{ form_row(formModif.mail) }}
+                {{ form_row(formModif.photo) }}
+                {{ form_row(formModif.Password) }}
                 <div class="row my-5">
-                    <div>
+                    <div class="offset-3 col-3">
+                        {{ form_row(formModif.Valider) }}
+                    </div>
+                    <div class="col-5">
                         <a href="{{ path('app_mdp') }}"><button type="button" class="btn btn-primary" >Modifier mot
                             de
                             passe
