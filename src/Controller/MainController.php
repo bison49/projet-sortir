@@ -9,6 +9,8 @@ use App\Repository\SortieRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Data\SearchData;
@@ -49,7 +51,22 @@ class MainController extends AbstractController
                     'query_builder' => function (SiteRepository $siteRepository) {
                         return $siteRepository->createQueryBuilder('site')->orderBy('site.nom', 'ASC');
                     }
-                ])->getForm();
+                ])
+
+
+                ->add('rechercher',TextType::class,[
+
+                    'required'=>false,
+                    'label'=>'Rechercher une sortie  commençant par:',
+                    'attr' => [
+                        'onkeyup'=>'fonctionRechercheTextFiltre()' ,  "type"=>"search",'placeholder'=>'Rechercher','aria-label'=>'Search'],
+
+
+                ])
+
+
+
+                ->getForm();
 
             $listeSorties = $this->sortieRepo->findByPublish(1);
 
