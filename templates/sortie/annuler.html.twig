@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block title %}Annuler une sortie{% endblock %}
+{% block body %}
+    <div class="container">
+        <H3 class="text-center my-5">Annuler une sortie</H3>
+        <div class="offset-4 col-5">
+            <form method="post" action="{{ path('app_sortie_annuler',{id:sortie.id}) }}">
+                <div class="row my-4">
+                    <div class="form-group col-6">
+                        <label for="nom"><strong>Nom de la sortie :</strong></label>
+                    </div>
+                    <div class="col-6">{{ sortie.nom }}</div>
+                </div>
+                <div class="row my-4">
+                    <div class="form-group col-6">
+                        <label for="nom"><strong>Date et heure de la sortie :</strong></label>
+                    </div>
+                    <div class="col-6">{{ sortie.dateHeureDebut|date('d/m/Y') }}</div>
+                </div>
+                <div class="row my-4">
+                    <div class="form-group col-6">
+                        <label for="nom"><strong>Ville organisatrice :</strong></label>
+                    </div>
+                    <div class="col-6">{{ sortie.siteOrganisateur.nom }}</div>
+                </div>
+                <div class="row my-4">
+                    <div class="form-group col-6">
+                        <label for="nom"><strong>Lieu :</strong></label>
+                    </div>
+                    <div class="col-6">{{ sortie.noLieu.nom }} {{ sortie.noLieu.rue }} {{ sortie.noLieu.noVille.codePostal }}</div>
+                </div>
+                <div class="row my-4">
+                    <div class="form-group col-6">
+                        <label for="nom"><strong>Motif de l'annulation :</strong></label>
+                    </div>
+                </div>
+                <div class="row"><textarea maxlength="100" class="col-11" name="motif"></textarea></div>
+                <div class="row text-center my-5">
+                    <div class="col">
+                        <button type="submit" class="btn btn-outline-primary">Annuler la sortie</button>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('app_main') }}">
+                            <button type="button" class="btn btn-outline-danger">Retour à l'accueil</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

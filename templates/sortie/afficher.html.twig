@@ -7,45 +7,70 @@
 
         <div class="row ">
             <div class="offset-1 col-5">
-                <div class="form-group">
-                    <p><label for="nom"><strong>Nom de la sortie :</strong> {{ sortie.nom }}</label></p>
+                <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Nom de la sortie :</strong></label>
                 </div>
+                <div class="col-6">{{ sortie.nom }}</div>
+            </div>
 
-                <div class="form-group">
-                    <p><label for="nom"><strong>Date et heure de la sortie
-                                :</strong> {{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</label></p>
+                <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Date et heure de la sortie :</strong></label>
                 </div>
-                <div class="form-group">
-                    <p><label for="nom"><strong>Date limite d'inscription
-                                :</strong> {{ sortie.dateFinInscription|date('d/m/Y H:i') }}</label></p>
+                <div class="col-6">{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</div>
+            </div>
+            <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Date limite d'inscription :</strong></label>
                 </div>
-                <div class="form-group">
-                    <p><label for="nom"><strong>Nombre de places :</strong> {{ sortie.nbInscriptionMax }}</label></p>
+                <div class="col-6">{{ sortie.dateFinInscription|date('d/m/Y H:i') }}</div>
+            </div>
+               <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Nombre de places :</strong></label>
                 </div>
-                <div class="form-group">
-                    <p><label for="nom"><strong>Durée :</strong> {{ sortie.duree }}</label></p>
+                <div class="col-6">{{ sortie.nbInscriptionMax }}</div>
+            </div>
+               <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Durée :</strong></label>
                 </div>
+                <div class="col-6">{{ sortie.duree }}</div>
+            </div>
+
             </div>
             <div class="offset-1 col-5">
-                <div class="form-group">
-                    <p><label for="nom"><strong>Description et info :</strong> {{ sortie.description }}</label></p>
+                <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Description et info :</strong></label>
                 </div>
-
-                <div class="form-group">
-                    <p><label for="nom"><strong>Ville organisatrice
-                                :</strong> {{ sortie.siteOrganisateur.nom }}</label></p>
+                <div class="col-6">{{ sortie.description }}</div>
+            </div>
+                <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Ville organisatrice :</strong></label>
                 </div>
-                <div class="form-group">
-                    <p><label for="nom"><strong>Lieu
-                                :</strong> {{ sortie.noLieu.nom }}</label></p>
+                <div class="col-6">{{ sortie.siteOrganisateur.nom }}</div>
+            </div>
+            <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Lieu :</strong></label>
                 </div>
-                <div class="form-group">
-                    <p><label for="nom"><strong>Rue:</strong> {{ sortie.noLieu.rue }}</label></p>
+                <div class="col-6">{{ sortie.noLieu.nom }}</div>
+            </div>
+            <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Rue :</strong></label>
                 </div>
-                <div class="form-group">
-                    <p><label for="nom"><strong>Code postal :</strong> {{ sortie.noLieu.noVille.codePostal }}</label>
-                    </p>
+                <div class="col-6">{{ sortie.noLieu.rue }}</div>
+            </div>
+            <div class="row my-4">
+                <div class="form-group col-6">
+                    <label for="nom"><strong>Code postal :</strong></label>
                 </div>
+                <div class="col-6"> {{ sortie.noLieu.noVille.codePostal }}</div>
+            </div>
             </div>
         </div>
         <div class="row">

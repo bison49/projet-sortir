@@ -91,11 +91,8 @@ class SortieController extends AbstractController
 
             $sortie = $this->sortieRepo->find($id);
 
-            /*$participants = $sortie->getParticipants();*/
-
             return $this->render('sortie/afficher.html.twig', [
                 'sortie' => $sortie,
-                /*'participants' => $participants,*/
             ]);
         }
         return $this->redirectToRoute('app_logout');
@@ -160,6 +157,45 @@ class SortieController extends AbstractController
             $em->flush();
             $this->addFlash('success', "Vous n'êtes plus inscrit à la sortie " . $sortie->getNom());
             return $this->redirectToRoute('app_main');
+        }
+        return $this->redirectToRoute('app_logout');
+    }
+
+    /**
+     * @Route("/annuler/{id}", name="annuler")
+     */
+    public function annulerSortie($id, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($this->isGranted('ROLE_USER')) {
+
+            $sortie = $this->sortieRepo->find($id);
+            if ($_POST) {
+                $sortie->setEtat($this->etatRepo->find(6));
+                $sortie->setDescription($request->request->get('motif'));
+                $em->flush();
+                $this->addFlash('success', 'Votre sortie(' . $sortie->getNom() . ') a bien été annulée');
+                return $this->redirectToRoute('app_main');
+            }
+
+            return $this->render('/sortie/annuler.html.twig', [
+                'sortie' => $sortie,
+            ]);
+        }
+        return $this->redirectToRoute('app_logout');
+    }
+
+    /**
+     * @Route("/modifier/{id}", name="modifier")
+     */
+    public function modiierSortie($id, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($this->isGranted('ROLE_USER')) {
+
+
+            /*$this->addFlash('success', 'Vous avez été inscrit à la sortie ' . $sortie->getNom());*/
+            return $this->render('/sortie/annuler.html.twig', [
+
+            ]);
         }
         return $this->redirectToRoute('app_logout');
     }
