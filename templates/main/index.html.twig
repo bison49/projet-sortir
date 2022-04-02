@@ -29,12 +29,7 @@
                     </form>
 
 
-                    <form class="d-flex">
-                        <label for="rechercher">Le nom de la sortie contient: </label>
-                        <input id="rechercher" class="form-control me-2 rechercher" onkeyup="fonctionRechercheFiltre()"
-                               type="search" placeholder="Rechercher"
-                               aria-label="Search">
-                    </form>
+
 
                     <form class="d-flex">
                         <strong>Entre:</strong>
@@ -50,7 +45,6 @@
                         {{ form_start(form2, {attr: {class: 'filter js-filter-form'}}) }}
 
                         <div class="row">
-                            {{ form_row(form2.q) }}
                             <div class="col-md-6">
                                 {{ form_row(form2.sortie1) }}
                             </div>
@@ -65,8 +59,15 @@
                             </div>
                         </div>
 
+                        <input type="text" class="table-filter" value="#non#" hidden="true" data-table4="#Table">
 
-                        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                        <input type="text" class="table-filter" value="Passée" hidden="true" data-table3="#Table">
+
+                        <input type="text" class="table-filter" value="#oui#" hidden="true" data-table2="#Table">
+
+                        <input type="text" class="table-filter" value="{{ app.user.pseudo }}"  hidden="true" data-table="#Table">
+
+                        <button type="submit"  id="filtrer" onClick="fonctionFiltrer()" class="btn btn-primary mt-3 w-100">Réinitialiser filtre</button>
 
                         {{ form_end(form2) }}
 
@@ -98,7 +99,7 @@
                 </thead>
                 <tbody>
                 {% for sortie in sorties %}
-                    {% set ins = null %}
+                    {% set ins = '#non#' %}
                     <tr>
                         <td>{{ sortie.nom }}</td>
                         <td>{{ sortie.dateHeureDebut|date(" d-m-Y H:i ") }}</td>
@@ -112,7 +113,7 @@
                         <td>{{ sortie.etat.libelle }} </td>
                         {% for participant in sortie.participants %}
                             {% if participant.id == app.user.id %}
-                                {% set ins = 'x' %}
+                                {% set ins = '#oui#' %}
                             {% elseif participant.id ==null %}
                                 {% set ins = null %}
                             {% endif %}
@@ -173,10 +174,12 @@
 
 {% endblock %}
 {% block js %}
+
     <script>
-        function fonctionRechercheFiltre() {
+
+        function fonctionRechercheTextFiltre() {
             var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("rechercher");
+            input = document.getElementById("form_rechercher");
             filter = input.value.toUpperCase();
             table = document.getElementById("Table");
             tr = table.getElementsByTagName("tr");
@@ -192,6 +195,240 @@
                 }
             }
         }
+
+
+
+
+        function rechercherAvancer4(){(function rechercher() {
+            "use strict";
+
+            var TableFilter = (function () {
+                var search;
+
+                function dquery(selector) {
+                    // Renvoie un tableau des éléments correspondant au sélecteur
+                    return Array.prototype.slice.call(document.querySelectorAll(selector));
+                }
+
+                function onInputEvent(e) {
+                    // Récupère le texte à rechercher
+                    var input =  e.target;
+                    search = input.value.toLocaleLowerCase();
+                    // Retrouve les lignes où effectuer la recherche
+                    // (l'attribut data-table de l'input sert à identifier la table à filtrer)
+                    var selector = input.getAttribute("data-table4") + " tbody tr";
+                    var rows = dquery(selector);
+                    // Recherche le texte demandé sur les lignes du tableau
+                    [].forEach.call(rows, filter);
+
+                }
+
+                function filter(row) {
+                    // Mise en cache de la ligne en minuscule
+                    if (row.lowerTextContent === undefined)
+                        row.lowerTextContent = row.textContent.toLocaleLowerCase();
+                    // Masque la ligne si elle ne contient pas le texte recherché
+                    row.style.display = row.lowerTextContent.indexOf(search) === -1 ? "none" : "table-row";
+                }
+
+                return {
+                    init: function () {
+                        // Liste des champs de saisie avec un attribut data-table
+                        var inputs = dquery("input[data-table4]");
+                        [].forEach.call(inputs, function (input) {
+                            // Déclenche la recherche dès qu'on saisi un filtre de recherche
+                            input.oninput = onInputEvent;
+                            // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
+                            if (input.value !== "") input.oninput({ target: input });
+                        });
+
+                    }
+                };
+
+            })();
+
+            TableFilter.init();
+        })();
+
+        }
+
+
+
+
+
+        function rechercherAvancer3(){(function rechercher() {
+            "use strict";
+
+            var TableFilter = (function () {
+                var search;
+
+                function dquery(selector) {
+                    // Renvoie un tableau des éléments correspondant au sélecteur
+                    return Array.prototype.slice.call(document.querySelectorAll(selector));
+                }
+
+                function onInputEvent(e) {
+                    // Récupère le texte à rechercher
+                    var input =  e.target;
+                    search = input.value.toLocaleLowerCase();
+                    // Retrouve les lignes où effectuer la recherche
+                    // (l'attribut data-table de l'input sert à identifier la table à filtrer)
+                    var selector = input.getAttribute("data-table3") + " tbody tr";
+                    var rows = dquery(selector);
+                    // Recherche le texte demandé sur les lignes du tableau
+                    [].forEach.call(rows, filter);
+
+                }
+
+                function filter(row) {
+                    // Mise en cache de la ligne en minuscule
+                    if (row.lowerTextContent === undefined)
+                        row.lowerTextContent = row.textContent.toLocaleLowerCase();
+                    // Masque la ligne si elle ne contient pas le texte recherché
+                    row.style.display = row.lowerTextContent.indexOf(search) === -1 ? "none" : "table-row";
+                }
+
+                return {
+                    init: function () {
+                        // Liste des champs de saisie avec un attribut data-table
+                        var inputs = dquery("input[data-table3]");
+                        [].forEach.call(inputs, function (input) {
+                            // Déclenche la recherche dès qu'on saisi un filtre de recherche
+                            input.oninput = onInputEvent;
+                            // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
+                            if (input.value !== "") input.oninput({ target: input });
+                        });
+
+                    }
+                };
+
+            })();
+
+            TableFilter.init();
+        })();
+
+        }
+
+
+
+        function rechercherAvancer2(){(function rechercher() {
+            "use strict";
+
+            var TableFilter = (function () {
+                var search;
+
+                function dquery(selector) {
+                    // Renvoie un tableau des éléments correspondant au sélecteur
+                    return Array.prototype.slice.call(document.querySelectorAll(selector));
+                }
+
+                function onInputEvent(e) {
+                    // Récupère le texte à rechercher
+                    var input =  e.target;
+                    search = input.value.toLocaleLowerCase();
+                    // Retrouve les lignes où effectuer la recherche
+                    // (l'attribut data-table de l'input sert à identifier la table à filtrer)
+                    var selector = input.getAttribute("data-table2") + " tbody tr";
+                    var rows = dquery(selector);
+                    // Recherche le texte demandé sur les lignes du tableau
+                    [].forEach.call(rows, filter);
+
+                }
+
+                function filter(row) {
+                    // Mise en cache de la ligne en minuscule
+                    if (row.lowerTextContent === undefined)
+                        row.lowerTextContent = row.textContent.toLocaleLowerCase();
+                    // Masque la ligne si elle ne contient pas le texte recherché
+                    row.style.display = row.lowerTextContent.indexOf(search) === -1 ? "none" : "table-row";
+                }
+
+                return {
+                    init: function () {
+                        // Liste des champs de saisie avec un attribut data-table
+                        var inputs = dquery("input[data-table2]");
+                        [].forEach.call(inputs, function (input) {
+                            // Déclenche la recherche dès qu'on saisi un filtre de recherche
+                            input.oninput = onInputEvent;
+                            // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
+                            if (input.value !== "") input.oninput({ target: input });
+                        });
+
+                    }
+                };
+
+            })();
+
+            TableFilter.init();
+        })();
+
+        }
+        function rechercherAvancer() {
+            (function rechercher() {
+                "use strict";
+
+                var TableFilter = (function () {
+                    var search;
+
+                    function dquery(selector) {
+                        // Renvoie un tableau des éléments correspondant au sélecteur
+                        return Array.prototype.slice.call(document.querySelectorAll(selector));
+                    }
+
+                    function onInputEvent(e) {
+                        // Récupère le texte à rechercher
+                        var input = e.target;
+                        search = input.value.toLocaleLowerCase();
+                        // Retrouve les lignes où effectuer la recherche
+                        // (l'attribut data-table de l'input sert à identifier la table à filtrer)
+                        var selector = input.getAttribute("data-table") + " tbody tr";
+                        var rows = dquery(selector);
+                        // Recherche le texte demandé sur les lignes du tableau
+                        [].forEach.call(rows, filter);
+                        // Mise à jour du compteur de ligne (s'il y en a un de défini)
+                        // (l'attribut data-count de l'input sert à identifier l'élément où afficher le compteur)
+                        var writer = input.getAttribute("data-count");
+                        if (writer) {
+                            // S'il existe un attribut data-count, on compte les lignes visibles
+                            var count = rows.reduce(function (t, x) {
+                                return t + (x.style.display === "none" ? 0 : 1);
+                            }, 0);
+                            // Puis on affiche le compteur
+                            dquery(writer)[0].textContent = count;
+                        }
+                    }
+
+                    function filter(row) {
+                        // Mise en cache de la ligne en minuscule
+                        if (row.lowerTextContent === undefined)
+                            row.lowerTextContent = row.textContent.toLocaleLowerCase();
+                        // Masque la ligne si elle ne contient pas le texte recherché
+                        row.style.display = row.lowerTextContent.indexOf(search) === -1 ? "none" : "table-row";
+                    }
+
+                    return {
+                        init: function () {
+                            // Liste des champs de saisie avec un attribut data-table
+                            var inputs = dquery("input[data-table]");
+                            [].forEach.call(inputs, function (input) {
+                                // Déclenche la recherche dès qu'on saisi un filtre de recherche
+                                input.oninput = onInputEvent;
+                                // Si on a déjà une valeur (suite à navigation arrière), on relance la recherche
+                                if (input.value !== "") input.oninput({target: input});
+                            });
+                        }
+                    };
+
+                })();
+
+                TableFilter.init();
+            })();
+
+
+        }
+
+
+
     </script>
 
 {% endblock %}
