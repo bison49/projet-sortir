@@ -71,7 +71,6 @@ class SortieController extends AbstractController
                 } else {
                     $this->addFlash('success', 'Votre sortie a été enregistrée et publiée');
                 }
-
                 return $this->redirectToRoute('app_main');
             }
             return $this->render('sortie/index.html.twig', [
