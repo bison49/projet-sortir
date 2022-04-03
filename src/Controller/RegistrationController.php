@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -20,7 +19,7 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-       if($this->isGranted('ROLE_ADMIN')){
+        if ($this->isGranted('ROLE_ADMIN')) {
 
             $user = new Participant();
             $form = $this->createForm(RegistrationFormType::class, $user);
@@ -31,13 +30,12 @@ class RegistrationController extends AbstractController
                 $photo = $form->get('photo')->getData();
 
 
-
                 if ($photo) {
                     $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
 
                     // this is needed to safely include the file name as part of the URL$safeFilename = $slugger->slug($originalFilename);
                     $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $photo->guessExtension();
 
                     // Move the file to the directory where brochures are storedtry {
                     $photo->move(
@@ -58,13 +56,14 @@ class RegistrationController extends AbstractController
                 $entityManager->flush();
                 // do anything else you need here, like send an email
 
+                $this->addFlash('success', 'Un nouvel utilisateur a été ajouté');
                 return $this->redirectToRoute('app_main');
             }
 
             return $this->render('registration/register.html.twig', [
                 'registrationForm' => $form->createView(),
             ]);
-       }else{
+        } else {
             return $this->redirectToRoute('app_logout');
         }
 
