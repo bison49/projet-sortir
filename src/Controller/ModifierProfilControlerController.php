@@ -126,6 +126,9 @@ class ModifierProfilControlerController extends AbstractController
                     $this->addFlash('reussie','Votre mot de passe a bien été modifié');
 
                     return $this->redirectToRoute('app_profil');
+                }else{
+                    $this->addFlash('erreur','Les mots de passe ne correspondent pas');
+                    return $this->redirectToRoute('app_mdp');
                 }
 
             }

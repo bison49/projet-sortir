@@ -11,6 +11,11 @@
         </div>
         <div class="col-3"></div>
     </div>
+    {% for message in app.flashes('erreur') %}
+        <div class="alert alert-danger text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="row">
         <div class="col-5">
             {% if app.user.photo %}

@@ -4,6 +4,7 @@ namespace App\Entity;
 use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use App\Repository\ChangePasswordRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ChangePasswordRepository::class)
