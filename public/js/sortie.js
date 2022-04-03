@@ -40,7 +40,7 @@ function ajouterDom(data, orga_id, user_id) {
     let bouton;
     if (orga_id == user_id && data.id != null) {
         td = ($('<td></td>')).addClass('text-center')
-        bouton = $('<button>Afficher profil</button>').addClass('btn btn-secondary');
+        bouton = $('<button>Afficher profil</button>').addClass('btn btn-info');
         bouton.on('click', data.id, afficher)
     } else {
         td = ($('<td></td>'))

@@ -9,11 +9,11 @@
     <div>
         <div class="container">
             <div class="row mt-5 mb-3">
-                <h3 class="offset-5 col-2">Accueil</h3>
+                <h3 class="offset-5 col-2 titre-page">Accueil</h3>
 
 
                 <div class="offset-2 col-3">
-                    <h4>Date du jour : {{ "now"|date("d/m/Y") }}  </h4>
+                    <h4>Date du jour : {{ "now"|date("d/m/Y",'Europe/Paris') }}  </h4>
                     <h4>Participant: {{ app.user.pseudo }}</h4>
                     <br>
                 </div>
@@ -183,7 +183,8 @@
         </div>
     </div>
 
-
+{% endblock %}
+{% block js %}
     <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
 {% endblock %}
 
