@@ -27,10 +27,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @Assert\Type(type="alnum",message="Votre pseudo ne doit contenir uniquement des chiffres et des lettres")
-     * @Assert\Length(min=2,max=30,
-     *     minMessage="Votre pseudo doit contenir {{limit}} minimum",
-     *     maxMessage="Votre pseudo ne doit pas contenir plus de {{limit}} caractères")
-     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage="Votre pseudo doit contenir {{ limit }} caractères minimum",
+     *     maxMessage="Votre pseudo ne doit pas contenir plus de {{ limit }} caractères")
+     * @Assert\NotBlank(message="Vous devez saisir un pseudo")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $pseudo;
@@ -47,20 +49,22 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @Assert\Length(min = 2,
+     * @Assert\Length(
+     *     min = 2,
      *     max = 30,
-     *     minMessage="Votre nom doit contenir {{ min }} minimum",
-     *     maxMessage="Votre nom ne doit pas contenir plus de {{ max }} caractères")
+     *     minMessage="Votre nom doit contenir {{ limit }} caractères minimum",
+     *     maxMessage="Votre nom ne doit pas contenir plus de {{ limit }} caractères")
      * @Assert\NotBlank(message="Vous devez saisir votre nom")
      * @ORM\Column(type="string", length=30)
      */
     private $nom;
 
     /**
-     * @Assert\Length(min=2,
-     *     max=30,
-     *     minMessage="Votre prenom doit contenir {{ min }} minimum",
-     *     maxMessage="Votre prenom ne doit pas contenir plus de {{ max }} caractères")
+     * @Assert\Length(
+     *     min = 2,
+     *     max = 30,
+     *     minMessage="Votre prenom doit contenir {{ limit }} caractères minimum",
+     *     maxMessage="Votre prenom ne doit pas contenir plus de {{ limit }} caractères")
      * @Assert\NotBlank(message="Vous devez saisir votre prenom")
      * @ORM\Column(type="string", length=30)
      */
@@ -79,6 +83,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $telephone;
 
     /**
+     * @Assert\Email(message="Votre email n'est pas valide")
      * @Assert\NotBlank(message="Vous devez saisir votre email")
      * @ORM\Column(type="string", length=50, unique=true)
      */

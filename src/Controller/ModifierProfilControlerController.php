@@ -41,7 +41,7 @@ class ModifierProfilControlerController extends AbstractController
     /**
      * @Route("/profil", name="app_profil")
      */
-    public function index(ParticipantRepository $participantRepository,SluggerInterface $slugger,EntityManagerInterface $em,Request $request): Response
+    public function index(SluggerInterface $slugger,EntityManagerInterface $em,Request $request): Response
     {
         if ($this->isGranted('ROLE_USER')) {
 
@@ -55,7 +55,7 @@ class ModifierProfilControlerController extends AbstractController
 
             if($formModif->isSubmitted() && $formModif->isValid()) {
 
-                if (password_verify($formModif->get('Password')->getData(), $hash)) {
+                if (password_verify($formModif->get('password')->getData(), $hash)) {
 
                     $user->setPassword($hash);
 

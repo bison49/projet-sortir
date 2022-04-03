@@ -21,7 +21,7 @@ class Site
     private $id;
 
     /**
-     * @Assert\NotBlank(message="Veuiilez renseigner le site de formation")
+     * @Assert\NotBlank(message="Veuillez renseigner le site de formation")
      * @ORM\Column(type="string", length=50)
      */
     private $nom;

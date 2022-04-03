@@ -30,7 +30,7 @@ class ModifParticipantType extends AbstractType
                 'mapped'=>false,
                 'required'=>false,
             ])
-            ->add('Password', PasswordType::class, [
+            ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
