@@ -2,21 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Site;
 use App\Form\RechercherParSaisieTexteForm;
 use App\Form\RechercherParSaisieTexteType;
 use App\Form\SearchForm;
-use App\Repository\SiteRepository;
 use App\Repository\SortieRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Console\Input\Input;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Data\SearchData;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
@@ -34,7 +27,7 @@ class MainController extends AbstractController
     /**
      * @Route("/main", name="app_main")
      */
-    public function index(SortieRepository $repository, Request $request,PaginatorInterface $paginator): Response
+    public function index(SortieRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
 
         if ($this->isGranted('ROLE_USER')) {
@@ -53,8 +46,9 @@ class MainController extends AbstractController
 
             return $this->renderForm('main/index.html.twig', compact("sorties", "form"));
         }
-
-        $this->addFlash('inactif',"Votre compte est actuellement bloquée, veuillez contacter l'administrateur.");
+        if ($this->isGranted('ROLE_NON')) {
+            $this->addFlash('inactif', "Votre compte est actuellement bloquée, veuillez contacter l'administrateur.");
+        }
         return $this->redirect('/');
     }
 

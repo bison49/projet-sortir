@@ -63,7 +63,7 @@
             $('.btn-outline-danger').click(function () {
                 let site_id = $(this).attr("data-site");
 
-                if (confirm("Voulez-vous vraiment supprimer ce voeu ?")) {
+                if (confirm("Voulez-vous vraiment supprimer ce site ?")) {
                     window.location.href = '/site/supprimerSite/' + site_id;
                 }
             })

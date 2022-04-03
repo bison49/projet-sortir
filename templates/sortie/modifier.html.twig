@@ -1,5 +1,55 @@
 {% extends 'base.html.twig' %}
-{% block title %}Modifier une sortie{% endblock %}
-{% block body %}
 
+{% block title %}Modification d'une sortie{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h3 class="my-5 text-center">Modifier une sortie</h3>
+        <div class="offset-2 col-8">
+            {{ form_start(sortieForm) }}
+
+            {{ form_widget(sortieForm) }}
+            <div class=" row text-center my-5">
+                <div class=" row text-center">
+                    <div class="offset-3 col-2">
+                        <a href="{{ path('app_sortie_ajout') }}">
+                            <button type="submit" name="enr" value="{{ 1 }}" class="btn btn-primary me-4">Enregistrer
+                            </button>
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <a href="{{ path('app_sortie_ajout') }}">
+                            <button type="submit" name="pub" value="{{ 2 }}" class="btn btn-primary me-4">Publier
+                            </button>
+                        </a>
+                    </div>
+                    <div class="col-2">
+                            <button type="button" name="sup" data-sortie="{{ sortie.id }}" class="btn btn-primary me-4 supprimer">Supprimer</button>
+                    </div>
+                    <div class="col-2">
+                        <a href="{{ path('app_main') }}">
+                            <button type="button" class="btn btn-primary">Annuler</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(sortieForm) }}
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+
+    <script>
+        $(document).ready(function () {
+            $('.supprimer').click(function () {
+                let sortie_id = $(this).attr("data-sortie");
+
+                if (confirm("Voulez-vous vraiment supprimer cette sortie ?")) {
+                    window.location.href = '/sortie/supprimerSortie/' + sortie_id;
+                }
+            })
+        });
+    </script>
+
+    <script type="text/javascript" src="{{ asset('/js/listesLiees.js') }}"></script>
 {% endblock %}

@@ -48,8 +48,6 @@ class SortieController extends AbstractController
             $sortieForm = $this->createForm(SortieType::class, $sortie);
             $sortieForm->handleRequest($request);
 
-            $villes = $this->villeRepo->findAll();
-
             if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
                 if ($request->request->get('enr')) {
@@ -69,13 +67,12 @@ class SortieController extends AbstractController
                 if ($id == 1) {
                     $this->addFlash('success', 'Votre sortie a été enregistrée');
                 } else {
-                    $this->addFlash('success', 'Votre sortie a été enregistrée et publiée');
+                    $this->addFlash('success', 'Votre sortie a été publiée');
                 }
                 return $this->redirectToRoute('app_main');
             }
             return $this->render('sortie/index.html.twig', [
                 'sortieForm' => $sortieForm->createView(),
-                'villes' => $villes,
             ]);
         }
         return $this->redirectToRoute('app_logout');
@@ -84,7 +81,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/afficher/{id}", name="afficher")
      */
-    public function afficherSortie($id, Request $request): Response
+    public function afficherSortie($id): Response
     {
         if ($this->isGranted('ROLE_USER')) {
 
@@ -123,7 +120,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/inscription/{id}", name="inscription")
      */
-    public function inscriptionSortie($id, Request $request, EntityManagerInterface $em): Response
+    public function inscriptionSortie($id, EntityManagerInterface $em): Response
     {
         if ($this->isGranted('ROLE_USER')) {
 
@@ -143,7 +140,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/desistement/{id}", name="desistement")
      */
-    public function desisitementSortie($id, Request $request, EntityManagerInterface $em): Response
+    public function desisitementSortie($id, EntityManagerInterface $em): Response
     {
         if ($this->isGranted('ROLE_USER')) {
 
@@ -172,7 +169,8 @@ class SortieController extends AbstractController
                 $sortie->setEtat($this->etatRepo->find(6));
                 $sortie->setDescription($request->request->get('motif'));
                 $participants = $sortie->getParticipants();
-                foreach ($participants as $participant){
+                //Effacer les particpants inscrits à la sortie
+                foreach ($participants as $participant) {
                     $sortie->removeParticipant($participant);
                 }
                 $em->flush();
@@ -190,18 +188,58 @@ class SortieController extends AbstractController
     /**
      * @Route("/modifier/{id}", name="modifier")
      */
-    public function modiierSortie($id, Request $request, EntityManagerInterface $em): Response
+    public function modifierSortie($id, Request $request, EntityManagerInterface $em): Response
     {
         if ($this->isGranted('ROLE_USER')) {
 
+            $sortie = $this->sortieRepo->find($id);
+            $sortieForm = $this->createForm(SortieType::class, $sortie);
+            $sortieForm->handleRequest($request);
 
-            /*$this->addFlash('success', 'Vous avez été inscrit à la sortie ' . $sortie->getNom());*/
-            return $this->render('/sortie/annuler.html.twig', [
+            if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
+                if ($request->request->get('enr')) {
+                    $id = 1;
+                } else {
+                    $id = 2;
+                }
+                $sortie->setEtat($this->etatRepo->find($id));
+                $sortie->setSiteOrganisateur($this->getUser()->getNoSite());
+                $sortie->setOrganisateur($this->getUser());
+
+                $em->flush();
+                if ($id == 1) {
+                    $this->addFlash('success', 'Votre sortie a été modifiée et enregistrée');
+                } else {
+                    $this->addFlash('success', 'Votre sortie a été modifiée et publiée');
+                }
+                return $this->redirectToRoute('app_main');
+            }
+            return $this->render('/sortie/modifier.html.twig', [
+                'sortie'=>$sortie,
+                'sortieForm'=>$sortieForm->createView()
             ]);
         }
         return $this->redirectToRoute('app_logout');
     }
+    /**
+     * @Route("/supprimer/{id}", name="supprimer")
+     */
+    public function supprimerSortie($id): Response
+    {
+        if ($this->isGranted('ROLE_USER')) {
+            $sortie = $this->sortieRepo->find($id);
+            try {
+                $this->sortieRepo->remove($sortie);
+            } catch (OptimisticLockException $e) {
+            } catch (ORMException $e) {
+            }
 
+            $this->addFlash('erased', 'Votre sortie a été supprimée');
+
+            return $this->redirectToRoute('app_main');
+        }
+        return $this->redirectToRoute('app_logout');
+    }
 
 }
