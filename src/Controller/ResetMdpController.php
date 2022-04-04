@@ -111,8 +111,7 @@ class ResetMdpController extends AbstractController
 
             $this->addFlash('notice', 'Mot de passe mis à jour !');
 
-            return $this->render('reset_mdp/index.html.twig');
-                    }
+            return $this->redirectToRoute('app_main');                    }
         else {
 
             return $this->render('reset_mdp/reset.html.twig');
