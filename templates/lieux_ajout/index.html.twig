@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout un lieu{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h3 class="my-5 text-center titre-page">Ajouter un lieux</h3>
+        <div class="offset-2 col-8">
+            {{ form_start(LieuxType) }}
+
+                {{ form_row(LieuxType.nom) }}
+                {{ form_row(LieuxType.rue) }}
+                {{ form_row(LieuxType.longitude) }}
+                {{ form_row(LieuxType.latitude) }}
+                <div class="row text-center" >
+                    <div class="col-2 offset-4">
+                        <a href="{{ path('app_sortie_ajout') }}">
+                            <button type="button" class="btn btn-outline-primary">Retour</button>
+                        </a>
+                    </div>
+                    <div class="col-2 mr-4">
+                        {{ form_row(LieuxType.ajouter) }}
+                    </div>
+                </div>
+            {{ form_end(LieuxType) }}
+
+
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+{% endblock %}
