@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,6 +68,22 @@ class AdminController extends AbstractController
         $user->setActif(true);
 
         $entityManager->flush();
+
+        return $this->redirectToRoute('app_admin',
+        );
+    }
+
+    /**
+     * @Route("/adminsup/{id}", name="app_admin_sup")
+     */
+    public function bannir($id, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->partiRepo->find($id);
+        try {
+            $this->partiRepo->remove($user);
+        } catch (OptimisticLockException $e) {
+        } catch (ORMException $e) {
+        }
 
         return $this->redirectToRoute('app_admin',
         );

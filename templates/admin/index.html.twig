@@ -38,7 +38,7 @@
                         {%  else %}
                         <a href="{{path('app_admin_desact',{id:participant.id})}}">Désactiver</a>
                         {% endif %}
-                        - <a href="#">Bannir</a></td>
+                        - <a href="{{path('app_admin_sup',{id:participant.id})}}">Bannir</a></td>
                 </tr>
                 {% endfor %}
 

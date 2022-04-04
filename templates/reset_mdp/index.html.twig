@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <h1 class="titre-site-login mt-5 text-center">Sortir.com</h1>
+            <div class="offset-3 col-6 pt-5">
+
+                {% for message in app.flashes('warning') %}
+                    <div class="alert alert-warning text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('cool') %}
+                    <div class="alert alert-success text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                    <h1 class="h3 mb-3 font-weight-normal">Mot de passe oublié</h1>
+                {{ form_start(formMdp) }}
+                {{ form_end(formMdp) }}
+
+
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+    </html>
+{% endblock %}
