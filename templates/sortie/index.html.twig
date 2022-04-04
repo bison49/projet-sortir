@@ -8,7 +8,23 @@
         <div class="offset-2 col-8">
             {{ form_start(sortieForm) }}
 
-            {{ form_widget(sortieForm) }}
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.dateHeureDebut) }}
+            {{ form_row(sortieForm.dateFinInscription) }}
+            {{ form_row(sortieForm.duree) }}
+            {{ form_row(sortieForm.nbInscriptionMax) }}
+            {{ form_row(sortieForm.description) }}
+            {{ form_row(sortieForm.ville) }}
+            {{ form_label(sortieForm.noLieu) }}
+            <div class="row">
+                <div class="col-11">
+                    {{ form_widget(sortieForm.noLieu) }}
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-dark w-100 pop-up">+</button>
+                </div>
+            </div>
+
             <div class=" row text-center my-5">
                 <div class=" row text-center">
                     <div class="offset-3 col-2">
@@ -33,5 +49,12 @@
     </div>
 {% endblock %}
 {% block js %}
+    <script>
+        $(document).ready(function () {
+            $('.pop-up').click(function () {
+                window.open('/lieux/ajout');
+            })
+        })
+    </script>
     <script type="text/javascript" src="{{ asset('/js/listesLiees.js') }}"></script>
 {% endblock %}
