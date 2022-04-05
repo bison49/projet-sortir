@@ -146,7 +146,7 @@
 
                 </tbody>
             </table>
-            {{ knp_pagination_render(sorties) }}
+            {{ knp_pagination_render(sorties,'',app.request.query.all) }}
             <div class="row py-5">
                 <div class="col text-center">
                     <a href="{{ path('app_sortie_ajout') }}">

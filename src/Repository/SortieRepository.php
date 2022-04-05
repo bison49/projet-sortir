@@ -75,8 +75,8 @@ class SortieRepository extends ServiceEntityRepository
     public function rechercheFiltrer($site, $rech,$orga,$id,$inscrit,$pasIns,$passee)
     {
 
-        $qb = $this->createQueryBuilder('s');
-
+        $qb = $this->createQueryBuilder('s')
+                ->andWhere('s.etat != 1');
 
 
         if (!empty($site)) {
@@ -92,16 +92,11 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('vil',$id );
         }
         if (!empty($inscrit)) {
-            $qb->join('s.participants','p')
-                ->andWhere('p.id = :vyl')
+            $qb->andWhere(':vyl MEMBER OF s.participants')
                 ->setParameter('vyl', $id );
         }
         if (!empty($pasIns)) {
-            $qb
-            ->from($this->_entityName,'u')
-            ->join('s.participants','p')
-            ->where('p.id = :vyl')/*leftJoin('s.participants','p')
-                ->andWhere("id IS NULL");*/
+            $qb->andWhere(':vyl NOT MEMBER OF s.participants')
                 ->setParameter('vyl', $id );
         }
         if (!empty($passee)) {

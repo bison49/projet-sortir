@@ -35,20 +35,18 @@ class MainController extends AbstractController
 
             $form = $this->createForm(RechercherParSaisieTexteForm::class);
             $form->handleRequest($request);
-            $listeSorties = $this->sortieRepo->findByPublish(1);
 
-            if ($form->isSubmitted() && $form->isValid()) {
 
-                $site = $form["site"]->getData();
-                $recherche = $form["rechercher"]->getData();
-                $orga = $form["orga"]->getData();
-                $inscrit = $form["inscrit"]->getData();
-                $pasInscrit = $form["pasInscrit"]->getData();
-                $passee = $form["passee"]->getData();
-                $id = $this->getUser()->getId();
+            $site = $form["site"]->getData();
+            $recherche = $form["rechercher"]->getData();
+            $orga = $form["orga"]->getData();
+            $inscrit = $form["inscrit"]->getData();
+            $pasInscrit = $form["pasInscrit"]->getData();
+            $passee = $form["passee"]->getData();
+            $id = $this->getUser()->getId();
 
-                $listeSorties = $this->sortieRepo->rechercheFiltrer($site,$recherche,$orga,$id,$inscrit,$pasInscrit,$passee);
-            }
+            $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee);
+
 
             $sorties = $paginator->paginate(
                 $listeSorties, // Requête contenant les données à paginer (ici nos articles)
