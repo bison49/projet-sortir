@@ -8,14 +8,21 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class FormImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('photo',FileType::class,array('data_class'=> null, 'label' => 'Image'))
-            ->add('Envoyer', SubmitType::class)
+            ->add('photo', FileType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M'
+                    ])
+                ]
+            ])            ->add('Envoyer', SubmitType::class)
         ;
 
 

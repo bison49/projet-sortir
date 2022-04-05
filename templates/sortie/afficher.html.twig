@@ -86,11 +86,21 @@
             <a href="{{ path('app_main') }}">
                 <button type="button"  class="btn btn-outline-primary">Retour</button>
             </a>
+             {% if is_granted('ROLE_ADMIN') %}
+   {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateHeureDebut|date(" Y-m-d H:i ")  %}
+                                    <a href="{{ path('app_sortie_annuler',{id:sortie.id}) }}">
+                                        <button class="btn btn-primary" type="button" name="id">Annuler by admin</button>
+                                    </a>
+                       {% endif %}
+                        {% endif %}
         </div>
+
 
 
     </div>
 {% endblock %}
 {% block js %}
     <script type="text/javascript" src="{{ asset('/js/sortie.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/detect.js') }}"></script>
+
 {% endblock %}
