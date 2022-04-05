@@ -102,7 +102,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/afficherPart", name="participants")
      */
-    public function afficherParticipants(Request $request): JsonResponse
+    public function afficherParticipants(Request $request)
     {
         if ($this->isGranted('ROLE_USER')) {
             $sortie = $this->sortieRepo->find($request->request->get('sortie_id'));
@@ -120,6 +120,7 @@ class SortieController extends AbstractController
             }
             return new JsonResponse($json_data);
         }
+        return $this->redirectToRoute('app_logout');
     }
 
     /**
