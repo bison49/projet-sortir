@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -17,12 +18,15 @@ class LieuxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('ville', EntityType::class, ['class' => 'App\Entity\Ville',
+                'mapped' => false,
+                'choice_label' => 'nom',
+                'placeholder' => 'Selectionner une ville',
+                'required' => false])
             ->add('nom', TextType::class, ["label" => "Lieux :"])
             ->add('rue', TextType::class, ["label" => "Rue :"])
             ->add('longitude', NumberType::class, ["label" => "Latitude :"])
             ->add('latitude', NumberType::class, ["label" => "Longitude : "])
-
-            ->add('ajouter', SubmitType::class)
 
         ;
     }

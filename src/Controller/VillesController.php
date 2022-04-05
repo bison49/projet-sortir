@@ -47,6 +47,7 @@ class VillesController extends AbstractController
             if ($villeForm->isSubmitted() && $villeForm->isValid()) {
 
                 try {
+                    $ville->setNom(trim(strtolower($ville->getNom())));
                     $this->villeRepo->add($ville);
                 } catch (OptimisticLockException $e) {
                 } catch (ORMException $e) {

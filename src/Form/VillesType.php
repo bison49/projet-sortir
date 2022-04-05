@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Ville;
 
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +18,7 @@ class VillesType extends AbstractType
     {
         $builder
             ->add('nom',TextType::class)
-            ->add('codePostal',NumberType::class)
+            ->add('codePostal',TextType::class)
         ;
     }
 
