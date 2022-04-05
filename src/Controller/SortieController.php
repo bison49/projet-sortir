@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Entity\Sortie;
+use App\Form\LieuxType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
@@ -44,9 +45,12 @@ class SortieController extends AbstractController
     {
         if ($this->isGranted('ROLE_USER')) {
 
+
             $sortie = new Sortie();
             $sortieForm = $this->createForm(SortieType::class, $sortie);
             $sortieForm->handleRequest($request);
+
+            $formAjoutLieux = $this->createForm(LieuxType::class);
 
             if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
@@ -72,7 +76,7 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute('app_main');
             }
             return $this->render('sortie/index.html.twig', [
-                'sortieForm' => $sortieForm->createView(),
+                'sortieForm' => $sortieForm->createView(),"LieuxType"=>$formAjoutLieux->createView()
             ]);
         }
         return $this->redirectToRoute('app_logout');
@@ -81,11 +85,12 @@ class SortieController extends AbstractController
     /**
      * @Route("/afficher/{id}", name="afficher")
      */
-    public function afficherSortie($id): Response
+    public function afficherSortie($id,Request $request,SortieRepository $repository): Response
     {
         if ($this->isGranted('ROLE_USER')) {
 
             $sortie = $this->sortieRepo->find($id);
+
 
             return $this->render('sortie/afficher.html.twig', [
                 'sortie' => $sortie,

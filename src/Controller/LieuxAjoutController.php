@@ -16,11 +16,11 @@ class LieuxAjoutController extends AbstractController
     public function index(): Response
     {
 
-        $form = $this->createForm(LieuxType::class);
+        $formAjoutLieux = $this->createForm(LieuxType::class);
 
 
         return $this->renderForm('lieux_ajout/index.html.twig', [
-            'controller_name' => 'LieuxAjoutController', "LieuxType"=>$form
+            'controller_name' => 'LieuxAjoutController', "LieuxType"=>$formAjoutLieux
         ]);
     }
 }
