@@ -6,6 +6,7 @@ use App\Entity\Site;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,6 +46,16 @@ class RechercherParSaisieTexteForm extends AbstractType
             ])
             ->add('Rechercher', SubmitType::class,[
                 'attr' =>['class' => 'btn btn-primary w-100 mt-3']])
+
+            ->add('passee', CheckboxType::class, [
+                'label' => 'Sortie passées',
+                'required' => false,
+            ])
+
+            ->add('recherche_date_recherche1', DateType::class, [ 'required' => false,"widget" => 'single_text'])
+            ->add('recherche_date_recherche2', DateType::class, ['required' => false, "widget" => 'single_text'])
+
+
         ;
 
     }

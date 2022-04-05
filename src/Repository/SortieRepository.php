@@ -8,7 +8,6 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\ORM\QueryBuilder;
 
 
 /**
@@ -70,9 +69,11 @@ class SortieRepository extends ServiceEntityRepository
      * @param $id
      * @param $inscrit
      * @param $pasIns
+     *  @param $recherche_date_1
+     *  @param $recherche_date_2
      * @return float|int|mixed|string
      */
-    public function rechercheFiltrer($site, $rech,$orga,$id,$inscrit,$pasIns,$passee)
+    public function rechercheFiltrer($site, $rech,$orga,$id,$inscrit,$pasIns,$passee,$recherche_date_1,$recherche_date_2)
     {
 
         $qb = $this->createQueryBuilder('s')
@@ -102,84 +103,19 @@ class SortieRepository extends ServiceEntityRepository
         if (!empty($passee)) {
             $qb->andWhere('s.etat = 5');
         }
+
+        if (!empty($recherche_date_1)) {
+            $qb->andWhere('s.dateHeureDebut > :dateDebut')
+            ->setParameter('dateDebut',$recherche_date_1);
+        }
+        if (!empty($recherche_date_2)) {
+            $qb->andWhere('s.dateHeureDebut < :dateFin')
+            ->setParameter('dateFin',$recherche_date_2);
+        }
         return $qb->getQuery()->execute();
     }
 
-    /**
-     * Recupere les sortir en lien avec une recherche
-     * @return Sortie[]
-     */
-
-    /*public function findSearch(SearchData $search): array{
 
 
-        $query=$this
-        ->$this->createQueryBuilder('p')
-            ->select('c','p')
-            -join('p.sorties','c');
 
-
-        return $this->$query->getQuery()->getResult();
-    }*/
-
-    /**
-     * Récupère les sorties en lien avec une recherche
-     * @return \Doctrine\ORM\Query
-     */
-
-    /* public function findSearch2(SearchData $search): \Doctrine\ORM\Query
-     {
-
-
-         return    $query = $this->getSearchQuery($search)->getQuery();
-         ;
-
-
-     }*/
-
-    /*private function getSearchQuery(SearchData $search ): QueryBuilder
-    {
-        $query = $this
-        ->createQueryBuilder('p')
-        ->select('c', 'p')
-        ->join('p.categories', 'c');
-
-        if (!empty($search->q)) {
-            $query = $query
-                ->andWhere('p.name LIKE :q')
-                ->setParameter('q', "%{$search->q}%");
-        }
-
-        if (!empty($search->sortie1)) {
-            $query = $query
-                ->andWhere('p.sortie1 = 1');
-        }
-        if (!empty($search->sortie2)) {
-            $query = $query
-                ->andWhere('p.sortie2 = 2');
-        }
-        if (!empty($search->sortie3)) {
-            $query = $query
-                ->andWhere('p.sortie3 = 3');
-        }
-
-        if (!empty($search->sortie4)) {
-            $query = $query
-                ->andWhere('p.sortie4 = 4');
-        }
-        return
-            $query
-            ;
-    }*/
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

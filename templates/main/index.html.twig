@@ -31,24 +31,24 @@
                     {{ form_row(form.rechercher) }}
                     <div class="row">
                         <div class="col-6">
-                            <strong>Entre:</strong>
-                            <input id="date" class="form-control me-2 " type="date" placeholder="Date">
+                                <strong>Entre:</strong>
+                                                        {{ form_widget(form.recherche_date_recherche1) }}
                         </div>
                         <div class="col-6">
-                            <strong>Et:</strong>
-                            <input id="date" class="form-control me-2  " type="date" placeholder="Date">
+                                <strong>Et:</strong>
+                                                        {{ form_widget(form.recherche_date_recherche2) }}
                         </div>
                     </div>
                 </div>
                 <div class="offset-1 col-5">
                     <br>
-                    {{ form_row(form.orga) }}
-                    {{ form_row(form.inscrit) }}
-                    {{ form_row(form.pasInscrit) }}
-                    {{ form_row(form.passee) }}
-                    <div class="row text-center ">
-                        {{ form_row(form.Rechercher) }}
-                    </div>
+                            {{ form_row(form.orga) }}
+                            {{ form_row(form.inscrit) }}
+                            {{ form_row(form.pasInscrit) }}
+                            {{ form_row(form.passee) }}
+                        <div class="row text-center ">
+                            {{ form_row(form.Rechercher) }}
+                        </div>
                     {{ form_end(form) }}
                 </div>
             </div>

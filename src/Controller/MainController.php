@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Form\RechercherParSaisieTexteForm;
-use App\Form\RechercherParSaisieTexteType;
-use App\Form\SearchForm;
 use App\Repository\SortieRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,7 +30,6 @@ class MainController extends AbstractController
 
         if ($this->isGranted('ROLE_USER')) {
 
-
             $form = $this->createForm(RechercherParSaisieTexteForm::class);
             $form->handleRequest($request);
 
@@ -43,9 +40,14 @@ class MainController extends AbstractController
             $inscrit = $form["inscrit"]->getData();
             $pasInscrit = $form["pasInscrit"]->getData();
             $passee = $form["passee"]->getData();
+
+            $recherche_date_1=$form["recherche_date_recherche1"]->getData();
+            $recherche_date_2=$form["recherche_date_recherche2"]->getData();
+
+
             $id = $this->getUser()->getId();
 
-            $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee);
+            $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee,$recherche_date_1,$recherche_date_2);
 
 
             $sorties = $paginator->paginate(
