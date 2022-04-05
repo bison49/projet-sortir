@@ -30,6 +30,7 @@ $(document).ready(
                 $('#sortie_noLieu').append(option);
             }
         })
+        $('#sortie_ville').val(ville);
         reset();
     })
 

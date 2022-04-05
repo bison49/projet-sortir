@@ -22,7 +22,9 @@
                 </div>
                 <div class="col-1">
 
-                    <button class="btn btn-dark w-100 pop-up testmomo" data-toggle="modal" data-target="#exampleModal">+</button>
+                    <button type="button" class="btn btn-dark w-100 pop-up testmomo" data-toggle="modal"
+                            data-target="#exampleModal">+
+                    </button>
                 </div>
             </div>
 
@@ -30,12 +32,14 @@
                 <div class=" row text-center">
                     <div class="offset-3 col-2">
                         <a href="{{ path('app_sortie_ajout') }}">
-                            <button type="submit" name="enr" value="{{ 1 }}" class="btn btn-primary me-4">Enregistrer</button>
+                            <button type="submit" name="enr" value="{{ 1 }}" class="btn btn-primary me-4">Enregistrer
+                            </button>
                         </a>
                     </div>
                     <div class="col-2">
                         <a href="{{ path('app_sortie_ajout') }}">
-                            <button type="submit" name="pub" value="{{ 2 }}" class="btn btn-primary me-4">Publier</button>
+                            <button type="submit" name="pub" value="{{ 2 }}" class="btn btn-primary me-4">Publier
+                            </button>
                         </a>
                     </div>
                     <div class="col-2">
@@ -51,40 +55,43 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style=" display: block;">
-                            <h5 class="modal-title" style="text-align: center;"  id="exampleModalLabel">Ajouter un lieu</h5>
-{#
+                            <h5 class="modal-title" style="text-align: center;" id="exampleModalLabel">Ajouter un
+                                lieu</h5>
+                            {#
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-#}
-                 {#               <span aria-hidden="true">&times;</span>#}
+                            #}
+                            {#               <span aria-hidden="true">&times;</span> #}
                             </button>
                         </div>
                         <div class="modal-body">
-                                <div class="form-group">
-                                    {{ form_start(LieuxType) }}
-                                    {{ form_row(LieuxType.ville) }}
-                                    <label  class="form-label required">Nom du lieu à ajouter :</label>
-                                    {{ form_widget(LieuxType.nom) }}
-                                    <label  class="form-label required">Nom de la rue :</label>
-                                    {{ form_widget(LieuxType.rue) }}
-                                    <label  class="form-label required">Latitude :</label>
-                                    {{ form_widget(LieuxType.longitude) }}
-                                    <label  class="form-label required">Longitude :</label>
-                                    {{ form_widget(LieuxType.latitude) }}
+                            <div class="form-group">
+                                {{ form_start(LieuxType) }}
+                                {{ form_row(LieuxType.ville) }}
+                                <label class="form-label required">Nom du lieu à ajouter :</label>
+                                {{ form_widget(LieuxType.nom) }}
+                                <label class="form-label required">Nom de la rue :</label>
+                                {{ form_widget(LieuxType.rue) }}
+                                <label class="form-label required">Latitude :</label>
+                                {{ form_widget(LieuxType.longitude) }}
+                                <label class="form-label required">Longitude :</label>
+                                {{ form_widget(LieuxType.latitude) }}
+                            </div>
+                            <div class="row text-center my-3">
+                                <div class="offset-3 col-3">
+                                    <button id="btnAjouter" type="submit" class="btn btn-primary" data-dismiss="modal">
+                                        Ajouter
+                                    </button>
                                 </div>
-                                <div class="form-group mt-3 offset-5 col-3">
-{#
-                                {{ form_row(LieuxType.ajouter) }}
-#}
-
-                                    <button id="btnAjouter" type="submit" class="btn btn-primary" data-dismiss="modal">Ajouter</button>
-
+                                <div class="col-3">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                     {{ form_end(LieuxType) }}
                                 </div>
+                            </div>
                         </div>
 
                     </div>
@@ -97,14 +104,14 @@
 {% block js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
- {#   <script>
+    {#   <script>
 
         $(document).ready(function () {
             $('.pop-up').click(function () {
                 window.open('/lieux/ajout');
             })
         })
-    </script>#}
+    </script> #}
     <script type="text/javascript" src="{{ asset('/js/essaiLieu.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/listesLiees.js') }}"></script>
 {% endblock %}
