@@ -2,13 +2,14 @@
 
 namespace App\Repository;
 
-use App\Data\SearchData;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
+
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -49,9 +50,9 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-     /**
-      * @return Sortie[] Returns an array of Sortie objects
-      */
+    /**
+     * @return Sortie[] Returns an array of Sortie objects
+     */
 
     public function findByPublish($value)
     {
@@ -59,8 +60,54 @@ class SortieRepository extends ServiceEntityRepository
             ->andWhere('s.etat != :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+    }
+
+    /**
+     * @param $site
+     * @param $rech
+     * @param $orga
+     * @param $id
+     * @param $inscrit
+     * @param $pasIns
+     * @return float|int|mixed|string
+     */
+    public function rechercheFiltrer($site, $rech,$orga,$id,$inscrit,$pasIns,$passee)
+    {
+
+        $qb = $this->createQueryBuilder('s');
+
+
+
+        if (!empty($site)) {
+            $qb->Where('s.siteOrganisateur = :val' )
+                ->setParameter('val', $site);
+        }
+        if (!empty($rech)) {
+             $qb->andWhere('s.nom LIKE :vol')
+                ->setParameter('vol', '%' . $rech . '%');
+        }
+        if (!empty($orga)) {
+            $qb->andWhere('s.organisateur = :vil')
+                ->setParameter('vil',$id );
+        }
+        if (!empty($inscrit)) {
+            $qb->join('s.participants','p')
+                ->andWhere('p.id = :vyl')
+                ->setParameter('vyl', $id );
+        }
+        if (!empty($pasIns)) {
+            $qb
+            ->from($this->_entityName,'u')
+            ->join('s.participants','p')
+            ->where('p.id = :vyl')/*leftJoin('s.participants','p')
+                ->andWhere("id IS NULL");*/
+                ->setParameter('vyl', $id );
+        }
+        if (!empty($passee)) {
+            $qb->andWhere('s.etat = 5');
+        }
+        return $qb->getQuery()->execute();
     }
 
     /**
@@ -68,7 +115,7 @@ class SortieRepository extends ServiceEntityRepository
      * @return Sortie[]
      */
 
-    public function findSearch(SearchData $search): array{
+    /*public function findSearch(SearchData $search): array{
 
 
         $query=$this
@@ -78,24 +125,24 @@ class SortieRepository extends ServiceEntityRepository
 
 
         return $this->$query->getQuery()->getResult();
-    }
+    }*/
 
     /**
      * Récupère les sorties en lien avec une recherche
      * @return \Doctrine\ORM\Query
      */
 
-    public function findSearch2(SearchData $search): \Doctrine\ORM\Query
-    {
+    /* public function findSearch2(SearchData $search): \Doctrine\ORM\Query
+     {
 
 
-        return    $query = $this->getSearchQuery($search)->getQuery();
-        ;
+         return    $query = $this->getSearchQuery($search)->getQuery();
+         ;
 
 
-    }
+     }*/
 
-    private function getSearchQuery(SearchData $search ): QueryBuilder
+    /*private function getSearchQuery(SearchData $search ): QueryBuilder
     {
         $query = $this
         ->createQueryBuilder('p')
@@ -128,7 +175,7 @@ class SortieRepository extends ServiceEntityRepository
         return
             $query
             ;
-    }
+    }*/
     /*
     public function findOneBySomeField($value): ?Sortie
     {

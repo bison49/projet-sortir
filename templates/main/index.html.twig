@@ -25,62 +25,34 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <form class="col-auto">
-                        {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
-                        {{ form_row(form.Site) }}
-                        {{ form_row(form.rechercher) }}
-                        {# {{ form_start(form) }}
-                        {{ form_widget(form) }}
-                        {{ form_end(form) }} #}
-                    </form>
+                    {{ form_start(form) }}
 
-
-                    <form class="d-flex">
-                        <strong>Entre:</strong>
-                        <input id="date" class="form-control me-2 " type="date" placeholder="Date">
-                        <strong>Et:</strong>
-                        <input id="date" class="form-control me-2 " type="date" placeholder="Date">
-                    </form>
-                </div>
-
-                <div class="col-6">
-                    <form class="col-auto">
-
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{ form_row(form.sortie1) }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form_row(form.sortie2) }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form_row(form.sortie3) }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form_row(form.sortie4) }}
-                            </div>
+                    {{ form_row(form.site) }}
+                    {{ form_row(form.rechercher) }}
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Entre:</strong>
+                            <input id="date" class="form-control me-2 " type="date" placeholder="Date">
                         </div>
-
-                        <input type="text" class="table-filter" value="non" hidden="true" data-table4="#Table">
-
-                        <input type="text" class="table-filter" value="Passée" hidden="true" data-table3="#Table">
-
-                        <input type="text" class="table-filter" value="oui" hidden="true" data-table2="#Table">
-
-                        <input type="text" class="table-filter" value="{{ app.user.pseudo }}" hidden="true"
-                               data-table="#Table">
-
-                        <button type="submit" id="filtrer" onClick="fonctionFiltrer()"
-                                class="btn btn-primary mt-3 w-100">Réinitialiser filtre
-                        </button>
-
-                        {{ form_end(form) }}
-
-
-                    </form>
+                        <div class="col-6">
+                            <strong>Et:</strong>
+                            <input id="date" class="form-control me-2  " type="date" placeholder="Date">
+                        </div>
+                    </div>
+                </div>
+                <div class="offset-1 col-5">
+                    <br>
+                    {{ form_row(form.orga) }}
+                    {{ form_row(form.inscrit) }}
+                    {{ form_row(form.pasInscrit) }}
+                    {{ form_row(form.passee) }}
+                    <div class="row text-center ">
+                        {{ form_row(form.Rechercher) }}
+                    </div>
+                    {{ form_end(form) }}
                 </div>
             </div>
+
             <div class="mt-3">
                 {% for message in app.flashes('success') %}
                     <div class="alert alert-success text-center">
