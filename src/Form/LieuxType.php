@@ -20,7 +20,7 @@ class LieuxType extends AbstractType
             ->add('nom', TextType::class, ["label" => "Lieux :"])
             ->add('rue', TextType::class, ["label" => "Rue :"])
             ->add('longitude', NumberType::class, ["label" => "Latitude :"])
-            ->add('latitude', NumberType::class, ["label" => "Longitude :"])
+            ->add('latitude', NumberType::class, ["label" => "Longitude : "])
 
             ->add('ajouter', SubmitType::class)
 

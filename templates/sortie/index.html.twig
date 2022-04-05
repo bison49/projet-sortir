@@ -63,7 +63,6 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form method="post">
                                 <div class="form-group">
                                     {{ form_start(LieuxType) }}
                                     <label  class="form-label required">Nom du lieu à ajouter :</label>
@@ -74,15 +73,17 @@
                                     {{ form_widget(LieuxType.longitude) }}
                                     <label  class="form-label required">Longitude :</label>
                                     {{ form_widget(LieuxType.latitude) }}
-
                                 </div>
                                 <div class="form-group mt-3 offset-5 col-3">
+{#
                                 {{ form_row(LieuxType.ajouter) }}
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+#}
 
+                                    <button id="btnAjouter" type="submit" class="btn btn-primary" data-dismiss="modal">Ajouter</button>
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                     {{ form_end(LieuxType) }}
                                 </div>
-                            </form>
                         </div>
 
                     </div>
@@ -93,7 +94,6 @@
 
 {% endblock %}
 {% block js %}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
  {#   <script>
