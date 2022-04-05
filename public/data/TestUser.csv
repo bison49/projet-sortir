@@ -1,0 +1,3 @@
+id,no_site_id,pseudo,roles,password,nom,prenom,telephone,mail,actif,photo,reset_token
+4,"2",owarrier0,["ROLE_USER"],DNjJSb9y,Faîtes,Warrier,7937788053,rwarrier0@nature.com,1,Phaethon aethereus,""
+5,"2",frizzone1,["ROLE_ADMIN"],yQRTZt110I9R,Östen,Rizzone,4563190626,rrizzone1@latimes.com,1,Aonyx cinerea,""
