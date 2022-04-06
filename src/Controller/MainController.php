@@ -24,6 +24,7 @@ class MainController extends AbstractController
 
     /**
      * @Route("/main", name="app_main")
+     * @throws \Exception
      */
     public function index(SortieRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -43,7 +44,9 @@ class MainController extends AbstractController
 
             $recherche_date_1=$form["recherche_date_recherche1"]->getData();
             $recherche_date_2=$form["recherche_date_recherche2"]->getData();
-
+            if($recherche_date_2 != null){
+                $recherche_date_2->add(new \DateInterval(('P1D')));
+            }
 
             $id = $this->getUser()->getId();
 
