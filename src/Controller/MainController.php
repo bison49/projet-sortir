@@ -42,16 +42,15 @@ class MainController extends AbstractController
             $pasInscrit = $form["pasInscrit"]->getData();
             $passee = $form["passee"]->getData();
 
-            $recherche_date_1=$form["recherche_date_recherche1"]->getData();
-            $recherche_date_2=$form["recherche_date_recherche2"]->getData();
-            if($recherche_date_2 != null){
+            $recherche_date_1 = $form["recherche_date_recherche1"]->getData();
+            $recherche_date_2 = $form["recherche_date_recherche2"]->getData();
+            if ($recherche_date_2 != null) {
                 $recherche_date_2->add(new \DateInterval(('P1D')));
             }
 
             $id = $this->getUser()->getId();
 
-            $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee,$recherche_date_1,$recherche_date_2);
-
+            $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee, $recherche_date_1, $recherche_date_2);
 
             $sorties = $paginator->paginate(
                 $listeSorties, // Requête contenant les données à paginer (ici nos articles)

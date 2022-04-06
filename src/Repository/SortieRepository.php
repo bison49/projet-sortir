@@ -76,8 +76,8 @@ class SortieRepository extends ServiceEntityRepository
     public function rechercheFiltrer($site, $rech,$orga,$id,$inscrit,$pasIns,$passee,$recherche_date_1,$recherche_date_2)
     {
 
-        $qb = $this->createQueryBuilder('s')
-                ->andWhere('s.etat != 1');
+        $qb = $this->createQueryBuilder('s');
+
 
 
         if (!empty($site)) {

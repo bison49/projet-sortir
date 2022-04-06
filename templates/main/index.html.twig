@@ -31,24 +31,24 @@
                     {{ form_row(form.rechercher) }}
                     <div class="row">
                         <div class="col-6">
-                                <strong>Entre:</strong>
-                                                        {{ form_widget(form.recherche_date_recherche1) }}
+                            <strong>Entre:</strong>
+                            {{ form_widget(form.recherche_date_recherche1) }}
                         </div>
                         <div class="col-6">
-                                <strong>Et:</strong>
-                                                        {{ form_widget(form.recherche_date_recherche2) }}
+                            <strong>Et:</strong>
+                            {{ form_widget(form.recherche_date_recherche2) }}
                         </div>
                     </div>
                 </div>
                 <div class="offset-1 col-5">
                     <br>
-                            {{ form_row(form.orga) }}
-                            {{ form_row(form.inscrit) }}
-                            {{ form_row(form.pasInscrit) }}
-                            {{ form_row(form.passee) }}
-                        <div class="row text-center ">
-                            {{ form_row(form.Rechercher) }}
-                        </div>
+                    {{ form_row(form.orga) }}
+                    {{ form_row(form.inscrit) }}
+                    {{ form_row(form.pasInscrit) }}
+                    {{ form_row(form.passee) }}
+                    <div class="row text-center ">
+                        {{ form_row(form.Rechercher) }}
+                    </div>
                     {{ form_end(form) }}
                 </div>
             </div>
@@ -82,65 +82,69 @@
                 </thead>
                 <tbody>
                 {% for sortie in sorties %}
-                    {% set ins = 'non' %}
-                    <tr>
-                        {% if  sortie.nom|length < 25 %}
-                            <td>{{ sortie.nom }}</td>
-                        {% else %}
-                            <td>{{ sortie.nom |slice(0,25) }}...</td>
-                        {% endif %}
-                        <td>{{ sortie.dateHeureDebut|date(" d-m-Y H:i ") }}</td>
-                        {% if sortie.etat.id != 6 %}
-                            <td>{{ sortie.dateFinInscription|date(" d-m-Y ") }} </td>
-                            <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
-                        {% else %}
-                            <td class=""><strong>Motif
-                                    : </strong>{{ sortie.description|length < 30?sortie.description:"Consulter la description" }}
-                            </td>
-                            <td></td>
-                        {% endif %}
-                        <td>{{ sortie.etat.libelle }} </td>
-                        {% for participant in sortie.participants %}
-                            {% if participant.id == app.user.id %}
-                                {% set ins = 'oui' %}
-                            {% elseif participant.id ==null %}
-                                {% set ins = null %}
+                    {% if sortie.etat.id == 1 and app.user.id != sortie.organisateur.id %}
+                    {% else %}
+                        {% set ins = '' %}
+                        <tr>
+                            {% if  sortie.nom|length < 25 %}
+                                <td>{{ sortie.nom }}</td>
+                            {% else %}
+                                <td>{{ sortie.nom |slice(0,25) }}...</td>
                             {% endif %}
-                        {% endfor %}
-                        <td>{{ ins }}</td>
-                        <td>
-                            <a href="{{ path('app_profilParticipant',{id:sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
-                        </td>
-
-                        <td><a href="{{ path('app_sortie_afficher',{id:sortie.id}) }}">
-                                <button class="btn btn-primary" type="button" name="id">Afficher</button>
-                            </a>
+                            <td>{{ sortie.dateHeureDebut|date(" d-m-Y H:i ") }}</td>
                             {% if sortie.etat.id != 6 %}
-                                {% if sortie.participants|length < sortie.nbInscriptionMax %}
-                                    {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateFinInscription|date(" Y-m-d ") and  ins == 'non' and app.user.id != sortie.organisateur.id %}
-                                        <a href="{{ path('app_sortie_inscription',{id:sortie.id}) }}">
-                                            <button class="btn btn-primary" type="button" name="id">Inscription</button>
+                                <td>{{ sortie.dateFinInscription|date(" d-m-Y ") }} </td>
+                                <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionMax }}</td>
+                            {% else %}
+                                <td class=""><strong>Motif
+                                        : </strong>{{ sortie.description|length < 30?sortie.description:"Consulter la description" }}
+                                </td>
+                                <td></td>
+                            {% endif %}
+                            <td>{{ sortie.etat.libelle }} </td>
+                            {% for participant in sortie.participants %}
+                                {% if participant.id == app.user.id %}
+                                    {% set ins = 'x' %}
+                                {% elseif participant.id ==null %}
+                                    {% set ins = null %}
+                                {% endif %}
+                            {% endfor %}
+                            <td>{{ ins }}</td>
+                            <td>
+                                <a href="{{ path('app_profilParticipant',{id:sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
+                            </td>
+
+                            <td><a href="{{ path('app_sortie_afficher',{id:sortie.id}) }}">
+                                    <button class="btn btn-primary" type="button" name="id">Afficher</button>
+                                </a>
+                                {% if sortie.etat.id != 6 %}
+                                    {% if sortie.participants|length < sortie.nbInscriptionMax %}
+                                        {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateFinInscription|date(" Y-m-d ") and  ins == 'non' and app.user.id != sortie.organisateur.id %}
+                                            <a href="{{ path('app_sortie_inscription',{id:sortie.id}) }}">
+                                                <button class="btn btn-primary" type="button" name="id">Inscription
+                                                </button>
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateHeureDebut|date(" Y-m-d H:i") and  ins == 'oui' and app.user.id != sortie.organisateur.id %}
+                                        <a href="{{ path('app_sortie_desistement',{id:sortie.id}) }}">
+                                            <button class="btn btn-primary" type="button" name="id">Se désister</button>
+                                        </a>
+                                    {% endif %}
+                                    {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateHeureDebut|date(" Y-m-d H:i ")  and app.user.id == sortie.organisateur.id %}
+                                        <a href="{{ path('app_sortie_annuler',{id:sortie.id}) }}">
+                                            <button class="btn btn-primary" type="button" name="id">Annuler</button>
+                                        </a>
+                                    {% endif %}
+                                    {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateFinInscription|date(" Y-m-d ")  and app.user.id == sortie.organisateur.id %}
+                                        <a href="{{ path('app_sortie_modifier',{id:sortie.id}) }}">
+                                            <button class="btn btn-primary" type="button" name="id">Modifier</button>
                                         </a>
                                     {% endif %}
                                 {% endif %}
-                                {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateHeureDebut|date(" Y-m-d H:i") and  ins == 'oui' and app.user.id != sortie.organisateur.id %}
-                                    <a href="{{ path('app_sortie_desistement',{id:sortie.id}) }}">
-                                        <button class="btn btn-primary" type="button" name="id">Se désister</button>
-                                    </a>
-                                {% endif %}
-                                {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateHeureDebut|date(" Y-m-d H:i ")  and app.user.id == sortie.organisateur.id %}
-                                    <a href="{{ path('app_sortie_annuler',{id:sortie.id}) }}">
-                                        <button class="btn btn-primary" type="button" name="id">Annuler</button>
-                                    </a>
-                                {% endif %}
-                                {% if 'now'|date(" Y-m-d H:i ",'Europe/Paris') < sortie.dateFinInscription|date(" Y-m-d ")  and app.user.id == sortie.organisateur.id %}
-                                    <a href="{{ path('app_sortie_modifier',{id:sortie.id}) }}">
-                                        <button class="btn btn-primary" type="button" name="id">Modifier</button>
-                                    </a>
-                                {% endif %}
-                            {% endif %}
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
 
 

@@ -61,6 +61,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('photo', FileType::class, [
                 'mapped' => false,
+                'required'=>false,
                 'constraints' => [
                     new File([
                         'maxSize' => '5M'
