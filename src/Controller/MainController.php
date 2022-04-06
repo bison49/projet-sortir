@@ -8,6 +8,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
@@ -26,13 +27,17 @@ class MainController extends AbstractController
      * @Route("/main", name="app_main")
      * @throws \Exception
      */
-    public function index(SortieRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function index(Session $session, SortieRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
 
         if ($this->isGranted('ROLE_USER')) {
 
-            $form = $this->createForm(RechercherParSaisieTexteForm::class);
+            $form = $this->createForm(RechercherParSaisieTexteForm::class,null,[
+                'method'=>'GET',
+            ]);
             $form->handleRequest($request);
+
+            $id = $this->getUser()->getId();
 
 
             $site = $form["site"]->getData();
@@ -47,10 +52,8 @@ class MainController extends AbstractController
             if ($recherche_date_2 != null) {
                 $recherche_date_2->add(new \DateInterval(('P1D')));
             }
-
-            $id = $this->getUser()->getId();
-
             $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee, $recherche_date_1, $recherche_date_2);
+
 
             $sorties = $paginator->paginate(
                 $listeSorties, // Requête contenant les données à paginer (ici nos articles)
