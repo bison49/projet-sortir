@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\RechercherParSaisieTexteForm;
 use App\Repository\SortieRepository;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class MainController extends AbstractController
 
     /**
      * @Route("/main", name="app_main")
-     * @throws \Exception
+     * @throws Exception
      */
     public function index(Session $session, SortieRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {

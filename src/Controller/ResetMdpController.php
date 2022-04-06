@@ -64,7 +64,7 @@ class ResetMdpController extends AbstractController
                         ->from(new Address('expediteur@demo.test', 'Mon nom'))
                         ->to('destinataire@demo.test')
                         ->subject('edz')
-                        ->html($url);
+                        ->html('<a href='.$url.'>'.'cliquez '.'</a>');
 
                     $mailer->send($mail);
 
