@@ -46,7 +46,11 @@
                 </tbody>
             </table>
             <div class="text-center">
-
+                <H5 class="my-5 titre-header">Ajouter utilisateur via CSV :</H5>
+                <form action="">
+                    <input type="file">
+                    <input type="submit"  src="{{path('app_admin_ajoutCsv')}}" value="Envoyer">
+                </form>
             </div>
             {{ knp_pagination_render(nom) }}
 

@@ -88,4 +88,24 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin',
         );
     }
+
+
+    /**
+     * @Route("/admin/ajoutCsv", name="app_admin_ajoutCsv")
+     */
+    public function indexAjoutCsv(): Response
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+
+
+            return $this->render('admin/index.html.twig', [
+
+            ]);
+        }
+        return $this->redirectToRoute('app_logout');
+
+    }
+
+
+
 }

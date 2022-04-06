@@ -13,8 +13,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
+
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+
 /*
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\YamlEncoder;
@@ -28,7 +33,6 @@ class CreateUserFromCsvOrXmlOrYamlFileCommand extends Command
     private EntityManagerInterface $entityManager;
     private string $dataDirectory;
     private ParticipantRepository $participantRepository;
-
     private $encoder;
 
     public function __construct( EntityManagerInterface $entityManager,string $dataDirectory,ParticipantRepository $participantRepository,SiteRepository $SiteRepository)
@@ -56,7 +60,7 @@ class CreateUserFromCsvOrXmlOrYamlFileCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output):void
     {
         $this->io=new SymfonyStyle($input,$output);
-        parent::initialize($input, $output); 
+        parent::initialize($input, $output);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -68,7 +72,7 @@ class CreateUserFromCsvOrXmlOrYamlFileCommand extends Command
 
     private function getDataFromFile():array
     {
-       $file= $this->dataDirectory .'TestUser.csv';
+       $file= $this->dataDirectory .'utilisateurs.csv';
         $fileExtension=pathinfo($file,PATHINFO_EXTENSION);
 
         $normalizers=[new ObjectNormalizer()];
@@ -76,6 +80,9 @@ class CreateUserFromCsvOrXmlOrYamlFileCommand extends Command
         $encoders=[ new CsvEncoder()/* ,new XmlEncoder(),new YamlEncoder()*/];
 
         $serializers= new Serializer($normalizers,$encoders);
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+
+
 
         /** @var string $fileString */
 
@@ -97,21 +104,20 @@ class CreateUserFromCsvOrXmlOrYamlFileCommand extends Command
 
         $usersCreated=0;
         foreach ($this->getDataFromFile()as $row){
-
+/*                            dd($user);*/
             if(array_key_exists('mail',$row) && !empty($row['mail'])){
                 $user = $this->participantRepository->findOneBy(['mail'=>$row['mail']]);
 
                 if (!$user){
                     $user=new Participant();
+
                     $site=new Site();
-
-
-
+                    /*                dd($user);*/
                     $user
                         ->setNoSite($site ->getId())
                         ->setPseudo($row['pseudo'])
                         ->setRoles(array($row['roles']))
-                        ->setPassword( $row['password'])
+                        ->setPassword($row['password'])
                         ->setActif($row['actif'])
                         ->setNom($row['nom'])
                         ->setPrenom($row['prenom'])
