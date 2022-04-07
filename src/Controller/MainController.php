@@ -61,6 +61,7 @@ class MainController extends AbstractController
                 $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
                 8 // Nombre de résultats par page
             );
+            $sorties->setTemplate('@KnpPaginator/Pagination/twitter_bootstrap_v3_pagination.html.twig');
 
             return $this->renderForm('main/index.html.twig', compact("sorties", "form"));
         }
