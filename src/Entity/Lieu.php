@@ -21,6 +21,7 @@ class Lieu
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Le lieu doit avoir un nom")
      * @ORM\Column(type="string", length=100)
      */
     private $nom;
@@ -32,11 +33,13 @@ class Lieu
     private $rue;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner la latitude")
      * @ORM\Column(type="float")
      */
     private $latitude;
 
     /**
+     * @Assert\NotBlank(message="Veuillez renseigner la longitude")
      * @ORM\Column(type="float")
      */
     private $longitude;
@@ -47,6 +50,7 @@ class Lieu
     private $sorties;
 
     /**
+     * @Assert\NotNull("Veuillez sélectionner une ville")
      * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieus")
      * @ORM\JoinColumn(nullable=false)
      */

@@ -4,11 +4,7 @@ namespace App\Form;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,11 +18,15 @@ class LieuxType extends AbstractType
                 'mapped' => false,
                 'choice_label' => 'nom',
                 'placeholder' => 'Selectionner une ville',
-                'required' => false])
-            ->add('nom', TextType::class, ["label" => "Lieux :"])
-            ->add('rue', TextType::class, ["label" => "Rue :"])
-            ->add('longitude', NumberType::class, ["label" => "Latitude :"])
-            ->add('latitude', NumberType::class, ["label" => "Longitude : "])
+                'required'=>true
+                ])
+            ->add('nom', TextType::class, ["label" => "Lieux :",
+                'required'=>true])
+            ->add('rue', TextType::class, ["label" => "Rue :",
+                'required'=>true])
+            ->add('latitude', NumberType::class, ["label" => "Latitude :"])
+            ->add('longitude', NumberType::class, ["label" => "Longitude :"])
+
 
         ;
     }
