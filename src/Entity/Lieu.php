@@ -50,7 +50,6 @@ class Lieu
     private $sorties;
 
     /**
-     * @Assert\NotNull("Veuillez sélectionner une ville")
      * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieus")
      * @ORM\JoinColumn(nullable=false)
      */
