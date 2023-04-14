@@ -76,7 +76,7 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute('app_main');
             }
             return $this->render('sortie/index.html.twig', [
-                'sortieForm' => $sortieForm->createView(),"LieuxType"=>$formAjoutLieux->createView()
+                'sortieForm' => $sortieForm->createView(), "LieuxType" => $formAjoutLieux->createView()
             ]);
         }
         return $this->redirectToRoute('app_logout');
@@ -85,7 +85,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/afficher/{id}", name="afficher")
      */
-    public function afficherSortie($id,Request $request,SortieRepository $repository): Response
+    public function afficherSortie($id, Request $request, SortieRepository $repository): Response
     {
         if ($this->isGranted('ROLE_USER')) {
 
@@ -134,10 +134,12 @@ class SortieController extends AbstractController
             $idP = $this->getUser();
             $participant = $this->participantRepo->find($idP);
             $sortie = $this->sortieRepo->find($id);
-            $participant->addInscription($sortie);
 
+            $participant->addInscription($sortie);
             $em->flush();
+
             $this->addFlash('success', 'Vous avez été inscrit à la sortie ' . $sortie->getNom());
+
             return $this->redirectToRoute('app_main');
         }
         return $this->redirectToRoute('app_logout');
@@ -222,12 +224,13 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute('app_main');
             }
             return $this->render('/sortie/modifier.html.twig', [
-                'sortie'=>$sortie,
-                'sortieForm'=>$sortieForm->createView()
+                'sortie' => $sortie,
+                'sortieForm' => $sortieForm->createView()
             ]);
         }
         return $this->redirectToRoute('app_logout');
     }
+
     /**
      * @Route("/supprimer/{id}", name="supprimer")
      */

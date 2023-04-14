@@ -51,13 +51,11 @@ class RechercherParSaisieTexteForm extends AbstractType
                 'label' => 'Sortie passées',
                 'required' => false,
             ])
-
-            ->add('recherche_date_recherche1', DateType::class, [ 'required' => false,"widget" => 'single_text'])
-            ->add('recherche_date_recherche2', DateType::class, ['required' => false, "widget" => 'single_text'])
-
-
+            ->add('recherche_date_recherche1', DateType::class, [ 'required' => false,
+                "widget" => 'single_text'])
+            ->add('recherche_date_recherche2', DateType::class, ['required' => false,
+                "widget" => 'single_text'])
         ;
-
     }
 
 

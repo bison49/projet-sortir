@@ -28,11 +28,13 @@ class MainController extends AbstractController
      * @Route("/main", name="app_main")
      * @throws Exception
      */
+    //injection de dépendance
     public function index(Session $session, SortieRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
 
         if ($this->isGranted('ROLE_USER')) {
 
+            //Création du formulaire
             $form = $this->createForm(RechercherParSaisieTexteForm::class,null,[
                 'method'=>'GET',
             ]);
@@ -41,19 +43,28 @@ class MainController extends AbstractController
             $id = $this->getUser()->getId();
 
 
-            $site = $form["site"]->getData();
-            $recherche = $form["rechercher"]->getData();
-            $orga = $form["orga"]->getData();
-            $inscrit = $form["inscrit"]->getData();
-            $pasInscrit = $form["pasInscrit"]->getData();
-            $passee = $form["passee"]->getData();
 
-            $recherche_date_1 = $form["recherche_date_recherche1"]->getData();
-            $recherche_date_2 = $form["recherche_date_recherche2"]->getData();
-            if ($recherche_date_2 != null) {
-                $recherche_date_2->add(new \DateInterval(('P1D')));
+            //Récupération des informations du formulaire
+            if($form->isSubmitted()){
+
+                $site = $form["site"]->getData();
+                $recherche = $form["rechercher"]->getData();
+                $orga = $form["orga"]->getData();
+                $inscrit = $form["inscrit"]->getData();
+                $pasInscrit = $form["pasInscrit"]->getData();
+                $passee = $form["passee"]->getData();
+
+                $recherche_date_1 = $form["recherche_date_recherche1"]->getData();
+                $recherche_date_2 = $form["recherche_date_recherche2"]->getData();
+                if ($recherche_date_2 != null) {
+                    $recherche_date_2->add(new \DateInterval(('P1D')));
+                }
+                //Utilisation de la méthode du sortie repository permettant de filtrer les sorties
+                $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee,
+                    $recherche_date_1, $recherche_date_2);
+            }else{
+                $listeSorties = $this->sortieRepo->findAll();
             }
-            $listeSorties = $this->sortieRepo->rechercheFiltrer($site, $recherche, $orga, $id, $inscrit, $pasInscrit, $passee, $recherche_date_1, $recherche_date_2);
 
 
             $sorties = $paginator->paginate(
@@ -63,6 +74,7 @@ class MainController extends AbstractController
             );
             $sorties->setTemplate('@KnpPaginator/Pagination/twitter_bootstrap_v3_pagination.html.twig');
 
+            //Envoie des données au twig
             return $this->renderForm('main/index.html.twig', compact("sorties", "form"));
         }
         if ($this->isGranted('ROLE_NON')) {

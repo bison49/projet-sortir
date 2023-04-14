@@ -75,30 +75,28 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function rechercheFiltrer($site, $rech,$orga,$id,$inscrit,$pasIns,$passee,$recherche_date_1,$recherche_date_2)
     {
-
+        //Utilisation d'une méthode permettant de faire des requêtes
         $qb = $this->createQueryBuilder('s');
 
-
-
         if (!empty($site)) {
-            $qb->Where('s.siteOrganisateur = :val' )
-                ->setParameter('val', $site);
+            $qb->Where('s.siteOrganisateur = :site' )
+                ->setParameter('site', $site);
         }
         if (!empty($rech)) {
-             $qb->andWhere('s.nom LIKE :vol')
-                ->setParameter('vol', '%' . $rech . '%');
+             $qb->andWhere('s.nom LIKE :rech')
+                ->setParameter('rech', '%' . $rech . '%');
         }
         if (!empty($orga)) {
-            $qb->andWhere('s.organisateur = :vil')
-                ->setParameter('vil',$id );
+            $qb->andWhere('s.organisateur = :orga')
+                ->setParameter('orga',$id );
         }
         if (!empty($inscrit)) {
-            $qb->andWhere(':vyl MEMBER OF s.participants')
-                ->setParameter('vyl', $id );
+            $qb->andWhere(':id MEMBER OF s.participants')
+                ->setParameter('id', $id );
         }
         if (!empty($pasIns)) {
-            $qb->andWhere(':vyl NOT MEMBER OF s.participants')
-                ->setParameter('vyl', $id );
+            $qb->andWhere(':id NOT MEMBER OF s.participants')
+                ->setParameter('id', $id );
         }
         if (!empty($passee)) {
             $qb->andWhere('s.etat = 5');
@@ -112,7 +110,9 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere('s.dateHeureDebut < :dateFin')
             ->setParameter('dateFin',$recherche_date_2);
         }
-        return $qb->getQuery()->execute();
+        //Execution de la requête
+        return $qb->getQuery()
+            ->execute();
     }
 
 
